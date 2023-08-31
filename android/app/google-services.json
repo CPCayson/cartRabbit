@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "415352862345",
+    "firebase_url": "https://rabbit-2ba47-default-rtdb.firebaseio.com",
+    "project_id": "rabbit-2ba47",
+    "storage_bucket": "rabbit-2ba47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415352862345:android:de665678ef6aba175cf858",
+        "android_client_info": {
+          "package_name": "com.flutterflow.homeU"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415352862345-qtr8qhaj5o0r9075srbdglme5k45n7k3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd8MWgvlUN_AZMV77NbALu1bb-ZEdtT_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415352862345-5notqbkb6tgb51d6qct3p6fspsr3pir0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "415352862345-fiq8sd9tpkbceplcb61frobhb27s68ps.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutterflow.homeU"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
