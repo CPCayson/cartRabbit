@@ -53,7 +53,10 @@ class _CartStackWidgetState extends State<CartStackWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
       child: StreamBuilder<List<CartsRecord>>(
-        stream: queryCartsRecord(),
+        stream: queryCartsRecord(
+          queryBuilder: (cartsRecord) =>
+              cartsRecord.where('isAvailable', isEqualTo: true),
+        ),
         builder: (context, snapshot) {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {

@@ -1,10 +1,8 @@
 import '/backend/backend.dart';
-import '/components/active_widget.dart';
-import '/components/navigation_host/navigation_host_widget.dart';
+import '/dashboards/navigation_host/navigation_host_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/pages/accept_service/accept_service_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +17,24 @@ class HostDashModel extends FlutterFlowModel {
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
+
+  // State field(s) for CheckboxListTile widget.
+
+  Map<UsersRecord, bool> checkboxListTileValueMap1 = {};
+  List<UsersRecord> get checkboxListTileCheckedItems1 =>
+      checkboxListTileValueMap1.entries
+          .where((e) => e.value)
+          .map((e) => e.key)
+          .toList();
+
+  // State field(s) for CheckboxListTile widget.
+
+  Map<CartsRecord, bool> checkboxListTileValueMap2 = {};
+  List<CartsRecord> get checkboxListTileCheckedItems2 =>
+      checkboxListTileValueMap2.entries
+          .where((e) => e.value)
+          .map((e) => e.key)
+          .toList();
 
   // Model for navigationHost component.
   late NavigationHostModel navigationHostModel;

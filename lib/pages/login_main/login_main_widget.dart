@@ -1,5 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/components/name/name_widget.dart';
+import '/dashboards/name/name_widget.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -471,7 +471,7 @@ class _LoginMainWidgetState extends State<LoginMainWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
                             iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
+                                30.0, 0.0, 0.0, 0.0),
                             color: Colors.white,
                             textStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -484,13 +484,11 @@ class _LoginMainWidgetState extends State<LoginMainWidget> {
                             elevation: 50.0,
                             borderSide: BorderSide(
                               color: FlutterFlowTheme.of(context).turquoise,
-                              width: 2.0,
                             ),
                             borderRadius: BorderRadius.circular(40.0),
                             hoverColor: Color(0xFFF1F4F8),
                             hoverBorderSide: BorderSide(
                               color: FlutterFlowTheme.of(context).turquoise,
-                              width: 2.0,
                             ),
                             hoverElevation: 5.0,
                           ),

@@ -16,36 +16,35 @@ class BookingsRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "hostRef" field.
-  DocumentReference? _hostRef;
-  DocumentReference? get hostRef => _hostRef;
-  bool hasHostRef() => _hostRef != null;
-
-  // "numberBooks" field.
-  int? _numberBooks;
-  int get numberBooks => _numberBooks ?? 0;
-  bool hasNumberBooks() => _numberBooks != null;
+  // "numBookings" field.
+  int? _numBookings;
+  int get numBookings => _numBookings ?? 0;
+  bool hasNumBookings() => _numBookings != null;
 
   // "cartRef" field.
   DocumentReference? _cartRef;
   DocumentReference? get cartRef => _cartRef;
   bool hasCartRef() => _cartRef != null;
 
-  DocumentReference get parentReference => reference.parent.parent!;
+  // "hostRef" field.
+  DocumentReference? _hostRef;
+  DocumentReference? get hostRef => _hostRef;
+  bool hasHostRef() => _hostRef != null;
+
+  // "userRef" field.
+  DocumentReference? _userRef;
+  DocumentReference? get userRef => _userRef;
+  bool hasUserRef() => _userRef != null;
 
   void _initializeFields() {
-    _hostRef = snapshotData['hostRef'] as DocumentReference?;
-    _numberBooks = castToType<int>(snapshotData['numberBooks']);
+    _numBookings = castToType<int>(snapshotData['numBookings']);
     _cartRef = snapshotData['cartRef'] as DocumentReference?;
+    _hostRef = snapshotData['hostRef'] as DocumentReference?;
+    _userRef = snapshotData['userRef'] as DocumentReference?;
   }
 
-  static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
-      parent != null
-          ? parent.collection('bookings')
-          : FirebaseFirestore.instance.collectionGroup('bookings');
-
-  static DocumentReference createDoc(DocumentReference parent) =>
-      parent.collection('bookings').doc();
+  static CollectionReference get collection =>
+      FirebaseFirestore.instance.collection('bookings');
 
   static Stream<BookingsRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => BookingsRecord.fromSnapshot(s));
@@ -79,15 +78,17 @@ class BookingsRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createBookingsRecordData({
-  DocumentReference? hostRef,
-  int? numberBooks,
+  int? numBookings,
   DocumentReference? cartRef,
+  DocumentReference? hostRef,
+  DocumentReference? userRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'hostRef': hostRef,
-      'numberBooks': numberBooks,
+      'numBookings': numBookings,
       'cartRef': cartRef,
+      'hostRef': hostRef,
+      'userRef': userRef,
     }.withoutNulls,
   );
 
@@ -99,14 +100,15 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
 
   @override
   bool equals(BookingsRecord? e1, BookingsRecord? e2) {
-    return e1?.hostRef == e2?.hostRef &&
-        e1?.numberBooks == e2?.numberBooks &&
-        e1?.cartRef == e2?.cartRef;
+    return e1?.numBookings == e2?.numBookings &&
+        e1?.cartRef == e2?.cartRef &&
+        e1?.hostRef == e2?.hostRef &&
+        e1?.userRef == e2?.userRef;
   }
 
   @override
-  int hash(BookingsRecord? e) =>
-      const ListEquality().hash([e?.hostRef, e?.numberBooks, e?.cartRef]);
+  int hash(BookingsRecord? e) => const ListEquality()
+      .hash([e?.numBookings, e?.cartRef, e?.hostRef, e?.userRef]);
 
   @override
   bool isValidKey(Object? o) => o is BookingsRecord;

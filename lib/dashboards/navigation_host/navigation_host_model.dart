@@ -1,5 +1,5 @@
 import '/backend/backend.dart';
-import '/components/card58_transfer_details_widget.dart';
+import '/components/card58_transfer_details/card58_transfer_details_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_theme.dart';

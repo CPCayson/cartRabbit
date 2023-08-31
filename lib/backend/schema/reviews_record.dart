@@ -17,29 +17,28 @@ class ReviewsRecord extends FirestoreRecord {
   }
 
   // "rating" field.
-  double? _rating;
-  double get rating => _rating ?? 0.0;
+  int? _rating;
+  int get rating => _rating ?? 0;
   bool hasRating() => _rating != null;
 
-  // "cartRef" field.
-  DocumentReference? _cartRef;
-  DocumentReference? get cartRef => _cartRef;
-  bool hasCartRef() => _cartRef != null;
+  // "cartref" field.
+  DocumentReference? _cartref;
+  DocumentReference? get cartref => _cartref;
+  bool hasCartref() => _cartref != null;
 
-  DocumentReference get parentReference => reference.parent.parent!;
+  // "userRef" field.
+  DocumentReference? _userRef;
+  DocumentReference? get userRef => _userRef;
+  bool hasUserRef() => _userRef != null;
 
   void _initializeFields() {
-    _rating = castToType<double>(snapshotData['rating']);
-    _cartRef = snapshotData['cartRef'] as DocumentReference?;
+    _rating = castToType<int>(snapshotData['rating']);
+    _cartref = snapshotData['cartref'] as DocumentReference?;
+    _userRef = snapshotData['userRef'] as DocumentReference?;
   }
 
-  static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
-      parent != null
-          ? parent.collection('reviews')
-          : FirebaseFirestore.instance.collectionGroup('reviews');
-
-  static DocumentReference createDoc(DocumentReference parent) =>
-      parent.collection('reviews').doc();
+  static CollectionReference get collection =>
+      FirebaseFirestore.instance.collection('reviews');
 
   static Stream<ReviewsRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => ReviewsRecord.fromSnapshot(s));
@@ -73,13 +72,15 @@ class ReviewsRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createReviewsRecordData({
-  double? rating,
-  DocumentReference? cartRef,
+  int? rating,
+  DocumentReference? cartref,
+  DocumentReference? userRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'rating': rating,
-      'cartRef': cartRef,
+      'cartref': cartref,
+      'userRef': userRef,
     }.withoutNulls,
   );
 
@@ -91,12 +92,14 @@ class ReviewsRecordDocumentEquality implements Equality<ReviewsRecord> {
 
   @override
   bool equals(ReviewsRecord? e1, ReviewsRecord? e2) {
-    return e1?.rating == e2?.rating && e1?.cartRef == e2?.cartRef;
+    return e1?.rating == e2?.rating &&
+        e1?.cartref == e2?.cartref &&
+        e1?.userRef == e2?.userRef;
   }
 
   @override
   int hash(ReviewsRecord? e) =>
-      const ListEquality().hash([e?.rating, e?.cartRef]);
+      const ListEquality().hash([e?.rating, e?.cartref, e?.userRef]);
 
   @override
   bool isValidKey(Object? o) => o is ReviewsRecord;

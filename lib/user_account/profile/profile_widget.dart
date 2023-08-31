@@ -141,12 +141,6 @@ class _ProfileWidgetState extends State<ProfileWidget>
                       width: 100.0,
                       height: 100.0,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xFF4B39EF), Color(0xFFEE8B60)],
-                          stops: [0.0, 1.0],
-                          begin: AlignmentDirectional(1.0, -1.0),
-                          end: AlignmentDirectional(-1.0, 1.0),
-                        ),
                         shape: BoxShape.circle,
                       ),
                       child: Align(
@@ -240,9 +234,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
                       ),
-                  colors: [FlutterFlowTheme.of(context).darkText],
-                  gradientType: GradientType.radial,
-                  radius: 1.0,
+                  colors: [
+                    FlutterFlowTheme.of(context).primary,
+                    FlutterFlowTheme.of(context).secondary
+                  ],
+                  gradientDirection: GradientDirection.ltr,
+                  gradientType: GradientType.linear,
                 ),
               ),
               Padding(
@@ -258,7 +255,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                     iconPadding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: FlutterFlowTheme.of(context).primary,
+                    color: FlutterFlowTheme.of(context).turquoise,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Urbanist',
                           color: Colors.white,

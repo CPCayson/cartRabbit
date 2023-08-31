@@ -1,10 +1,11 @@
 import '/backend/backend.dart';
 import '/components/cart_stack/cart_stack_widget.dart';
-import '/components/name/name_widget.dart';
+import '/dashboards/name/name_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_place_picker.dart';
 import '/flutter_flow/flutter_flow_static_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -163,6 +164,84 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  0.0, 0.0),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        30.0, 0.0, 0.0, 0.0),
+                                                child: ToggleIcon(
+                                                  onPressed: () async {
+                                                    setState(() =>
+                                                        FFAppState().isLooking =
+                                                            !FFAppState()
+                                                                .isLooking);
+                                                    if (FFAppState()
+                                                        .isLooking) {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'isLooking'),
+                                                            content: Text(
+                                                                'you are in available mode'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext),
+                                                                child:
+                                                                    Text('Ok'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'isLooking'),
+                                                            content: Text(
+                                                                'you are no longer available'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext),
+                                                                child:
+                                                                    Text('Ok'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                    }
+                                                  },
+                                                  value: FFAppState().isLooking,
+                                                  onIcon: Icon(
+                                                    Icons.run_circle,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .turquoise,
+                                                    size: 55.0,
+                                                  ),
+                                                  offIcon: Icon(
+                                                    Icons.directions_run,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryText,
+                                                    size: 55.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                             Flexible(
                                               child: Align(
                                                 alignment: AlignmentDirectional(

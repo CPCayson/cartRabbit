@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/components/logo/logo_widget.dart';
-import '/components/name/name_widget.dart';
+import '/dashboards/name/name_widget.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';

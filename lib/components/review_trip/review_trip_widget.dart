@@ -206,14 +206,13 @@ class _ReviewTripWidgetState extends State<ReviewTripWidget>
                       final firestoreBatch = FirebaseFirestore.instance.batch();
                       try {
                         firestoreBatch.update(
-                            widget.propertyReference!.cartRef!,
+                            widget.propertyReference!.cartref!,
                             createCartsRecordData());
 
                         firestoreBatch.set(
-                            ReviewsRecord.createDoc(currentUserReference!),
+                            ReviewsRecord.collection.doc(),
                             createReviewsRecordData(
-                              rating: _model.ratingBarValue,
-                              cartRef: widget.propertyReference?.cartRef,
+                              rating: _model.ratingBarValue?.round(),
                             ));
 
                         firestoreBatch.update(

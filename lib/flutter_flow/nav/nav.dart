@@ -186,8 +186,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'editRental_2',
           path: '/edit2',
           asyncParams: {
-            'propertyRef':
-                getDoc(['users', 'reviews'], ReviewsRecord.fromSnapshot),
+            'propertyRef': getDoc(['reviews'], ReviewsRecord.fromSnapshot),
           },
           builder: (context, params) => EditRental2Widget(
             propertyRef: params.getParam('propertyRef', ParamType.Document),
@@ -225,6 +224,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             chatRef: params.getParam(
                 'chatRef', ParamType.DocumentReference, false, ['chats']),
           ),
+        ),
+        FFRoute(
+          name: 'List03UserSelect',
+          path: '/list03UserSelect',
+          builder: (context, params) => List03UserSelectWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

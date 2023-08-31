@@ -899,6 +899,41 @@ class _EditRentalWidgetState extends State<EditRentalWidget> {
                               checkboxBorderRadius: BorderRadius.circular(20.0),
                               initialized: _model.checkboxGroupValues != null,
                             ),
+                            FFButtonWidget(
+                              onPressed: () async {
+                                await CartsRecord.collection
+                                    .doc()
+                                    .set(createCartsRecordData(
+                                      cartID: '',
+                                      name: '',
+                                      isAvailable: false,
+                                    ));
+                                context.safePop();
+                              },
+                              text: 'Submit',
+                              options: FFButtonOptions(
+                                width: 139.0,
+                                height: 50.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).turquoise,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Urbanist',
+                                      color:
+                                          FlutterFlowTheme.of(context).darkText,
+                                    ),
+                                elevation: 2.0,
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(60.0),
+                              ),
+                            ),
                             Align(
                               alignment: AlignmentDirectional(-1.0, 0.0),
                               child: Text(
@@ -986,39 +1021,6 @@ class _EditRentalWidgetState extends State<EditRentalWidget> {
                           ],
                         ),
                       ),
-                    ),
-                  ),
-                  FFButtonWidget(
-                    onPressed: () async {
-                      await CartsRecord.collection
-                          .doc()
-                          .set(createCartsRecordData(
-                            cartID: '',
-                            name: '',
-                            isAvailable: false,
-                          ));
-                      context.safePop();
-                    },
-                    text: 'Submit',
-                    options: FFButtonOptions(
-                      width: 139.0,
-                      height: 50.0,
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: FlutterFlowTheme.of(context).turquoise,
-                      textStyle:
-                          FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Urbanist',
-                                color: FlutterFlowTheme.of(context).darkText,
-                              ),
-                      elevation: 2.0,
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(60.0),
                     ),
                   ),
                 ],

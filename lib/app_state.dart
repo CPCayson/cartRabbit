@@ -43,6 +43,9 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _selectedCartID = prefs.getString('ff_selectedCartID') ?? _selectedCartID;
     });
+    _safeInit(() {
+      _isLooking = prefs.getBool('ff_isLooking') ?? _isLooking;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -138,6 +141,13 @@ class FFAppState extends ChangeNotifier {
   bool get isActive => _isActive;
   set isActive(bool _value) {
     _isActive = _value;
+  }
+
+  bool _isLooking = false;
+  bool get isLooking => _isLooking;
+  set isLooking(bool _value) {
+    _isLooking = _value;
+    prefs.setBool('ff_isLooking', _value);
   }
 
   final _okokokManager = StreamRequestManager<List<CartsRecord>>();

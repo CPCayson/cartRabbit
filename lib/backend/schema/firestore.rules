@@ -22,31 +22,10 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    match /Carts/{parent}/amentities/{document} {
-      allow create: if request.auth.uid == parent;
-      allow read: if request.auth.uid == parent;
-      allow write: if request.auth.uid == parent;
-      allow delete: if false;
-    }
-
     match /users/{document} {
       allow create: if request.auth.uid == document;
       allow read: if request.auth.uid == document;
       allow write: if request.auth.uid == document;
-      allow delete: if false;
-    }
-
-    match /users/{parent}/reviews/{document} {
-      allow create: if request.auth.uid == parent;
-      allow read: if request.auth.uid == parent;
-      allow write: if request.auth.uid == parent;
-      allow delete: if false;
-    }
-
-    match /users/{parent}/bookings/{document} {
-      allow create: if request.auth.uid == parent;
-      allow read: if request.auth.uid == parent;
-      allow write: if request.auth.uid == parent;
       allow delete: if false;
     }
 
@@ -63,6 +42,27 @@ service cloud.firestore {
       allow read: if /databases/$(database)/documents/users/$(request.auth.uid) in get(resource.data.chat).data.users;
       allow write: if false;
       allow delete: if false;
+    }
+
+    match /amenities/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
+
+    match /reviews/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
+
+    match /bookings/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
     }
   }
 }
