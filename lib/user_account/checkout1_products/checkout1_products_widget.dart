@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -304,8 +305,10 @@ class _Checkout1ProductsWidgetState extends State<Checkout1ProductsWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 24.0),
-                        child: StreamBuilder<List<CartsRecord>>(
-                          stream: queryCartsRecord(),
+                        child: StreamBuilder<List<TripsRecord>>(
+                          stream: queryTripsRecord(
+                            singleRecord: true,
+                          ),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
@@ -321,8 +324,16 @@ class _Checkout1ProductsWidgetState extends State<Checkout1ProductsWidget> {
                                 ),
                               );
                             }
-                            List<CartsRecord> buttonCartsRecordList =
+                            List<TripsRecord> buttonTripsRecordList =
                                 snapshot.data!;
+                            // Return an empty Container when the item does not exist.
+                            if (snapshot.data!.isEmpty) {
+                              return Container();
+                            }
+                            final buttonTripsRecord =
+                                buttonTripsRecordList.isNotEmpty
+                                    ? buttonTripsRecordList.first
+                                    : null;
                             return FFButtonWidget(
                               onPressed: () async {
                                 final _datePickedTime = await showTimePicker(
@@ -369,10 +380,19 @@ class _Checkout1ProductsWidgetState extends State<Checkout1ProductsWidget> {
                                         ) ??
                                         false;
 
-                                await buttonCartsRecordList.first.reference
-                                    .update(createCartsRecordData(
-                                  isAvailable: false,
-                                ));
+                                await TripsRecord.collection
+                                    .doc()
+                                    .set(createTripsRecordData(
+                                      tripBeginDate: _model.datePicked,
+                                      tripEndDate: _model.datePicked,
+                                      tripCost: buttonTripsRecord?.tripCost,
+                                      cancelTrip: false,
+                                      tripTotal:
+                                          random_data.randomInteger(0, 10),
+                                      upcoming: false,
+                                      hostRef: buttonTripsRecord?.hostRef,
+                                      userRef: currentUserReference,
+                                    ));
                               },
                               text: 'Proceed to Checkout',
                               options: FFButtonOptions(

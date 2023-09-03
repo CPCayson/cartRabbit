@@ -99,7 +99,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: FlutterFlowTheme.of(context).turquoise,
             automaticallyImplyLeading: false,
             leading: FlutterFlowIconButton(
               borderColor: Colors.transparent,
@@ -108,7 +108,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
               buttonSize: 46.0,
               icon: Icon(
                 Icons.arrow_back_rounded,
-                color: Colors.black,
+                color: FlutterFlowTheme.of(context).cultured,
                 size: 24.0,
               ),
               onPressed: () async {

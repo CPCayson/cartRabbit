@@ -1,13 +1,18 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_static_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/lat_lng.dart';
 import '/user_account/checkout1_products/checkout1_products_widget.dart';
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mapbox_search/mapbox_search.dart';
 import 'package:provider/provider.dart';
 import 'cart_stack_model.dart';
 export 'cart_stack_model.dart';
@@ -53,10 +58,7 @@ class _CartStackWidgetState extends State<CartStackWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
       child: StreamBuilder<List<CartsRecord>>(
-        stream: queryCartsRecord(
-          queryBuilder: (cartsRecord) =>
-              cartsRecord.where('isAvailable', isEqualTo: true),
-        ),
+        stream: queryCartsRecord(),
         builder: (context, snapshot) {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {
@@ -99,82 +101,161 @@ class _CartStackWidgetState extends State<CartStackWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 12.0, 16.0, 8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                'https://picsum.photos/seed/662/600',
-                                width: 89.0,
-                                height: 105.0,
-                                fit: BoxFit.cover,
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Flexible(
+                            child: Align(
+                              alignment: AlignmentDirectional(1.0, 0.0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 5.0),
+                                child: Text(
+                                  listViewCartsRecord.name,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Urbanist',
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                ),
                               ),
                             ),
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Align(
-                                  alignment: AlignmentDirectional(-1.0, -1.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 5.0),
-                                    child: Text(
-                                      listViewCartsRecord.name,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium,
-                                    ),
-                                  ),
+                          ),
+                          Align(
+                            alignment: AlignmentDirectional(1.0, 0.0),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  80.0, 0.0, 0.0, 0.0),
+                              child: ToggleIcon(
+                                onPressed: () async {
+                                  await listViewCartsRecord.reference.update({
+                                    'isAvailable':
+                                        !listViewCartsRecord.isAvailable,
+                                  });
+                                },
+                                value: listViewCartsRecord.isAvailable,
+                                onIcon: Icon(
+                                  Icons.cloud_done_outlined,
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  size: 25.0,
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      89.0, 0.0, 24.0, 5.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.star_rounded,
-                                        color: Color(0xFFFFA130),
-                                        size: 24.0,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 0.0, 0.0, 0.0),
-                                        child: Text(
-                                          'Rating',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                offIcon: Icon(
+                                  Icons.cloud_off_rounded,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  size: 25.0,
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(-1.0, 0.0),
-                                  child: Text(
-                                    listViewCartsRecord.isAvailable.toString(),
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyMedium,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       Align(
                         alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               15.0, 0.0, 0.0, 5.0),
-                          child: AuthUserStreamWidget(
-                            builder: (context) => Text(
-                              '${currentUserDocument?.currentLocation?.toString()}feet away',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
+                          child: Text(
+                            '${random_data.randomDouble(0.0, 1000.0).toString()}    feet away',
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 12.0, 16.0, 8.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional(0.0, -1.0),
+                              child: FlutterFlowStaticMap(
+                                location: LatLng(9.341465, -79.891704),
+                                apiKey:
+                                    'pk.eyJ1IjoiY3BjYXlzb24iLCJhIjoiY2xsc2cyb2ptMHZzaDNkbnZpdXE1dXJuYiJ9.9SyfRX56W4cMI3uGknvffQ',
+                                style: MapBoxStyle.Light,
+                                width: 100.0,
+                                height: 100.0,
+                                fit: BoxFit.cover,
+                                borderRadius: BorderRadius.circular(0.0),
+                                markerColor:
+                                    FlutterFlowTheme.of(context).turquoise,
+                                zoom: 12,
+                                tilt: 0,
+                                rotation: 0,
+                              ),
                             ),
+                            Align(
+                              alignment: AlignmentDirectional(1.0, 0.0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    60.0, 0.0, 0.0, 0.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-1.0, 0.0),
+                                      child: Text(
+                                        'Price',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          2.0, 0.0, 0.0, 0.0),
+                                      child: Text(
+                                        'Rating',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-1.0, 0.0),
+                                      child: Text(
+                                        valueOrDefault<String>(
+                                          listViewCartsRecord.hostRef?.id,
+                                          'ghost',
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          2.0, 0.0, 0.0, 0.0),
+                                      child: Text(
+                                        'Rating',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: Color(0xFFFFA130),
+                                      size: 24.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.asset(
+                            'assets/images/gc2.jpg',
+                            width: 172.0,
+                            height: 137.0,
+                            fit: BoxFit.fitHeight,
                           ),
                         ),
                       ),
@@ -193,6 +274,32 @@ class _CartStackWidgetState extends State<CartStackWidget> {
                                 );
                               },
                             ).then((value) => setState(() {}));
+
+                            await TripsRecord.collection
+                                .doc()
+                                .set(createTripsRecordData(
+                                  userRef: currentUserReference,
+                                  tripBeginDate: random_data.randomDate(),
+                                  tripEndDate: random_data.randomDate(),
+                                ));
+
+                            await BookingsRecord.collection
+                                .doc()
+                                .set(createBookingsRecordData(
+                                  numBookings: 1,
+                                  cartRef: listViewCartsRecord.reference,
+                                  hostRef: listViewCartsRecord.hostRef,
+                                  userRef: currentUserReference,
+                                ));
+
+                            await ReviewsRecord.collection
+                                .doc()
+                                .set(createReviewsRecordData(
+                                  rating: 3,
+                                  cartref: listViewCartsRecord.reference,
+                                  userRef: currentUserReference,
+                                ));
+                            return;
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

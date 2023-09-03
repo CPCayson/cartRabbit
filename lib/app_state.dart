@@ -46,6 +46,39 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _isLooking = prefs.getBool('ff_isLooking') ?? _isLooking;
     });
+    _safeInit(() {
+      _hostID = prefs.getString('ff_hostID') ?? _hostID;
+    });
+    _safeInit(() {
+      _totalBookings = prefs.getString('ff_totalBookings') ?? _totalBookings;
+    });
+    _safeInit(() {
+      _userID = prefs.getString('ff_userID') ?? _userID;
+    });
+    _safeInit(() {
+      _numberOfActiveBookings = prefs.getString('ff_numberOfActiveBookings') ??
+          _numberOfActiveBookings;
+    });
+    _safeInit(() {
+      _tripEndDate = prefs.containsKey('ff_tripEndDate')
+          ? DateTime.fromMillisecondsSinceEpoch(prefs.getInt('ff_tripEndDate')!)
+          : _tripEndDate;
+    });
+    _safeInit(() {
+      _tripBeginDate = prefs.containsKey('ff_tripBeginDate')
+          ? DateTime.fromMillisecondsSinceEpoch(
+              prefs.getInt('ff_tripBeginDate')!)
+          : _tripBeginDate;
+    });
+    _safeInit(() {
+      _tripID = prefs.getString('ff_tripID') ?? _tripID;
+    });
+    _safeInit(() {
+      _paymentAmount = prefs.getDouble('ff_paymentAmount') ?? _paymentAmount;
+    });
+    _safeInit(() {
+      _paymentFees = prefs.getDouble('ff_paymentFees') ?? _paymentFees;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -137,17 +170,84 @@ class FFAppState extends ChangeNotifier {
     _selectUserID = _value;
   }
 
-  bool _isActive = false;
-  bool get isActive => _isActive;
-  set isActive(bool _value) {
-    _isActive = _value;
-  }
-
   bool _isLooking = false;
   bool get isLooking => _isLooking;
   set isLooking(bool _value) {
     _isLooking = _value;
     prefs.setBool('ff_isLooking', _value);
+  }
+
+  String _hostID = '';
+  String get hostID => _hostID;
+  set hostID(String _value) {
+    _hostID = _value;
+    prefs.setString('ff_hostID', _value);
+  }
+
+  String _totalBookings = '';
+  String get totalBookings => _totalBookings;
+  set totalBookings(String _value) {
+    _totalBookings = _value;
+    prefs.setString('ff_totalBookings', _value);
+  }
+
+  String _userID = '';
+  String get userID => _userID;
+  set userID(String _value) {
+    _userID = _value;
+    prefs.setString('ff_userID', _value);
+  }
+
+  String _numberOfActiveBookings = '';
+  String get numberOfActiveBookings => _numberOfActiveBookings;
+  set numberOfActiveBookings(String _value) {
+    _numberOfActiveBookings = _value;
+    prefs.setString('ff_numberOfActiveBookings', _value);
+  }
+
+  DateTime? _tripEndDate;
+  DateTime? get tripEndDate => _tripEndDate;
+  set tripEndDate(DateTime? _value) {
+    _tripEndDate = _value;
+    _value != null
+        ? prefs.setInt('ff_tripEndDate', _value.millisecondsSinceEpoch)
+        : prefs.remove('ff_tripEndDate');
+  }
+
+  DateTime? _tripBeginDate;
+  DateTime? get tripBeginDate => _tripBeginDate;
+  set tripBeginDate(DateTime? _value) {
+    _tripBeginDate = _value;
+    _value != null
+        ? prefs.setInt('ff_tripBeginDate', _value.millisecondsSinceEpoch)
+        : prefs.remove('ff_tripBeginDate');
+  }
+
+  String _tripID = '';
+  String get tripID => _tripID;
+  set tripID(String _value) {
+    _tripID = _value;
+    prefs.setString('ff_tripID', _value);
+  }
+
+  double _paymentAmount = 0.0;
+  double get paymentAmount => _paymentAmount;
+  set paymentAmount(double _value) {
+    _paymentAmount = _value;
+    prefs.setDouble('ff_paymentAmount', _value);
+  }
+
+  double _paymentFees = 0.0;
+  double get paymentFees => _paymentFees;
+  set paymentFees(double _value) {
+    _paymentFees = _value;
+    prefs.setDouble('ff_paymentFees', _value);
+  }
+
+  String _cartID = '';
+  String get cartID => _cartID;
+  set cartID(String _value) {
+    _cartID = _value;
   }
 
   final _okokokManager = StreamRequestManager<List<CartsRecord>>();

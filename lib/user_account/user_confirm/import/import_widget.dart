@@ -1,9 +1,10 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_calendar.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_static_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/lat_lng.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -29,6 +30,7 @@ class _ImportWidgetState extends State<ImportWidget>
   late ImportModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  LatLng? currentUserLocationValue;
 
   final animationsMap = {
     'iconButtonOnPageLoadAnimation': AnimationInfo(
@@ -50,6 +52,9 @@ class _ImportWidgetState extends State<ImportWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => ImportModel());
+
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
   }
 
   @override
@@ -62,17 +67,32 @@ class _ImportWidgetState extends State<ImportWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    if (currentUserLocationValue == null) {
+      return Container(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        child: Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: SpinKitWave(
+              color: FlutterFlowTheme.of(context).turquoise,
+              size: 50.0,
+            ),
+          ),
+        ),
+      );
+    }
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).gunmetal,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           automaticallyImplyLeading: false,
           title: Text(
-            'Page Title',
+            'About this Host',
             style: FlutterFlowTheme.of(context).headlineMedium,
           ),
           actions: [],
@@ -93,7 +113,7 @@ class _ImportWidgetState extends State<ImportWidget>
                       child: Stack(
                         children: [
                           Image.asset(
-                            'assets/images/4183289.jpg',
+                            'assets/images/gc3.jpg',
                             width: double.infinity,
                             height: 250.0,
                             fit: BoxFit.cover,
@@ -142,33 +162,6 @@ class _ImportWidgetState extends State<ImportWidget>
                             height: 200.0,
                             decoration: BoxDecoration(),
                           ),
-                          Align(
-                            alignment: AlignmentDirectional(0.0, 0.0),
-                            child: FlutterFlowCalendar(
-                              color: FlutterFlowTheme.of(context).primary,
-                              iconColor:
-                                  FlutterFlowTheme.of(context).secondaryText,
-                              weekFormat: true,
-                              weekStartsMonday: true,
-                              initialDate: dateTimeFromSecondsSinceEpoch(
-                                  getCurrentTimestamp.secondsSinceEpoch),
-                              rowHeight: 64.0,
-                              onChange: (DateTimeRange? newSelectedDate) {
-                                setState(() => _model.calendarSelectedDay =
-                                    newSelectedDate);
-                              },
-                              titleStyle:
-                                  FlutterFlowTheme.of(context).headlineSmall,
-                              dayOfWeekStyle:
-                                  FlutterFlowTheme.of(context).labelMedium,
-                              dateStyle:
-                                  FlutterFlowTheme.of(context).bodyMedium,
-                              selectedDateStyle:
-                                  FlutterFlowTheme.of(context).titleSmall,
-                              inactiveDateStyle:
-                                  FlutterFlowTheme.of(context).labelMedium,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -203,7 +196,7 @@ class _ImportWidgetState extends State<ImportWidget>
                                             0.0, 0.0, 0.0, 2.0),
                                         child: SelectionArea(
                                             child: Text(
-                                          'Halloween Party',
+                                          currentUserEmail,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -216,7 +209,7 @@ class _ImportWidgetState extends State<ImportWidget>
                                       ),
                                       SelectionArea(
                                           child: Text(
-                                        'By FlutterFlowturn2',
+                                        'host name',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
@@ -245,31 +238,16 @@ class _ImportWidgetState extends State<ImportWidget>
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            SelectionArea(
-                                                child: Text(
-                                              'NOV',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Urbanist',
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                            )),
-                                            SelectionArea(
-                                                child: Text(
-                                              '28',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Urbanist',
-                                                    color: Color(0xFFFD7138),
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                            )),
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.asset(
+                                                'assets/images/cpcforai_simple_white_and_39D2C0_logo_of_a_golfcart_and_rabbit__4ba5b360-7e36-4a4d-868d-65d268fa9ad0.png',
+                                                width: 340.0,
+                                                height: 54.0,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -514,7 +492,7 @@ class _ImportWidgetState extends State<ImportWidget>
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       FlutterFlowStaticMap(
-                                        location: LatLng(40.740121, -73.990593),
+                                        location: currentUserLocationValue!,
                                         apiKey:
                                             'pk.eyJ1IjoicHJpbGx5amVhbmFsZGk2NjYiLCJhIjoiY2xhMTlsMnFrMDVlejN1bHp1dXMwZ3V1cSJ9.KGVhgtNP1NIxnqnFP7B-4A',
                                         style: MapBoxStyle.Streets,
@@ -524,7 +502,7 @@ class _ImportWidgetState extends State<ImportWidget>
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         markerColor: Color(0xFFFD7138),
-                                        zoom: 6,
+                                        zoom: 10,
                                         tilt: 0,
                                         rotation: 0,
                                       ),
@@ -601,71 +579,30 @@ class _ImportWidgetState extends State<ImportWidget>
                             },
                           ).animateOnPageLoad(
                               animationsMap['iconButtonOnPageLoadAnimation']!),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(
-                                'hostDash',
-                                extra: <String, dynamic>{
-                                  kTransitionInfoKey: TransitionInfo(
-                                    hasTransition: true,
-                                    transitionType:
-                                        PageTransitionType.topToBottom,
-                                    duration: Duration(milliseconds: 500),
-                                  ),
-                                },
-                              );
+                          FFButtonWidget(
+                            onPressed: () {
+                              print('Button pressed ...');
                             },
-                            child: Container(
-                              width: 280.0,
-                              height: 60.0,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    FlutterFlowTheme.of(context).primary,
-                                    FlutterFlowTheme.of(context).secondary
-                                  ],
-                                  stops: [0.0, 0.9],
-                                  begin: AlignmentDirectional(1.0, -0.98),
-                                  end: AlignmentDirectional(-1.0, 0.98),
-                                ),
-                                borderRadius: BorderRadius.circular(30.0),
-                                shape: BoxShape.rectangle,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Buy Ticket Now ',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Urbanist',
-                                          color: Colors.white,
-                                        ),
+                            text: 'Button',
+                            options: FFButtonOptions(
+                              height: 40.0,
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  24.0, 0.0, 24.0, 0.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: FlutterFlowTheme.of(context).primary,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Urbanist',
+                                    color: Colors.white,
                                   ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'ETH',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Urbanist',
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              elevation: 3.0,
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1.0,
                               ),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
                         ],

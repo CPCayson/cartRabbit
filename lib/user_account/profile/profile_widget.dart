@@ -11,7 +11,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'profile_model.dart';
 export 'profile_model.dart';
 
@@ -222,24 +221,6 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
                       ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 0.0),
-                child: GradientText(
-                  'David.j@gmail.com',
-                  style: FlutterFlowTheme.of(context).labelSmall.override(
-                        fontFamily: 'Plus Jakarta Sans',
-                        color: FlutterFlowTheme.of(context).turquoise,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                  colors: [
-                    FlutterFlowTheme.of(context).primary,
-                    FlutterFlowTheme.of(context).secondary
-                  ],
-                  gradientDirection: GradientDirection.ltr,
-                  gradientType: GradientType.linear,
                 ),
               ),
               Padding(

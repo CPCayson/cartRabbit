@@ -148,7 +148,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'editRental',
           path: '/editRental',
-          builder: (context, params) => EditRentalWidget(),
+          builder: (context, params) => EditRentalWidget(
+            selectedCartID: params.getParam('selectedCartID', ParamType.String),
+          ),
         ),
         FFRoute(
           name: 'registration',
@@ -175,7 +177,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/hostDash',
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'hostDash')
-              : HostDashWidget(),
+              : HostDashWidget(
+                  hostID: params.getParam(
+                      'hostID', ParamType.DocumentReference, false, ['users']),
+                  selectedCartID:
+                      params.getParam('selectedCartID', ParamType.String),
+                ),
         ),
         FFRoute(
           name: 'loginMain',
@@ -229,6 +236,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'List03UserSelect',
           path: '/list03UserSelect',
           builder: (context, params) => List03UserSelectWidget(),
+        ),
+        FFRoute(
+          name: 'test',
+          path: '/test',
+          builder: (context, params) => TestWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

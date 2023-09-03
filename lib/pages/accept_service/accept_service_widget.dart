@@ -342,7 +342,7 @@ class _AcceptServiceWidgetState extends State<AcceptServiceWidget> {
                           snapshot.data!;
                       return FFButtonWidget(
                         onPressed: () async {},
-                        text: 'Start Chat',
+                        text: 'Accept',
                         options: FFButtonOptions(
                           height: 44.0,
                           padding: EdgeInsetsDirectional.fromSTEB(

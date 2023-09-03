@@ -13,7 +13,6 @@ import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'flutter_flow/nav/nav.dart';
@@ -222,8 +221,8 @@ class _NavBarPageState extends State<NavBarPage> {
                 children: [
                   Icon(
                     currentIndex == 1
-                        ? Icons.supervised_user_circle_sharp
-                        : FontAwesomeIcons.wineGlassAlt,
+                        ? Icons.sports_bar_sharp
+                        : Icons.sports_bar_outlined,
                     color: currentIndex == 1
                         ? FlutterFlowTheme.of(context).darkText
                         : FlutterFlowTheme.of(context).grayIcon,

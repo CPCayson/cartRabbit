@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -138,6 +139,34 @@ class _FghjklWidgetState extends State<FghjklWidget> {
                   style: FlutterFlowTheme.of(context).bodyMedium,
                   validator:
                       _model.textControllerValidator.asValidator(context),
+                ),
+              ),
+              Slidable(
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  extentRatio: 0.25,
+                  children: [
+                    SlidableAction(
+                      label: 'Share',
+                      backgroundColor: FlutterFlowTheme.of(context).info,
+                      icon: Icons.share,
+                      onPressed: (_) {
+                        print('SlidableActionWidget pressed ...');
+                      },
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  title: Text(
+                    'Title',
+                    style: FlutterFlowTheme.of(context).titleLarge,
+                  ),
+                  subtitle: Text(
+                    'Subtitle goes here...',
+                    style: FlutterFlowTheme.of(context).labelMedium,
+                  ),
+                  tileColor: FlutterFlowTheme.of(context).secondaryBackground,
+                  dense: false,
                 ),
               ),
             ],

@@ -10,10 +10,8 @@ export '/user_account/edit_profile/edit_profile_widget.dart'
     show EditProfileWidget;
 export '/pages/auth/change_password/change_password_widget.dart'
     show ChangePasswordWidget;
-export '/pages/host_account/edit_rental/edit_rental_widget.dart'
-    show EditRentalWidget;
-export '/dashboards/registration/registration_widget.dart'
-    show RegistrationWidget;
+export '/forms/edit_rental/edit_rental_widget.dart' show EditRentalWidget;
+export '/forms/registration/registration_widget.dart' show RegistrationWidget;
 export '/dashboards/user_dash/user_dash_widget.dart' show UserDashWidget;
 export '/pages/auth/pin_code/pin_code_widget.dart' show PinCodeWidget;
 export '/dashboards/host_dash/host_dash_widget.dart' show HostDashWidget;
@@ -26,3 +24,4 @@ export '/future_features/fghjkl/fghjkl_widget.dart' show FghjklWidget;
 export '/pages/chat_page/chat_page_widget.dart' show ChatPageWidget;
 export '/list03_user_select/list03_user_select_widget.dart'
     show List03UserSelectWidget;
+export '/test/test_widget.dart' show TestWidget;
