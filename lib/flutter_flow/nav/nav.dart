@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 
-import '../../auth/base_auth_user_provider.dart';
+import '/auth/base_auth_user_provider.dart';
 
 import '/index.dart';
 import '/main.dart';
@@ -80,167 +81,93 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : LoginMainWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : AuthNumberWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : LoginMainWidget(),
-        ),
-        FFRoute(
-          name: 'loginPin',
-          path: '/loginPin',
-          builder: (context, params) => LoginPinWidget(),
-        ),
-        FFRoute(
-          name: 'createAccount',
-          path: '/createAccount',
-          builder: (context, params) => CreateAccountWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : AuthNumberWidget(),
         ),
         FFRoute(
           name: 'tripComplete',
           path: '/tripComplete',
-          asyncParams: {
-            'propertyRef': getDoc(['users'], UsersRecord.fromSnapshot),
-            'tripRef': getDoc(['trips'], TripsRecord.fromSnapshot),
-          },
-          builder: (context, params) => TripCompleteWidget(
-            propertyRef: params.getParam('propertyRef', ParamType.Document),
-            tripRef: params.getParam('tripRef', ParamType.Document),
+          builder: (context, params) => NavBarPage(
+            initialPage: '',
+            page: TripCompleteWidget(),
           ),
-        ),
-        FFRoute(
-          name: 'profileSettings',
-          path: '/profileSettings',
-          asyncParams: {
-            'tuser': getDoc(['users'], UsersRecord.fromSnapshot),
-          },
-          builder: (context, params) => ProfileSettingsWidget(
-            tuser: params.getParam('tuser', ParamType.Document),
-          ),
-        ),
-        FFRoute(
-          name: 'paymentInfo',
-          path: '/paymentInfo',
-          builder: (context, params) => PaymentInfoWidget(),
-        ),
-        FFRoute(
-          name: 'editProfile',
-          path: '/editProfile',
-          asyncParams: {
-            'userProfile': getDoc(['users'], UsersRecord.fromSnapshot),
-          },
-          builder: (context, params) => EditProfileWidget(
-            userProfile: params.getParam('userProfile', ParamType.Document),
-          ),
-        ),
-        FFRoute(
-          name: 'changePassword',
-          path: '/changePassword',
-          asyncParams: {
-            'userProfile': getDoc(['users'], UsersRecord.fromSnapshot),
-          },
-          builder: (context, params) => ChangePasswordWidget(
-            userProfile: params.getParam('userProfile', ParamType.Document),
-          ),
-        ),
-        FFRoute(
-          name: 'editRental',
-          path: '/editRental',
-          builder: (context, params) => EditRentalWidget(
-            selectedCartID: params.getParam('selectedCartID', ParamType.String),
-          ),
-        ),
-        FFRoute(
-          name: 'registration',
-          path: '/registration',
-          builder: (context, params) => RegistrationWidget(),
         ),
         FFRoute(
           name: 'userDash',
           path: '/userDash',
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'userDash')
-              : NavBarPage(
-                  initialPage: 'userDash',
-                  page: UserDashWidget(),
-                ),
+              : UserDashWidget(),
         ),
         FFRoute(
-          name: 'PinCode',
+          name: 'pinCode',
           path: '/pinCode',
           builder: (context, params) => PinCodeWidget(),
+        ),
+        FFRoute(
+          name: 'profileMain',
+          path: '/profileMain',
+          builder: (context, params) => NavBarPage(
+            initialPage: '',
+            page: ProfileMainWidget(),
+          ),
+        ),
+        FFRoute(
+          name: 'transactions',
+          path: '/transactions',
+          builder: (context, params) => TransactionsWidget(),
+        ),
+        FFRoute(
+          name: 'authNumber',
+          path: '/authNumber',
+          builder: (context, params) => AuthNumberWidget(),
+        ),
+        FFRoute(
+          name: 'wallet',
+          path: '/wallet',
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'wallet')
+              : WalletWidget(),
         ),
         FFRoute(
           name: 'hostDash',
           path: '/hostDash',
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'hostDash')
-              : HostDashWidget(
-                  hostID: params.getParam(
-                      'hostID', ParamType.DocumentReference, false, ['users']),
-                  selectedCartID:
-                      params.getParam('selectedCartID', ParamType.String),
-                ),
+              : HostDashWidget(),
         ),
         FFRoute(
-          name: 'loginMain',
-          path: '/loginMain',
-          builder: (context, params) => LoginMainWidget(),
+          name: 'hostPage',
+          path: '/hostPage',
+          builder: (context, params) => HostPageWidget(),
         ),
         FFRoute(
-          name: 'editRental_2',
-          path: '/edit2',
-          asyncParams: {
-            'propertyRef': getDoc(['reviews'], ReviewsRecord.fromSnapshot),
-          },
-          builder: (context, params) => EditRental2Widget(
-            propertyRef: params.getParam('propertyRef', ParamType.Document),
-            price: params.getParam('price', ParamType.double),
-            address: params.getParam('address', ParamType.String),
-            cartName: params.getParam('cartName', ParamType.String),
-            image: params.getParam('image', ParamType.String),
+          name: 'SuccessPage',
+          path: '/successPage',
+          builder: (context, params) => NavBarPage(
+            initialPage: '',
+            page: SuccessPageWidget(),
           ),
         ),
         FFRoute(
-          name: 'Profile',
-          path: '/profile',
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'Profile')
-              : ProfileWidget(),
+          name: 'maper',
+          path: '/maper',
+          builder: (context, params) => MaperWidget(),
         ),
         FFRoute(
-          name: 'Import',
-          path: '/import',
-          builder: (context, params) => ImportWidget(),
+          name: 'HostTutorial',
+          path: '/hostTutorial',
+          builder: (context, params) => HostTutorialWidget(),
         ),
         FFRoute(
-          name: 'fghjkl',
-          path: '/fghjkl',
-          builder: (context, params) => FghjklWidget(),
-        ),
-        FFRoute(
-          name: 'ChatPage',
-          path: '/chatPage',
-          asyncParams: {
-            'chatUser': getDoc(['users'], UsersRecord.fromSnapshot),
-          },
-          builder: (context, params) => ChatPageWidget(
-            chatUser: params.getParam('chatUser', ParamType.Document),
-            chatRef: params.getParam(
-                'chatRef', ParamType.DocumentReference, false, ['chats']),
-          ),
-        ),
-        FFRoute(
-          name: 'List03UserSelect',
-          path: '/list03UserSelect',
-          builder: (context, params) => List03UserSelectWidget(),
-        ),
-        FFRoute(
-          name: 'test',
-          path: '/test',
-          builder: (context, params) => TestWidget(),
+          name: 'guestTutotial',
+          path: '/guestTutotial',
+          builder: (context, params) => GuestTutotialWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -407,7 +334,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/loginMain';
+            return '/authNumber';
           }
           return null;
         },
@@ -463,4 +390,24 @@ class TransitionInfo {
   final Alignment? alignment;
 
   static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+}
+
+class RootPageContext {
+  const RootPageContext(this.isRootPage, [this.errorRoute]);
+  final bool isRootPage;
+  final String? errorRoute;
+
+  static bool isInactiveRootPage(BuildContext context) {
+    final rootPageContext = context.read<RootPageContext?>();
+    final isRootPage = rootPageContext?.isRootPage ?? false;
+    final location = GoRouter.of(context).location;
+    return isRootPage &&
+        location != '/' &&
+        location != rootPageContext?.errorRoute;
+  }
+
+  static Widget wrap(Widget child, {String? errorRoute}) => Provider.value(
+        value: RootPageContext(true, errorRoute),
+        child: child,
+      );
 }

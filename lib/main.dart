@@ -57,9 +57,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
-    userStream = rabbitFirebaseUserStream()
+    userStream = cartRabbitFirebaseUserStream()
       ..listen((user) => _appStateNotifier.update(user));
     jwtTokenStream.listen((_) {});
     Future.delayed(
@@ -87,7 +88,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Rabbit',
+      title: 'cartRabbit',
       localizationsDelegates: [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -156,8 +157,8 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'userDash': UserDashWidget(),
+      'wallet': WalletWidget(),
       'hostDash': HostDashWidget(),
-      'Profile': ProfileWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -183,14 +184,14 @@ class _NavBarPageState extends State<NavBarPage> {
             _currentPage = null;
             _currentPageName = tabs.keys.toList()[i];
           }),
-          backgroundColor: FlutterFlowTheme.of(context).cultured,
+          backgroundColor: FlutterFlowTheme.of(context).turquoise,
           selectedItemColor: FlutterFlowTheme.of(context).darkText,
-          unselectedItemColor: FlutterFlowTheme.of(context).grayIcon,
-          selectedBackgroundColor: FlutterFlowTheme.of(context).turquoise,
+          unselectedItemColor: FlutterFlowTheme.of(context).lineGray,
+          selectedBackgroundColor: FlutterFlowTheme.of(context).gunmetal,
           borderRadius: 8.0,
           itemBorderRadius: 8.0,
           margin: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-          padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+          padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
           width: double.infinity,
           elevation: 0.0,
           items: [
@@ -204,37 +205,16 @@ class _NavBarPageState extends State<NavBarPage> {
                         : Icons.shutter_speed,
                     color: currentIndex == 0
                         ? FlutterFlowTheme.of(context).darkText
-                        : FlutterFlowTheme.of(context).grayIcon,
-                    size: 24.0,
+                        : FlutterFlowTheme.of(context).lineGray,
+                    size: currentIndex == 0 ? 50.0 : 24.0,
                   ),
                   Text(
                     'Dash',
                     overflow: TextOverflow.ellipsis,
-                    style: FlutterFlowTheme.of(context).labelLarge,
-                  ),
-                ],
-              ),
-            ),
-            FloatingNavbarItem(
-              customWidget: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    currentIndex == 1
-                        ? Icons.sports_bar_sharp
-                        : Icons.sports_bar_outlined,
-                    color: currentIndex == 1
-                        ? FlutterFlowTheme.of(context).darkText
-                        : FlutterFlowTheme.of(context).grayIcon,
-                    size: 32.0,
-                  ),
-                  Text(
-                    'Host',
-                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: currentIndex == 1
+                      color: currentIndex == 0
                           ? FlutterFlowTheme.of(context).darkText
-                          : FlutterFlowTheme.of(context).grayIcon,
+                          : FlutterFlowTheme.of(context).lineGray,
                       fontSize: 11.0,
                     ),
                   ),
@@ -246,19 +226,33 @@ class _NavBarPageState extends State<NavBarPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.home_outlined,
+                    Icons.monetization_on,
+                    color: currentIndex == 1
+                        ? FlutterFlowTheme.of(context).darkText
+                        : FlutterFlowTheme.of(context).lineGray,
+                    size: 60.0,
+                  ),
+                ],
+              ),
+            ),
+            FloatingNavbarItem(
+              customWidget: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.sports_bar_sharp,
                     color: currentIndex == 2
                         ? FlutterFlowTheme.of(context).darkText
-                        : FlutterFlowTheme.of(context).grayIcon,
-                    size: 24.0,
+                        : FlutterFlowTheme.of(context).lineGray,
+                    size: 60.0,
                   ),
                   Text(
-                    'Home',
+                    'Host',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: currentIndex == 2
                           ? FlutterFlowTheme.of(context).darkText
-                          : FlutterFlowTheme.of(context).grayIcon,
+                          : FlutterFlowTheme.of(context).lineGray,
                       fontSize: 11.0,
                     ),
                   ),

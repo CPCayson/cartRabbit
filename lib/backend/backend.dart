@@ -9,11 +9,11 @@ import 'schema/trips_record.dart';
 import 'schema/payments_record.dart';
 import 'schema/carts_record.dart';
 import 'schema/users_record.dart';
-import 'schema/chats_record.dart';
-import 'schema/chat_messages_record.dart';
 import 'schema/amenities_record.dart';
 import 'schema/reviews_record.dart';
 import 'schema/bookings_record.dart';
+import 'schema/transactions_record.dart';
+import 'schema/wallet_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,11 +25,11 @@ export 'schema/trips_record.dart';
 export 'schema/payments_record.dart';
 export 'schema/carts_record.dart';
 export 'schema/users_record.dart';
-export 'schema/chats_record.dart';
-export 'schema/chat_messages_record.dart';
 export 'schema/amenities_record.dart';
 export 'schema/reviews_record.dart';
 export 'schema/bookings_record.dart';
+export 'schema/transactions_record.dart';
+export 'schema/wallet_record.dart';
 
 /// Functions to query TripsRecords (as a Stream and as a Future).
 Future<int> queryTripsRecordCount({
@@ -179,80 +179,6 @@ Future<List<UsersRecord>> queryUsersRecordOnce({
       singleRecord: singleRecord,
     );
 
-/// Functions to query ChatsRecords (as a Stream and as a Future).
-Future<int> queryChatsRecordCount({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-}) =>
-    queryCollectionCount(
-      ChatsRecord.collection,
-      queryBuilder: queryBuilder,
-      limit: limit,
-    );
-
-Stream<List<ChatsRecord>> queryChatsRecord({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      ChatsRecord.collection,
-      ChatsRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<ChatsRecord>> queryChatsRecordOnce({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      ChatsRecord.collection,
-      ChatsRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-/// Functions to query ChatMessagesRecords (as a Stream and as a Future).
-Future<int> queryChatMessagesRecordCount({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-}) =>
-    queryCollectionCount(
-      ChatMessagesRecord.collection,
-      queryBuilder: queryBuilder,
-      limit: limit,
-    );
-
-Stream<List<ChatMessagesRecord>> queryChatMessagesRecord({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      ChatMessagesRecord.collection,
-      ChatMessagesRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<ChatMessagesRecord>> queryChatMessagesRecordOnce({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      ChatMessagesRecord.collection,
-      ChatMessagesRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
 /// Functions to query AmenitiesRecords (as a Stream and as a Future).
 Future<int> queryAmenitiesRecordCount({
   Query Function(Query)? queryBuilder,
@@ -359,6 +285,80 @@ Future<List<BookingsRecord>> queryBookingsRecordOnce({
     queryCollectionOnce(
       BookingsRecord.collection,
       BookingsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query TransactionsRecords (as a Stream and as a Future).
+Future<int> queryTransactionsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      TransactionsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<TransactionsRecord>> queryTransactionsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      TransactionsRecord.collection,
+      TransactionsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<TransactionsRecord>> queryTransactionsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      TransactionsRecord.collection,
+      TransactionsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query WalletRecords (as a Stream and as a Future).
+Future<int> queryWalletRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      WalletRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<WalletRecord>> queryWalletRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      WalletRecord.collection,
+      WalletRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<WalletRecord>> queryWalletRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      WalletRecord.collection,
+      WalletRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
@@ -500,8 +500,11 @@ Future maybeCreateUser(User user) async {
   }
 
   final userData = createUsersRecordData(
-    email: user.email,
-    displayName: user.displayName,
+    email: user.email ??
+        FirebaseAuth.instance.currentUser?.email ??
+        user.providerData.firstOrNull?.email,
+    displayName:
+        user.displayName ?? FirebaseAuth.instance.currentUser?.displayName,
     photoUrl: user.photoURL,
     uid: user.uid,
     phoneNumber: user.phoneNumber,

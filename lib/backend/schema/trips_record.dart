@@ -26,16 +26,6 @@ class TripsRecord extends FirestoreRecord {
   DateTime? get tripBeginDate => _tripBeginDate;
   bool hasTripBeginDate() => _tripBeginDate != null;
 
-  // "tripEndDate" field.
-  DateTime? _tripEndDate;
-  DateTime? get tripEndDate => _tripEndDate;
-  bool hasTripEndDate() => _tripEndDate != null;
-
-  // "tripCost" field.
-  double? _tripCost;
-  double get tripCost => _tripCost ?? 0.0;
-  bool hasTripCost() => _tripCost != null;
-
   // "cancelTrip" field.
   bool? _cancelTrip;
   bool get cancelTrip => _cancelTrip ?? false;
@@ -46,37 +36,41 @@ class TripsRecord extends FirestoreRecord {
   int get tripTotal => _tripTotal ?? 0;
   bool hasTripTotal() => _tripTotal != null;
 
-  // "upcoming" field.
-  bool? _upcoming;
-  bool get upcoming => _upcoming ?? false;
-  bool hasUpcoming() => _upcoming != null;
-
   // "hostRef" field.
   DocumentReference? _hostRef;
   DocumentReference? get hostRef => _hostRef;
   bool hasHostRef() => _hostRef != null;
-
-  // "isRated" field.
-  bool? _isRated;
-  bool get isRated => _isRated ?? false;
-  bool hasIsRated() => _isRated != null;
 
   // "isComplete" field.
   bool? _isComplete;
   bool get isComplete => _isComplete ?? false;
   bool hasIsComplete() => _isComplete != null;
 
+  // "cancledBy" field.
+  String? _cancledBy;
+  String get cancledBy => _cancledBy ?? '';
+  bool hasCancledBy() => _cancledBy != null;
+
+  // "cancelReason" field.
+  String? _cancelReason;
+  String get cancelReason => _cancelReason ?? '';
+  bool hasCancelReason() => _cancelReason != null;
+
+  // "numHours" field.
+  int? _numHours;
+  int get numHours => _numHours ?? 0;
+  bool hasNumHours() => _numHours != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _tripBeginDate = snapshotData['tripBeginDate'] as DateTime?;
-    _tripEndDate = snapshotData['tripEndDate'] as DateTime?;
-    _tripCost = castToType<double>(snapshotData['tripCost']);
     _cancelTrip = snapshotData['cancelTrip'] as bool?;
     _tripTotal = castToType<int>(snapshotData['tripTotal']);
-    _upcoming = snapshotData['upcoming'] as bool?;
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
-    _isRated = snapshotData['isRated'] as bool?;
     _isComplete = snapshotData['isComplete'] as bool?;
+    _cancledBy = snapshotData['cancledBy'] as String?;
+    _cancelReason = snapshotData['cancelReason'] as String?;
+    _numHours = castToType<int>(snapshotData['numHours']);
   }
 
   static CollectionReference get collection =>
@@ -115,27 +109,25 @@ class TripsRecord extends FirestoreRecord {
 Map<String, dynamic> createTripsRecordData({
   DocumentReference? userRef,
   DateTime? tripBeginDate,
-  DateTime? tripEndDate,
-  double? tripCost,
   bool? cancelTrip,
   int? tripTotal,
-  bool? upcoming,
   DocumentReference? hostRef,
-  bool? isRated,
   bool? isComplete,
+  String? cancledBy,
+  String? cancelReason,
+  int? numHours,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'userRef': userRef,
       'tripBeginDate': tripBeginDate,
-      'tripEndDate': tripEndDate,
-      'tripCost': tripCost,
       'cancelTrip': cancelTrip,
       'tripTotal': tripTotal,
-      'upcoming': upcoming,
       'hostRef': hostRef,
-      'isRated': isRated,
       'isComplete': isComplete,
+      'cancledBy': cancledBy,
+      'cancelReason': cancelReason,
+      'numHours': numHours,
     }.withoutNulls,
   );
 
@@ -149,28 +141,26 @@ class TripsRecordDocumentEquality implements Equality<TripsRecord> {
   bool equals(TripsRecord? e1, TripsRecord? e2) {
     return e1?.userRef == e2?.userRef &&
         e1?.tripBeginDate == e2?.tripBeginDate &&
-        e1?.tripEndDate == e2?.tripEndDate &&
-        e1?.tripCost == e2?.tripCost &&
         e1?.cancelTrip == e2?.cancelTrip &&
         e1?.tripTotal == e2?.tripTotal &&
-        e1?.upcoming == e2?.upcoming &&
         e1?.hostRef == e2?.hostRef &&
-        e1?.isRated == e2?.isRated &&
-        e1?.isComplete == e2?.isComplete;
+        e1?.isComplete == e2?.isComplete &&
+        e1?.cancledBy == e2?.cancledBy &&
+        e1?.cancelReason == e2?.cancelReason &&
+        e1?.numHours == e2?.numHours;
   }
 
   @override
   int hash(TripsRecord? e) => const ListEquality().hash([
         e?.userRef,
         e?.tripBeginDate,
-        e?.tripEndDate,
-        e?.tripCost,
         e?.cancelTrip,
         e?.tripTotal,
-        e?.upcoming,
         e?.hostRef,
-        e?.isRated,
-        e?.isComplete
+        e?.isComplete,
+        e?.cancledBy,
+        e?.cancelReason,
+        e?.numHours
       ]);
 
   @override

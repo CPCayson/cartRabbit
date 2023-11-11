@@ -13,93 +13,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '/backend/schema/structs/index.dart';
 import '/auth/firebase_auth/auth_util.dart';
 
-double ratingSummary(
-  double totalRatings,
-  double rating,
+double? cartLoc(
+  LatLng? userLoc,
+  LatLng? cartRef,
 ) {
-  // get average rating to one decimal point from list of reviews
-  if (totalRatings > 0) {
-    return (rating +
-            (totalRatings - rating) ~/ math.max((totalRatings ~/ 5), 1)) /
-        2;
-  } else {
-    return rating;
+  // calculate distance between both arguments and convert into feet
+  if (userLoc == null || cartRef == null) {
+    return null;
   }
-}
 
-DateTime? futureDateCopy(
-  DateTime? startDate,
-  int? minutes,
-  int? seconds,
-  int? hours,
-  int? days,
-) {
-  // create a new variable for the result
-  DateTime result;
+  const double earthRadius = 6371.0; // in km
 
-  // set initial value from startDate input parameter.
-  //If startDate is null then use current Timestamp as StartDate
-  result = startDate ?? (DateTime.now());
+  // Manually converting degrees to radians
+  final lat1 = userLoc.latitude * (math.pi / 180);
+  final lon1 = userLoc.longitude * (math.pi / 180);
+  final lat2 = cartRef.latitude * (math.pi / 180);
+  final lon2 = cartRef.longitude * (math.pi / 180);
 
-  // null saftey checks for all input parameters
-  int addMinutes = 0 + (minutes ?? 0);
-  int addSeconds = 0 + (seconds ?? 0);
-  int addHours = 0 + (hours ?? 0);
-  int addDays = 0 + (days ?? 0);
+  final dLat = lat2 - lat1;
+  final dLon = lon2 - lon1;
 
-//calculate future date by adding all input durations to the StartDate stored in result variable
+  final a = math.pow(math.sin(dLat / 2), 2) +
+      math.cos(lat1) * math.cos(lat2) * math.pow(math.sin(dLon / 2), 2);
 
-  result = result.add(Duration(
-      seconds: addSeconds,
-      minutes: addMinutes,
-      hours: addHours,
-      days: addDays));
+  final c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
 
-//return final result with the future date
+  final distance = earthRadius * c * 1000; // in meters
 
-  return result;
-}
-
-String ratingSummaryList(List<ReviewsRecord> rating) {
-  if (rating.isEmpty) {
-    return '-';
-  }
-  var ratingsSum = 0.0;
-  for (final comment in rating) {
-    ratingsSum += comment.rating!;
-  }
-  return (ratingsSum / rating.length).toStringAsFixed(1);
-}
-
-DateTime? futureDate(
-  DateTime? startDate,
-  int? minutes,
-  int? seconds,
-  int? hours,
-  int? days,
-) {
-  // create a new variable for the result
-  DateTime result;
-
-  // set initial value from startDate input parameter.
-  //If startDate is null then use current Timestamp as StartDate
-  result = startDate ?? (DateTime.now());
-
-  // null saftey checks for all input parameters
-  int addMinutes = 0 + (minutes ?? 0);
-  int addSeconds = 0 + (seconds ?? 0);
-  int addHours = 0 + (hours ?? 0);
-  int addDays = 0 + (days ?? 0);
-
-//calculate future date by adding all input durations to the StartDate stored in result variable
-
-  result = result.add(Duration(
-      seconds: addSeconds,
-      minutes: addMinutes,
-      hours: addHours,
-      days: addDays));
-
-//return final result with the future date
-
-  return result;
+  return distance * 3.28084; // convert to feet
 }

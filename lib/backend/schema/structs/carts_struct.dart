@@ -1,4 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -12,12 +13,12 @@ class CartsStruct extends FFFirebaseStruct {
     bool? ready,
     List<DateTime>? dates,
     String? zip,
-    double? price,
+    List<bool>? amms,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _ready = ready,
         _dates = dates,
         _zip = zip,
-        _price = price,
+        _amms = amms,
         super(firestoreUtilData);
 
   // "Ready" field.
@@ -40,18 +41,18 @@ class CartsStruct extends FFFirebaseStruct {
   set zip(String? val) => _zip = val;
   bool hasZip() => _zip != null;
 
-  // "Price" field.
-  double? _price;
-  double get price => _price ?? 0.0;
-  set price(double? val) => _price = val;
-  void incrementPrice(double amount) => _price = price + amount;
-  bool hasPrice() => _price != null;
+  // "amms" field.
+  List<bool>? _amms;
+  List<bool> get amms => _amms ?? const [];
+  set amms(List<bool>? val) => _amms = val;
+  void updateAmms(Function(List<bool>) updateFn) => updateFn(_amms ??= []);
+  bool hasAmms() => _amms != null;
 
   static CartsStruct fromMap(Map<String, dynamic> data) => CartsStruct(
         ready: data['Ready'] as bool?,
         dates: getDataList(data['dates']),
         zip: data['zip'] as String?,
-        price: castToType<double>(data['Price']),
+        amms: getDataList(data['amms']),
       );
 
   static CartsStruct? maybeFromMap(dynamic data) =>
@@ -61,7 +62,7 @@ class CartsStruct extends FFFirebaseStruct {
         'Ready': _ready,
         'dates': _dates,
         'zip': _zip,
-        'Price': _price,
+        'amms': _amms,
       }.withoutNulls;
 
   @override
@@ -79,9 +80,10 @@ class CartsStruct extends FFFirebaseStruct {
           _zip,
           ParamType.String,
         ),
-        'Price': serializeParam(
-          _price,
-          ParamType.double,
+        'amms': serializeParam(
+          _amms,
+          ParamType.bool,
+          true,
         ),
       }.withoutNulls;
 
@@ -102,10 +104,10 @@ class CartsStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
-        price: deserializeParam(
-          data['Price'],
-          ParamType.double,
-          false,
+        amms: deserializeParam<bool>(
+          data['amms'],
+          ParamType.bool,
+          true,
         ),
       );
 
@@ -119,17 +121,16 @@ class CartsStruct extends FFFirebaseStruct {
         ready == other.ready &&
         listEquality.equals(dates, other.dates) &&
         zip == other.zip &&
-        price == other.price;
+        listEquality.equals(amms, other.amms);
   }
 
   @override
-  int get hashCode => const ListEquality().hash([ready, dates, zip, price]);
+  int get hashCode => const ListEquality().hash([ready, dates, zip, amms]);
 }
 
 CartsStruct createCartsStruct({
   bool? ready,
   String? zip,
-  double? price,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -138,7 +139,6 @@ CartsStruct createCartsStruct({
     CartsStruct(
       ready: ready,
       zip: zip,
-      price: price,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

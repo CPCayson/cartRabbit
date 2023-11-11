@@ -41,12 +41,72 @@ class CartsRecord extends FirestoreRecord {
   String get cartImage => _cartImage ?? '';
   bool hasCartImage() => _cartImage != null;
 
+  // "cartLoc" field.
+  LatLng? _cartLoc;
+  LatLng? get cartLoc => _cartLoc;
+  bool hasCartLoc() => _cartLoc != null;
+
+  // "ammenities" field.
+  List<String>? _ammenities;
+  List<String> get ammenities => _ammenities ?? const [];
+  bool hasAmmenities() => _ammenities != null;
+
+  // "cartPricer" field.
+  int? _cartPricer;
+  int get cartPricer => _cartPricer ?? 0;
+  bool hasCartPricer() => _cartPricer != null;
+
+  // "photos" field.
+  List<String>? _photos;
+  List<String> get photos => _photos ?? const [];
+  bool hasPhotos() => _photos != null;
+
+  // "description" field.
+  String? _description;
+  String get description => _description ?? '';
+  bool hasDescription() => _description != null;
+
+  // "ownersName" field.
+  String? _ownersName;
+  String get ownersName => _ownersName ?? '';
+  bool hasOwnersName() => _ownersName != null;
+
+  // "plateNumber" field.
+  String? _plateNumber;
+  String get plateNumber => _plateNumber ?? '';
+  bool hasPlateNumber() => _plateNumber != null;
+
+  // "insuranceNumber" field.
+  String? _insuranceNumber;
+  String get insuranceNumber => _insuranceNumber ?? '';
+  bool hasInsuranceNumber() => _insuranceNumber != null;
+
+  // "isSigned" field.
+  bool? _isSigned;
+  bool get isSigned => _isSigned ?? false;
+  bool hasIsSigned() => _isSigned != null;
+
+  // "isBooked" field.
+  bool? _isBooked;
+  bool get isBooked => _isBooked ?? false;
+  bool hasIsBooked() => _isBooked != null;
+
   void _initializeFields() {
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
     _cartID = snapshotData['cartID'] as String?;
     _name = snapshotData['name'] as String?;
     _isAvailable = snapshotData['isAvailable'] as bool?;
     _cartImage = snapshotData['cartImage'] as String?;
+    _cartLoc = snapshotData['cartLoc'] as LatLng?;
+    _ammenities = getDataList(snapshotData['ammenities']);
+    _cartPricer = castToType<int>(snapshotData['cartPricer']);
+    _photos = getDataList(snapshotData['photos']);
+    _description = snapshotData['description'] as String?;
+    _ownersName = snapshotData['ownersName'] as String?;
+    _plateNumber = snapshotData['plateNumber'] as String?;
+    _insuranceNumber = snapshotData['insuranceNumber'] as String?;
+    _isSigned = snapshotData['isSigned'] as bool?;
+    _isBooked = snapshotData['isBooked'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -88,6 +148,14 @@ Map<String, dynamic> createCartsRecordData({
   String? name,
   bool? isAvailable,
   String? cartImage,
+  LatLng? cartLoc,
+  int? cartPricer,
+  String? description,
+  String? ownersName,
+  String? plateNumber,
+  String? insuranceNumber,
+  bool? isSigned,
+  bool? isBooked,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -96,6 +164,14 @@ Map<String, dynamic> createCartsRecordData({
       'name': name,
       'isAvailable': isAvailable,
       'cartImage': cartImage,
+      'cartLoc': cartLoc,
+      'cartPricer': cartPricer,
+      'description': description,
+      'ownersName': ownersName,
+      'plateNumber': plateNumber,
+      'insuranceNumber': insuranceNumber,
+      'isSigned': isSigned,
+      'isBooked': isBooked,
     }.withoutNulls,
   );
 
@@ -107,16 +183,42 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
 
   @override
   bool equals(CartsRecord? e1, CartsRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.hostRef == e2?.hostRef &&
         e1?.cartID == e2?.cartID &&
         e1?.name == e2?.name &&
         e1?.isAvailable == e2?.isAvailable &&
-        e1?.cartImage == e2?.cartImage;
+        e1?.cartImage == e2?.cartImage &&
+        e1?.cartLoc == e2?.cartLoc &&
+        listEquality.equals(e1?.ammenities, e2?.ammenities) &&
+        e1?.cartPricer == e2?.cartPricer &&
+        listEquality.equals(e1?.photos, e2?.photos) &&
+        e1?.description == e2?.description &&
+        e1?.ownersName == e2?.ownersName &&
+        e1?.plateNumber == e2?.plateNumber &&
+        e1?.insuranceNumber == e2?.insuranceNumber &&
+        e1?.isSigned == e2?.isSigned &&
+        e1?.isBooked == e2?.isBooked;
   }
 
   @override
-  int hash(CartsRecord? e) => const ListEquality()
-      .hash([e?.hostRef, e?.cartID, e?.name, e?.isAvailable, e?.cartImage]);
+  int hash(CartsRecord? e) => const ListEquality().hash([
+        e?.hostRef,
+        e?.cartID,
+        e?.name,
+        e?.isAvailable,
+        e?.cartImage,
+        e?.cartLoc,
+        e?.ammenities,
+        e?.cartPricer,
+        e?.photos,
+        e?.description,
+        e?.ownersName,
+        e?.plateNumber,
+        e?.insuranceNumber,
+        e?.isSigned,
+        e?.isBooked
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is CartsRecord;

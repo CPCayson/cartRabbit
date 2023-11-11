@@ -1,10 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/dashboards/name/name_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -38,10 +39,21 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
@@ -129,7 +141,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                         pinTheme: PinTheme(
                           fieldHeight: 60.0,
                           fieldWidth: 60.0,
-                          borderWidth: 2.0,
+                          borderWidth: 4.0,
                           borderRadius: BorderRadius.circular(12.0),
                           shape: PinCodeFieldShape.box,
                           activeColor: Color(0xFF4B39EF),
@@ -146,12 +158,25 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                             .asValidator(context),
                       ),
                     ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                      child: AutoSizeText(
+                        'cartRABBIT',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Open Sans',
+                              color: FlutterFlowTheme.of(context).turquoise,
+                              fontSize: 40.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
                   ],
                 ),
               ),
               Flexible(
                 child: Align(
-                  alignment: AlignmentDirectional(0.0, -1.0),
+                  alignment: AlignmentDirectional(0.00, -1.00),
                   child: Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
@@ -199,16 +224,6 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Align(
-                  alignment: AlignmentDirectional(0.0, -1.0),
-                  child: wrapWithModel(
-                    model: _model.nameModel,
-                    updateCallback: () => setState(() {}),
-                    child: NameWidget(),
                   ),
                 ),
               ),

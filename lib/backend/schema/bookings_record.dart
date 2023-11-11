@@ -16,11 +16,6 @@ class BookingsRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "numBookings" field.
-  int? _numBookings;
-  int get numBookings => _numBookings ?? 0;
-  bool hasNumBookings() => _numBookings != null;
-
   // "cartRef" field.
   DocumentReference? _cartRef;
   DocumentReference? get cartRef => _cartRef;
@@ -36,11 +31,34 @@ class BookingsRecord extends FirestoreRecord {
   DocumentReference? get userRef => _userRef;
   bool hasUserRef() => _userRef != null;
 
+  // "timestamp" field.
+  DateTime? _timestamp;
+  DateTime? get timestamp => _timestamp;
+  bool hasTimestamp() => _timestamp != null;
+
+  // "bookingID" field.
+  String? _bookingID;
+  String get bookingID => _bookingID ?? '';
+  bool hasBookingID() => _bookingID != null;
+
+  // "status" field.
+  bool? _status;
+  bool get status => _status ?? false;
+  bool hasStatus() => _status != null;
+
+  // "barcode" field.
+  String? _barcode;
+  String get barcode => _barcode ?? '';
+  bool hasBarcode() => _barcode != null;
+
   void _initializeFields() {
-    _numBookings = castToType<int>(snapshotData['numBookings']);
     _cartRef = snapshotData['cartRef'] as DocumentReference?;
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
+    _timestamp = snapshotData['timestamp'] as DateTime?;
+    _bookingID = snapshotData['bookingID'] as String?;
+    _status = snapshotData['status'] as bool?;
+    _barcode = snapshotData['barcode'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -78,17 +96,23 @@ class BookingsRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createBookingsRecordData({
-  int? numBookings,
   DocumentReference? cartRef,
   DocumentReference? hostRef,
   DocumentReference? userRef,
+  DateTime? timestamp,
+  String? bookingID,
+  bool? status,
+  String? barcode,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'numBookings': numBookings,
       'cartRef': cartRef,
       'hostRef': hostRef,
       'userRef': userRef,
+      'timestamp': timestamp,
+      'bookingID': bookingID,
+      'status': status,
+      'barcode': barcode,
     }.withoutNulls,
   );
 
@@ -100,15 +124,25 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
 
   @override
   bool equals(BookingsRecord? e1, BookingsRecord? e2) {
-    return e1?.numBookings == e2?.numBookings &&
-        e1?.cartRef == e2?.cartRef &&
+    return e1?.cartRef == e2?.cartRef &&
         e1?.hostRef == e2?.hostRef &&
-        e1?.userRef == e2?.userRef;
+        e1?.userRef == e2?.userRef &&
+        e1?.timestamp == e2?.timestamp &&
+        e1?.bookingID == e2?.bookingID &&
+        e1?.status == e2?.status &&
+        e1?.barcode == e2?.barcode;
   }
 
   @override
-  int hash(BookingsRecord? e) => const ListEquality()
-      .hash([e?.numBookings, e?.cartRef, e?.hostRef, e?.userRef]);
+  int hash(BookingsRecord? e) => const ListEquality().hash([
+        e?.cartRef,
+        e?.hostRef,
+        e?.userRef,
+        e?.timestamp,
+        e?.bookingID,
+        e?.status,
+        e?.barcode
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is BookingsRecord;

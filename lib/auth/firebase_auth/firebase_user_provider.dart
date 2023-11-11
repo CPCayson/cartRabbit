@@ -5,8 +5,8 @@ import '../base_auth_user_provider.dart';
 
 export '../base_auth_user_provider.dart';
 
-class RabbitFirebaseUser extends BaseAuthUser {
-  RabbitFirebaseUser(this.user);
+class CartRabbitFirebaseUser extends BaseAuthUser {
+  CartRabbitFirebaseUser(this.user);
   User? user;
   bool get loggedIn => user != null;
 
@@ -23,7 +23,13 @@ class RabbitFirebaseUser extends BaseAuthUser {
   Future? delete() => user?.delete();
 
   @override
-  Future? updateEmail(String email) async => await user?.updateEmail(email);
+  Future? updateEmail(String email) async {
+    try {
+      await user?.updateEmail(email);
+    } catch (_) {
+      await user?.verifyBeforeUpdateEmail(email);
+    }
+  }
 
   @override
   Future? sendEmailVerification() => user?.sendEmailVerification();
@@ -47,17 +53,18 @@ class RabbitFirebaseUser extends BaseAuthUser {
 
   static BaseAuthUser fromUserCredential(UserCredential userCredential) =>
       fromFirebaseUser(userCredential.user);
-  static BaseAuthUser fromFirebaseUser(User? user) => RabbitFirebaseUser(user);
+  static BaseAuthUser fromFirebaseUser(User? user) =>
+      CartRabbitFirebaseUser(user);
 }
 
-Stream<BaseAuthUser> rabbitFirebaseUserStream() => FirebaseAuth.instance
+Stream<BaseAuthUser> cartRabbitFirebaseUserStream() => FirebaseAuth.instance
         .authStateChanges()
         .debounce((user) => user == null && !loggedIn
             ? TimerStream(true, const Duration(seconds: 1))
             : Stream.value(user))
         .map<BaseAuthUser>(
       (user) {
-        currentUser = RabbitFirebaseUser(user);
+        currentUser = CartRabbitFirebaseUser(user);
         return currentUser!;
       },
     );

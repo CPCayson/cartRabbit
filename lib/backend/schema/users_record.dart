@@ -61,6 +61,36 @@ class UsersRecord extends FirestoreRecord {
   String get phoneNumber => _phoneNumber ?? '';
   bool hasPhoneNumber() => _phoneNumber != null;
 
+  // "currentBalance" field.
+  double? _currentBalance;
+  double get currentBalance => _currentBalance ?? 0.0;
+  bool hasCurrentBalance() => _currentBalance != null;
+
+  // "cartID" field.
+  DocumentReference? _cartID;
+  DocumentReference? get cartID => _cartID;
+  bool hasCartID() => _cartID != null;
+
+  // "currentBalanceInt" field.
+  int? _currentBalanceInt;
+  int get currentBalanceInt => _currentBalanceInt ?? 0;
+  bool hasCurrentBalanceInt() => _currentBalanceInt != null;
+
+  // "primary" field.
+  String? _primary;
+  String get primary => _primary ?? '';
+  bool hasPrimary() => _primary != null;
+
+  // "primarySet" field.
+  bool? _primarySet;
+  bool get primarySet => _primarySet ?? false;
+  bool hasPrimarySet() => _primarySet != null;
+
+  // "age" field.
+  DateTime? _age;
+  DateTime? get age => _age;
+  bool hasAge() => _age != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _photoUrl = snapshotData['photo_url'] as String?;
@@ -72,6 +102,12 @@ class UsersRecord extends FirestoreRecord {
         castToType<int>(snapshotData['numberOfActiveBookings']);
     _displayName = snapshotData['display_name'] as String?;
     _phoneNumber = snapshotData['phone_number'] as String?;
+    _currentBalance = castToType<double>(snapshotData['currentBalance']);
+    _cartID = snapshotData['cartID'] as DocumentReference?;
+    _currentBalanceInt = castToType<int>(snapshotData['currentBalanceInt']);
+    _primary = snapshotData['primary'] as String?;
+    _primarySet = snapshotData['primarySet'] as bool?;
+    _age = snapshotData['age'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -117,6 +153,12 @@ Map<String, dynamic> createUsersRecordData({
   int? numberOfActiveBookings,
   String? displayName,
   String? phoneNumber,
+  double? currentBalance,
+  DocumentReference? cartID,
+  int? currentBalanceInt,
+  String? primary,
+  bool? primarySet,
+  DateTime? age,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -129,6 +171,12 @@ Map<String, dynamic> createUsersRecordData({
       'numberOfActiveBookings': numberOfActiveBookings,
       'display_name': displayName,
       'phone_number': phoneNumber,
+      'currentBalance': currentBalance,
+      'cartID': cartID,
+      'currentBalanceInt': currentBalanceInt,
+      'primary': primary,
+      'primarySet': primarySet,
+      'age': age,
     }.withoutNulls,
   );
 
@@ -148,7 +196,13 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.isHost == e2?.isHost &&
         e1?.numberOfActiveBookings == e2?.numberOfActiveBookings &&
         e1?.displayName == e2?.displayName &&
-        e1?.phoneNumber == e2?.phoneNumber;
+        e1?.phoneNumber == e2?.phoneNumber &&
+        e1?.currentBalance == e2?.currentBalance &&
+        e1?.cartID == e2?.cartID &&
+        e1?.currentBalanceInt == e2?.currentBalanceInt &&
+        e1?.primary == e2?.primary &&
+        e1?.primarySet == e2?.primarySet &&
+        e1?.age == e2?.age;
   }
 
   @override
@@ -161,7 +215,13 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.isHost,
         e?.numberOfActiveBookings,
         e?.displayName,
-        e?.phoneNumber
+        e?.phoneNumber,
+        e?.currentBalance,
+        e?.cartID,
+        e?.currentBalanceInt,
+        e?.primary,
+        e?.primarySet,
+        e?.age
       ]);
 
   @override
