@@ -30,6 +30,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CreditCardWidgetModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

@@ -32,6 +32,25 @@ class _HostTutorialWidgetState extends State<HostTutorialWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = {
+    'imageOnPageLoadAnimation1': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 0.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+        ScaleEffect(
+          curve: Curves.easeInOut,
+          delay: 0.ms,
+          duration: 600.ms,
+          begin: Offset(1.2, 1.2),
+          end: Offset(1.0, 1.0),
+        ),
+      ],
+    ),
     'textOnPageLoadAnimation1': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
@@ -67,25 +86,6 @@ class _HostTutorialWidgetState extends State<HostTutorialWidget>
           duration: 600.ms,
           begin: Offset(0.0, 80.0),
           end: Offset(0.0, 0.0),
-        ),
-      ],
-    ),
-    'imageOnPageLoadAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        ScaleEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: Offset(1.2, 1.2),
-          end: Offset(1.0, 1.0),
         ),
       ],
     ),
@@ -277,6 +277,8 @@ class _HostTutorialWidgetState extends State<HostTutorialWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -335,6 +337,16 @@ class _HostTutorialWidgetState extends State<HostTutorialWidget>
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Opacity(
+                                    opacity: 0.5,
+                                    child: Image.asset(
+                                      'assets/images/cart.png',
+                                      width: double.infinity,
+                                      height: 501.0,
+                                      fit: BoxFit.cover,
+                                    ).animateOnPageLoad(animationsMap[
+                                        'imageOnPageLoadAnimation1']!),
+                                  ),
                                   Text(
                                     'Add a cart',
                                     style: FlutterFlowTheme.of(context)
@@ -547,16 +559,6 @@ class _HostTutorialWidgetState extends State<HostTutorialWidget>
                                   ),
                                 ],
                               ),
-                            ),
-                            Opacity(
-                              opacity: 0.5,
-                              child: Image.asset(
-                                'assets/images/cart.png',
-                                width: double.infinity,
-                                height: 500.0,
-                                fit: BoxFit.cover,
-                              ).animateOnPageLoad(
-                                  animationsMap['imageOnPageLoadAnimation1']!),
                             ),
                           ],
                         ),

@@ -31,6 +31,8 @@ class _ConnectWidgetState extends State<ConnectWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ConnectModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

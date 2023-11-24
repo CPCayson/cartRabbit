@@ -35,6 +35,8 @@ class _ProfileMainWidgetState extends State<ProfileMainWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => ProfileMainModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -178,8 +180,8 @@ class _ProfileMainWidgetState extends State<ProfileMainWidget>
                     padding:
                         EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     child: Container(
-                      width: 100.0,
-                      height: 100.0,
+                      width: 30.0,
+                      height: 30.0,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                       ),
@@ -189,8 +191,8 @@ class _ProfileMainWidgetState extends State<ProfileMainWidget>
                           padding: EdgeInsetsDirectional.fromSTEB(
                               4.0, 4.0, 4.0, 4.0),
                           child: Container(
-                            width: 100.0,
-                            height: 100.0,
+                            width: 162.0,
+                            height: 162.0,
                             decoration: BoxDecoration(
                               color: Color(0xFF101213),
                               shape: BoxShape.circle,
@@ -248,10 +250,10 @@ class _ProfileMainWidgetState extends State<ProfileMainWidget>
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
-                                    child: Image.network(
-                                      currentUserPhoto,
+                                    child: Image.asset(
+                                      'assets/images/profilepic.png',
                                       width: 100.0,
-                                      height: 100.0,
+                                      height: 167.0,
                                       fit: BoxFit.cover,
                                       cacheWidth: 50,
                                       cacheHeight: 50,

@@ -46,6 +46,8 @@ class _RabbitConfirmsWidgetState extends State<RabbitConfirmsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RabbitConfirmsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

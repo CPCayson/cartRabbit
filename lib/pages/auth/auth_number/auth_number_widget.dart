@@ -90,6 +90,8 @@ class _AuthNumberWidgetState extends State<AuthNumberWidget>
     _model.phoneNumberFocusNode ??= FocusNode();
 
     authManager.handlePhoneAuthStateChanges(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

@@ -82,6 +82,8 @@ class _RabbitProfileWidgetState extends State<RabbitProfileWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

@@ -37,6 +37,8 @@ class _RejectRabbitWidgetState extends State<RejectRabbitWidget> {
 
       context.pushNamed('userDash');
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

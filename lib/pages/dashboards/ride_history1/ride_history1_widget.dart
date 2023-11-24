@@ -169,6 +169,8 @@ class _RideHistory1WidgetState extends State<RideHistory1Widget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

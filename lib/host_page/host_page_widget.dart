@@ -105,6 +105,8 @@ class _HostPageWidgetState extends State<HostPageWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => HostPageModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

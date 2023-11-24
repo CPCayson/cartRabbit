@@ -33,6 +33,8 @@ class _AcceptRAbbitWidgetState extends State<AcceptRAbbitWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AcceptRAbbitModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

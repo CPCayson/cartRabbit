@@ -169,6 +169,8 @@ class _HostHistoryWidgetState extends State<HostHistoryWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

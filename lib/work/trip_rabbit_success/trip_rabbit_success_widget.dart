@@ -39,6 +39,8 @@ class _TripRabbitSuccessWidgetState extends State<TripRabbitSuccessWidget> {
 
       context.pushNamed('userDash');
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

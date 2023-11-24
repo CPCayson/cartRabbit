@@ -3,11 +3,9 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_static_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/lat_lng.dart';
 import '/pages/dashboards/host/host_b_p/accept_r_abbit/accept_r_abbit_widget.dart';
 import '/pages/dashboards/user/user_b_p/rabbit_confirms/rabbit_confirms_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -18,9 +16,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mapbox_search/mapbox_search.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'host_dash_model.dart';
@@ -66,6 +64,8 @@ class _HostDashWidgetState extends State<HostDashWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -918,24 +918,16 @@ class _HostDashWidgetState extends State<HostDashWidget>
                                                                                       mainAxisSize: MainAxisSize.max,
                                                                                       children: [
                                                                                         Align(
-                                                                                          alignment: AlignmentDirectional(1.00, 0.00),
-                                                                                          child: Padding(
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(0.0, 13.0, 24.0, 0.0),
-                                                                                            child: Row(
-                                                                                              mainAxisSize: MainAxisSize.max,
-                                                                                              mainAxisAlignment: MainAxisAlignment.end,
-                                                                                              children: [],
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                        Align(
                                                                                           alignment: AlignmentDirectional(-1.00, 0.00),
                                                                                           child: Padding(
                                                                                             padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 0.0, 5.0),
                                                                                             child: AuthUserStreamWidget(
                                                                                               builder: (context) => Text(
                                                                                                 functions.cartLoc(currentUserDocument?.currentLocation, currentUserDocument?.currentLocation).toString(),
-                                                                                                style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                      fontFamily: 'Urbanist',
+                                                                                                      color: FlutterFlowTheme.of(context).white,
+                                                                                                    ),
                                                                                               ),
                                                                                             ),
                                                                                           ),
@@ -945,42 +937,13 @@ class _HostDashWidgetState extends State<HostDashWidget>
                                                                                           child: Row(
                                                                                             mainAxisSize: MainAxisSize.max,
                                                                                             children: [
-                                                                                              Align(
-                                                                                                alignment: AlignmentDirectional(0.00, -1.00),
-                                                                                                child: Container(
-                                                                                                  width: 126.0,
-                                                                                                  height: 103.0,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                                                                    boxShadow: [
-                                                                                                      BoxShadow(
-                                                                                                        blurRadius: 5.0,
-                                                                                                        color: Color(0x33000000),
-                                                                                                        offset: Offset(0.0, 5.0),
-                                                                                                      )
-                                                                                                    ],
-                                                                                                    border: Border.all(
-                                                                                                      color: FlutterFlowTheme.of(context).darkText,
-                                                                                                      width: 3.0,
+                                                                                              Text(
+                                                                                                '\$35',
+                                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                      fontFamily: 'Poppins',
+                                                                                                      color: FlutterFlowTheme.of(context).lineColor,
+                                                                                                      fontSize: 56.0,
                                                                                                     ),
-                                                                                                  ),
-                                                                                                  child: Opacity(
-                                                                                                    opacity: 0.8,
-                                                                                                    child: FlutterFlowStaticMap(
-                                                                                                      location: LatLng(9.341465, -79.891704),
-                                                                                                      apiKey: 'pk.eyJ1IjoiY3BjYXlzb24iLCJhIjoiY2xsc2cyb2ptMHZzaDNkbnZpdXE1dXJuYiJ9.9SyfRX56W4cMI3uGknvffQ',
-                                                                                                      style: MapBoxStyle.Light,
-                                                                                                      width: 100.0,
-                                                                                                      height: 100.0,
-                                                                                                      fit: BoxFit.cover,
-                                                                                                      borderRadius: BorderRadius.circular(0.0),
-                                                                                                      markerColor: FlutterFlowTheme.of(context).turquoise,
-                                                                                                      zoom: 12,
-                                                                                                      tilt: 0,
-                                                                                                      rotation: 0,
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
                                                                                               ),
                                                                                             ],
                                                                                           ),
@@ -998,7 +961,7 @@ class _HostDashWidgetState extends State<HostDashWidget>
                                                                                             child: ClipRRect(
                                                                                               borderRadius: BorderRadius.circular(8.0),
                                                                                               child: Image.asset(
-                                                                                                'assets/images/rooster.png',
+                                                                                                'assets/images/rba1.png',
                                                                                                 width: 223.0,
                                                                                                 height: 137.0,
                                                                                                 fit: BoxFit.fitHeight,
@@ -1067,7 +1030,7 @@ class _HostDashWidgetState extends State<HostDashWidget>
                                                                                                 },
                                                                                                 child: Container(
                                                                                                   width: 177.0,
-                                                                                                  height: 36.0,
+                                                                                                  height: 60.0,
                                                                                                   decoration: BoxDecoration(
                                                                                                     color: FlutterFlowTheme.of(context).cultured,
                                                                                                     boxShadow: [
@@ -1078,36 +1041,44 @@ class _HostDashWidgetState extends State<HostDashWidget>
                                                                                                       )
                                                                                                     ],
                                                                                                   ),
-                                                                                                  child: InkWell(
-                                                                                                    splashColor: Colors.transparent,
-                                                                                                    focusColor: Colors.transparent,
-                                                                                                    hoverColor: Colors.transparent,
-                                                                                                    highlightColor: Colors.transparent,
-                                                                                                    onTap: () async {
-                                                                                                      await showModalBottomSheet(
-                                                                                                        isScrollControlled: true,
-                                                                                                        backgroundColor: Colors.transparent,
-                                                                                                        enableDrag: false,
-                                                                                                        context: context,
-                                                                                                        builder: (context) {
-                                                                                                          return GestureDetector(
-                                                                                                            onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
-                                                                                                            child: Padding(
-                                                                                                              padding: MediaQuery.viewInsetsOf(context),
-                                                                                                              child: AcceptRAbbitWidget(),
-                                                                                                            ),
-                                                                                                          );
-                                                                                                        },
-                                                                                                      ).then((value) => safeSetState(() {}));
-                                                                                                    },
-                                                                                                    child: Text(
-                                                                                                      'Connect',
-                                                                                                      textAlign: TextAlign.center,
-                                                                                                      style: FlutterFlowTheme.of(context).titleLarge.override(
-                                                                                                            fontFamily: 'Poppins',
-                                                                                                            color: Color(0xCD39E9D5),
+                                                                                                  child: Stack(
+                                                                                                    children: [
+                                                                                                      Align(
+                                                                                                        alignment: AlignmentDirectional(0.15, 0.00),
+                                                                                                        child: InkWell(
+                                                                                                          splashColor: Colors.transparent,
+                                                                                                          focusColor: Colors.transparent,
+                                                                                                          hoverColor: Colors.transparent,
+                                                                                                          highlightColor: Colors.transparent,
+                                                                                                          onTap: () async {
+                                                                                                            await showModalBottomSheet(
+                                                                                                              isScrollControlled: true,
+                                                                                                              backgroundColor: Colors.transparent,
+                                                                                                              enableDrag: false,
+                                                                                                              context: context,
+                                                                                                              builder: (context) {
+                                                                                                                return GestureDetector(
+                                                                                                                  onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                                                  child: Padding(
+                                                                                                                    padding: MediaQuery.viewInsetsOf(context),
+                                                                                                                    child: AcceptRAbbitWidget(),
+                                                                                                                  ),
+                                                                                                                );
+                                                                                                              },
+                                                                                                            ).then((value) => safeSetState(() {}));
+                                                                                                          },
+                                                                                                          child: Text(
+                                                                                                            'Confirm',
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                                                  fontFamily: 'Poppins',
+                                                                                                                  color: Color(0xCD39E9D5),
+                                                                                                                  fontSize: 39.0,
+                                                                                                                ),
                                                                                                           ),
-                                                                                                    ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
                                                                                                   ),
                                                                                                 ),
                                                                                               );

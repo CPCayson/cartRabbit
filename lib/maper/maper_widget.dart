@@ -27,6 +27,8 @@ class _MaperWidgetState extends State<MaperWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MaperModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

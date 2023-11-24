@@ -240,6 +240,8 @@ class _GuestTutotialWidgetState extends State<GuestTutotialWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

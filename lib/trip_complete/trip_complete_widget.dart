@@ -31,6 +31,8 @@ class _TripCompleteWidgetState extends State<TripCompleteWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TripCompleteModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

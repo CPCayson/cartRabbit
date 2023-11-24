@@ -46,6 +46,8 @@ class _UserDashWidgetState extends State<UserDashWidget> {
         FFAppState().isBooked = false;
       });
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -109,7 +111,7 @@ class _UserDashWidgetState extends State<UserDashWidget> {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
           return Scaffold(
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            backgroundColor: FlutterFlowTheme.of(context).turquoise,
             body: Center(
               child: SizedBox(
                 width: 50.0,
@@ -136,9 +138,9 @@ class _UserDashWidgetState extends State<UserDashWidget> {
               : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            backgroundColor: FlutterFlowTheme.of(context).turquoise,
             appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+              backgroundColor: FlutterFlowTheme.of(context).darkText,
               automaticallyImplyLeading: false,
               title: StreamBuilder<List<CartsRecord>>(
                 stream: queryCartsRecord(),
@@ -161,7 +163,7 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                     width: 414.0,
                     height: 100.0,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: FlutterFlowTheme.of(context).white,
                     ),
                     child: Stack(
                       children: [
@@ -359,20 +361,23 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                                                                               (context) {
                                                                             if (FFAppState().cartlikes.contains(listViewCartsRecord.reference) ==
                                                                                 true) {
-                                                                              return InkWell(
-                                                                                splashColor: Colors.transparent,
-                                                                                focusColor: Colors.transparent,
-                                                                                hoverColor: Colors.transparent,
-                                                                                highlightColor: Colors.transparent,
-                                                                                onTap: () async {
-                                                                                  setState(() {
-                                                                                    FFAppState().addToSelectedcarts(listViewCartsRecord.reference);
-                                                                                  });
-                                                                                },
-                                                                                child: FaIcon(
-                                                                                  FontAwesomeIcons.carrot,
-                                                                                  color: Color(0xFFEE8B60),
-                                                                                  size: 50.0,
+                                                                              return Padding(
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 10.0, 0.0),
+                                                                                child: InkWell(
+                                                                                  splashColor: Colors.transparent,
+                                                                                  focusColor: Colors.transparent,
+                                                                                  hoverColor: Colors.transparent,
+                                                                                  highlightColor: Colors.transparent,
+                                                                                  onTap: () async {
+                                                                                    setState(() {
+                                                                                      FFAppState().addToSelectedcarts(listViewCartsRecord.reference);
+                                                                                    });
+                                                                                  },
+                                                                                  child: FaIcon(
+                                                                                    FontAwesomeIcons.carrot,
+                                                                                    color: Color(0xFFEE8B60),
+                                                                                    size: 50.0,
+                                                                                  ),
                                                                                 ),
                                                                               );
                                                                             } else {
@@ -439,35 +444,39 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                                                                         MainAxisSize
                                                                             .max,
                                                                     children: [
-                                                                      Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            0.00,
-                                                                            -1.00),
+                                                                      Opacity(
+                                                                        opacity:
+                                                                            0.4,
                                                                         child:
-                                                                            FlutterFlowStaticMap(
-                                                                          location: LatLng(
-                                                                              9.341465,
-                                                                              -79.891704),
-                                                                          apiKey:
-                                                                              'pk.eyJ1IjoiY3BjYXlzb24iLCJhIjoiY2xsc2cyb2ptMHZzaDNkbnZpdXE1dXJuYiJ9.9SyfRX56W4cMI3uGknvffQ',
-                                                                          style:
-                                                                              MapBoxStyle.Light,
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              100.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(0.0),
-                                                                          markerColor:
-                                                                              FlutterFlowTheme.of(context).turquoise,
-                                                                          zoom:
-                                                                              12,
-                                                                          tilt:
-                                                                              0,
-                                                                          rotation:
-                                                                              0,
+                                                                            Align(
+                                                                          alignment: AlignmentDirectional(
+                                                                              0.00,
+                                                                              -1.00),
+                                                                          child:
+                                                                              FlutterFlowStaticMap(
+                                                                            location:
+                                                                                LatLng(9.341465, -79.891704),
+                                                                            apiKey:
+                                                                                'pk.eyJ1IjoiY3BjYXlzb24iLCJhIjoiY2xsc2cyb2ptMHZzaDNkbnZpdXE1dXJuYiJ9.9SyfRX56W4cMI3uGknvffQ',
+                                                                            style:
+                                                                                MapBoxStyle.Light,
+                                                                            width:
+                                                                                100.0,
+                                                                            height:
+                                                                                100.0,
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(0.0),
+                                                                            markerColor:
+                                                                                FlutterFlowTheme.of(context).turquoise,
+                                                                            zoom:
+                                                                                12,
+                                                                            tilt:
+                                                                                0,
+                                                                            rotation:
+                                                                                0,
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ],
@@ -625,7 +634,7 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                                                                           ),
                                                                           child:
                                                                               Text(
-                                                                            'Book',
+                                                                            'Rent',
                                                                             textAlign:
                                                                                 TextAlign.center,
                                                                             style:
@@ -717,27 +726,6 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                         ],
                       ),
                     ],
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional(-0.87, -1.00),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        context.pushNamed('guestTutotial');
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'assets/images/profilepic.png',
-                          width: 84.0,
-                          height: 131.0,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),

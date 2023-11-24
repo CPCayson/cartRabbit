@@ -37,6 +37,8 @@ class _BookRejectedUserWidgetState extends State<BookRejectedUserWidget> {
 
       context.pushNamed('userDash');
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

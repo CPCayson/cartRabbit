@@ -36,6 +36,7 @@ class _TransactionsWidgetState extends State<TransactionsWidget>
       length: 2,
       initialIndex: 0,
     )..addListener(() => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

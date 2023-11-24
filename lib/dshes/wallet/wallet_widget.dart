@@ -39,6 +39,8 @@ class _WalletWidgetState extends State<WalletWidget> {
 
     _model.textController ??= TextEditingController(text: '0.00');
     _model.textFieldFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -374,64 +376,49 @@ class _WalletWidgetState extends State<WalletWidget> {
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       30.0, 10.0, 0.0, 0.0),
-                                  child: AuthUserStreamWidget(
-                                    builder: (context) =>
-                                        FlutterFlowDropDown<String>(
-                                      controller:
-                                          _model.dropDownValueController ??=
-                                              FormFieldController<String>(
-                                        _model.dropDownValue ??=
-                                            !valueOrDefault<bool>(
-                                                    currentUserDocument
-                                                        ?.primarySet,
-                                                    false)
-                                                ? 'Select Default Payment'
-                                                : valueOrDefault(
-                                                    currentUserDocument
-                                                        ?.primary,
-                                                    ''),
-                                      ),
-                                      options: List<String>.from([
-                                        'Google Pay',
-                                        'Apple Pay',
-                                        'Credit'
-                                      ]),
-                                      optionLabels: [
-                                        'Google Pay',
-                                        'Apple Pay',
-                                        'Credit'
-                                      ],
-                                      onChanged: (val) => setState(
-                                          () => _model.dropDownValue = val),
-                                      width: 237.0,
-                                      height: 50.0,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Urbanist',
-                                            color: FlutterFlowTheme.of(context)
-                                                .turquoise,
-                                          ),
-                                      hintText: 'Select Default Payment',
-                                      icon: Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        size: 24.0,
-                                      ),
-                                      fillColor:
-                                          FlutterFlowTheme.of(context).overlay,
-                                      elevation: 2.0,
-                                      borderColor: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      borderWidth: 2.0,
-                                      borderRadius: 8.0,
-                                      margin: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 4.0, 16.0, 4.0),
-                                      hidesUnderline: true,
-                                      isSearchable: false,
-                                      isMultiSelect: false,
+                                  child: FlutterFlowDropDown<String>(
+                                    controller:
+                                        _model.dropDownValueController ??=
+                                            FormFieldController<String>(
+                                      _model.dropDownValue ??= '',
                                     ),
+                                    options: List<String>.from(
+                                        ['Google Pay', 'Apple Pay', 'Credit']),
+                                    optionLabels: [
+                                      'Google Pay',
+                                      'Apple Pay',
+                                      'Credit'
+                                    ],
+                                    onChanged: (val) => setState(
+                                        () => _model.dropDownValue = val),
+                                    width: 237.0,
+                                    height: 50.0,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Urbanist',
+                                          color: FlutterFlowTheme.of(context)
+                                              .turquoise,
+                                        ),
+                                    hintText: 'Select Default Payment',
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 24.0,
+                                    ),
+                                    fillColor:
+                                        FlutterFlowTheme.of(context).overlay,
+                                    elevation: 2.0,
+                                    borderColor:
+                                        FlutterFlowTheme.of(context).alternate,
+                                    borderWidth: 2.0,
+                                    borderRadius: 8.0,
+                                    margin: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 4.0, 16.0, 4.0),
+                                    hidesUnderline: true,
+                                    isSearchable: false,
+                                    isMultiSelect: false,
                                   ),
                                 ),
                               ),
