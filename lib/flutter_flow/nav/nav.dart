@@ -10,6 +10,8 @@ import '/backend/schema/structs/index.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/backend/push_notifications/push_notifications_handler.dart'
+    show PushNotificationsHandler;
 import '/index.dart';
 import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -81,94 +83,223 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : AuthNumberWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : MapPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : AuthNumberWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : MapPageWidget(),
+          routes: [
+            FFRoute(
+              name: 'userDash',
+              path: 'userDash',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'userDash')
+                  : NavBarPage(
+                      initialPage: 'userDash',
+                      page: UserDashWidget(),
+                    ),
+            ),
+            FFRoute(
+              name: 'pinCode',
+              path: 'pinCode',
+              builder: (context, params) => PinCodeWidget(
+                username: params.getParam(
+                  'username',
+                  ParamType.String,
+                ),
+                userEmail: params.getParam(
+                  'userEmail',
+                  ParamType.String,
+                ),
+                userPhoto: params.getParam(
+                  'userPhoto',
+                  ParamType.String,
+                ),
+                userBio: params.getParam(
+                  'userBio',
+                  ParamType.String,
+                ),
+                userBirthdate: params.getParam(
+                  'userBirthdate',
+                  ParamType.DateTime,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'userProfile',
+              path: 'userProfile',
+              requireAuth: true,
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'userProfile')
+                  : NavBarPage(
+                      initialPage: 'userProfile',
+                      page: UserProfileWidget(),
+                    ),
+            ),
+            FFRoute(
+              name: 'transactions',
+              path: 'transactions',
+              builder: (context, params) => TransactionsWidget(
+                uid: params.getParam(
+                  'uid',
+                  ParamType.String,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'userArrived',
+              path: 'userArrived',
+              asyncParams: {
+                'bookingRef': getDoc(['bookings'], BookingsRecord.fromSnapshot),
+                'hostRef': getDoc(['users'], UsersRecord.fromSnapshot),
+              },
+              builder: (context, params) => UserArrivedWidget(
+                cartID: params.getParam(
+                  'cartID',
+                  ParamType.int,
+                ),
+                bookingRef: params.getParam(
+                  'bookingRef',
+                  ParamType.Document,
+                ),
+                hostRef: params.getParam(
+                  'hostRef',
+                  ParamType.Document,
+                ),
+                cartRef: params.getParam(
+                  'cartRef',
+                  ParamType.DocumentReference,
+                  isList: false,
+                  collectionNamePath: ['Carts'],
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'hostDash',
+              path: 'hostDash',
+              requireAuth: true,
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'hostDash')
+                  : HostDashWidget(),
+            ),
+            FFRoute(
+              name: 'guestTracker',
+              path: 'guestTracker',
+              builder: (context, params) => GuestTrackerWidget(
+                users: params.getParam(
+                  'users',
+                  ParamType.DocumentReference,
+                  isList: false,
+                  collectionNamePath: ['users'],
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'chatDetails',
+              path: 'chatDetails',
+              asyncParams: {
+                'chatUser': getDoc(['users'], UsersRecord.fromSnapshot),
+              },
+              builder: (context, params) => ChatDetailsWidget(
+                chatRef: params.getParam(
+                  'chatRef',
+                  ParamType.DocumentReference,
+                  isList: false,
+                  collectionNamePath: ['chats'],
+                ),
+                chatUser: params.getParam(
+                  'chatUser',
+                  ParamType.Document,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'chatMain',
+              path: 'chatMain',
+              builder: (context, params) => NavBarPage(
+                initialPage: '',
+                page: ChatMainWidget(),
+              ),
+            ),
+            FFRoute(
+              name: 'myRides',
+              path: 'myRides',
+              builder: (context, params) => MyRidesWidget(),
+            ),
+            FFRoute(
+              name: 'mapPage',
+              path: 'mapPage',
+              builder: (context, params) => NavBarPage(
+                initialPage: '',
+                page: MapPageWidget(),
+              ),
+            ),
+            FFRoute(
+              name: 'addevent',
+              path: 'addevent',
+              builder: (context, params) => AddeventWidget(),
+            ),
+            FFRoute(
+              name: 'meeting',
+              path: 'meeting',
+              builder: (context, params) => MeetingWidget(),
+            ),
+            FFRoute(
+              name: 'addcart',
+              path: 'addcart',
+              builder: (context, params) => AddcartWidget(),
+            ),
+            FFRoute(
+              name: 'editCart',
+              path: 'editCart',
+              builder: (context, params) => EditCartWidget(
+                cartid: params.getParam(
+                  'cartid',
+                  ParamType.int,
+                ),
+                cartID: params.getParam(
+                  'cartID',
+                  ParamType.int,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'mapp',
+              path: 'mapp',
+              builder: (context, params) => MappWidget(),
+            ),
+            FFRoute(
+              name: 'cartslist',
+              path: 'cartslist',
+              builder: (context, params) => CartslistWidget(),
+            ),
+            FFRoute(
+              name: 'userDashCopy',
+              path: 'userDashCopy',
+              builder: (context, params) => NavBarPage(
+                initialPage: '',
+                page: UserDashCopyWidget(),
+              ),
+            ),
+            FFRoute(
+              name: 'userDashCopy2',
+              path: 'userDashCopy2',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'userDashCopy2')
+                  : NavBarPage(
+                      initialPage: 'userDashCopy2',
+                      page: UserDashCopy2Widget(),
+                    ),
+            ),
+            FFRoute(
+              name: 'stripe',
+              path: 'stripe',
+              builder: (context, params) => StripeWidget(),
+            )
+          ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
-        FFRoute(
-          name: 'tripComplete',
-          path: '/tripComplete',
-          builder: (context, params) => NavBarPage(
-            initialPage: '',
-            page: TripCompleteWidget(),
-          ),
-        ),
-        FFRoute(
-          name: 'userDash',
-          path: '/userDash',
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'userDash')
-              : UserDashWidget(),
-        ),
-        FFRoute(
-          name: 'pinCode',
-          path: '/pinCode',
-          builder: (context, params) => PinCodeWidget(),
-        ),
-        FFRoute(
-          name: 'profileMain',
-          path: '/profileMain',
-          builder: (context, params) => NavBarPage(
-            initialPage: '',
-            page: ProfileMainWidget(),
-          ),
-        ),
-        FFRoute(
-          name: 'transactions',
-          path: '/transactions',
-          builder: (context, params) => TransactionsWidget(),
-        ),
-        FFRoute(
-          name: 'authNumber',
-          path: '/authNumber',
-          builder: (context, params) => AuthNumberWidget(),
-        ),
-        FFRoute(
-          name: 'wallet',
-          path: '/wallet',
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'wallet')
-              : WalletWidget(),
-        ),
-        FFRoute(
-          name: 'hostDash',
-          path: '/hostDash',
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'hostDash')
-              : HostDashWidget(),
-        ),
-        FFRoute(
-          name: 'hostPage',
-          path: '/hostPage',
-          builder: (context, params) => HostPageWidget(),
-        ),
-        FFRoute(
-          name: 'SuccessPage',
-          path: '/successPage',
-          builder: (context, params) => NavBarPage(
-            initialPage: '',
-            page: SuccessPageWidget(),
-          ),
-        ),
-        FFRoute(
-          name: 'maper',
-          path: '/maper',
-          builder: (context, params) => MaperWidget(),
-        ),
-        FFRoute(
-          name: 'HostTutorial',
-          path: '/hostTutorial',
-          builder: (context, params) => HostTutorialWidget(),
-        ),
-        FFRoute(
-          name: 'guestTutotial',
-          path: '/guestTutotial',
-          builder: (context, params) => GuestTutotialWidget(),
-        )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 
@@ -244,7 +375,7 @@ extension _GoRouterStateExtensions on GoRouterState {
       extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
     ..addAll(pathParameters)
-    ..addAll(queryParameters)
+    ..addAll(uri.queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
       ? extraMap[kTransitionInfoKey] as TransitionInfo
@@ -263,7 +394,7 @@ class FFParameters {
   // present is the special extra parameter reserved for the transition info.
   bool get isEmpty =>
       state.allParams.isEmpty ||
-      (state.extraMap.length == 1 &&
+      (state.allParams.length == 1 &&
           state.extraMap.containsKey(kTransitionInfoKey));
   bool isAsyncParam(MapEntry<String, dynamic> param) =>
       asyncParams.containsKey(param.key) && param.value is String;
@@ -284,10 +415,11 @@ class FFParameters {
 
   dynamic getParam<T>(
     String paramName,
-    ParamType type, [
+    ParamType type, {
     bool isList = false,
     List<String>? collectionNamePath,
-  ]) {
+    StructBuilder<T>? structBuilder,
+  }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
     }
@@ -300,8 +432,13 @@ class FFParameters {
       return param;
     }
     // Return serialized value.
-    return deserializeParam<T>(param, type, isList,
-        collectionNamePath: collectionNamePath);
+    return deserializeParam<T>(
+      param,
+      type,
+      isList,
+      collectionNamePath: collectionNamePath,
+      structBuilder: structBuilder,
+    );
   }
 }
 
@@ -333,12 +470,13 @@ class FFRoute {
           }
 
           if (requireAuth && !appStateNotifier.loggedIn) {
-            appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/authNumber';
+            appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
+            return '/mapPage';
           }
           return null;
         },
         pageBuilder: (context, state) {
+          fixStatusBarOniOS16AndBelow(context);
           final ffParams = FFParameters(state, asyncParams);
           final page = ffParams.hasFutures
               ? FutureBuilder(
@@ -348,13 +486,17 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: Colors.transparent,
-                  child: Image.asset(
-                    'assets/images/rba1.png',
-                    fit: BoxFit.cover,
+                  color: FlutterFlowTheme.of(context).tertiary,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/rba1.png',
+                      width: MediaQuery.sizeOf(context).width * 1.0,
+                      height: MediaQuery.sizeOf(context).height * 1.0,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 )
-              : page;
+              : PushNotificationsHandler(child: page);
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition
@@ -362,13 +504,20 @@ class FFRoute {
                   key: state.pageKey,
                   child: child,
                   transitionDuration: transitionInfo.duration,
-                  transitionsBuilder: PageTransition(
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) =>
+                          PageTransition(
                     type: transitionInfo.transitionType,
                     duration: transitionInfo.duration,
                     reverseDuration: transitionInfo.duration,
                     alignment: transitionInfo.alignment,
                     child: child,
-                  ).transitionsBuilder,
+                  ).buildTransitions(
+                    context,
+                    animation,
+                    secondaryAnimation,
+                    child,
+                  ),
                 )
               : MaterialPage(key: state.pageKey, child: child);
         },
@@ -400,7 +549,7 @@ class RootPageContext {
   static bool isInactiveRootPage(BuildContext context) {
     final rootPageContext = context.read<RootPageContext?>();
     final isRootPage = rootPageContext?.isRootPage ?? false;
-    final location = GoRouter.of(context).location;
+    final location = GoRouterState.of(context).uri.toString();
     return isRootPage &&
         location != '/' &&
         location != rootPageContext?.errorRoute;
@@ -410,4 +559,14 @@ class RootPageContext {
         value: RootPageContext(true, errorRoute),
         child: child,
       );
+}
+
+extension GoRouterLocationExtension on GoRouter {
+  String getCurrentLocation() {
+    final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
+    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
+        ? lastMatch.matches
+        : routerDelegate.currentConfiguration;
+    return matchList.uri.toString();
+  }
 }

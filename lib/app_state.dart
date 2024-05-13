@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
+import 'backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
-import 'dart:convert';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -21,124 +21,163 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
     _safeInit(() {
-      _cardNumber = prefs.getString('ff_cardNumber') ?? _cardNumber;
+      if (prefs.containsKey('ff_APPUSER')) {
+        try {
+          final serializedData = prefs.getString('ff_APPUSER') ?? '{}';
+          _APPUSER = UserStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
     });
     _safeInit(() {
-      _cardHolderName = prefs.getString('ff_cardHolderName') ?? _cardHolderName;
+      if (prefs.containsKey('ff_CURRENTBOOKING')) {
+        try {
+          final serializedData = prefs.getString('ff_CURRENTBOOKING') ?? '{}';
+          _CURRENTBOOKING =
+              BookingStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
     });
     _safeInit(() {
-      _cardName = prefs.getString('ff_cardName') ?? _cardName;
-    });
-    _safeInit(() {
-      _zipCode = prefs.getString('ff_zipCode') ?? _zipCode;
-    });
-    _safeInit(() {
-      _amenities = prefs.getStringList('ff_amenities')?.map((x) {
-            try {
-              return jsonDecode(x);
-            } catch (e) {
-              print("Can't decode persisted json. Error: $e.");
-              return {};
-            }
-          }).toList() ??
-          _amenities;
-    });
-    _safeInit(() {
-      _selectedCartID = prefs.getString('ff_selectedCartID') ?? _selectedCartID;
-    });
-    _safeInit(() {
-      _isLooking = prefs.getBool('ff_isLooking') ?? _isLooking;
-    });
-    _safeInit(() {
-      _hostID = prefs.getString('ff_hostID') ?? _hostID;
-    });
-    _safeInit(() {
-      _totalBookings = prefs.getString('ff_totalBookings') ?? _totalBookings;
-    });
-    _safeInit(() {
-      _userID = prefs.getString('ff_userID') ?? _userID;
-    });
-    _safeInit(() {
-      _numberOfActiveBookings = prefs.getString('ff_numberOfActiveBookings') ??
-          _numberOfActiveBookings;
-    });
-    _safeInit(() {
-      _tripEndDate = prefs.containsKey('ff_tripEndDate')
-          ? DateTime.fromMillisecondsSinceEpoch(prefs.getInt('ff_tripEndDate')!)
-          : _tripEndDate;
-    });
-    _safeInit(() {
-      _tripBeginDate = prefs.containsKey('ff_tripBeginDate')
-          ? DateTime.fromMillisecondsSinceEpoch(
-              prefs.getInt('ff_tripBeginDate')!)
-          : _tripBeginDate;
-    });
-    _safeInit(() {
-      _tripID = prefs.getString('ff_tripID') ?? _tripID;
-    });
-    _safeInit(() {
-      _paymentAmount = prefs.getDouble('ff_paymentAmount') ?? _paymentAmount;
-    });
-    _safeInit(() {
-      _paymentFees = prefs.getDouble('ff_paymentFees') ?? _paymentFees;
-    });
-    _safeInit(() {
-      _selectedAdditionalFees = prefs.getString('ff_selectedAdditionalFees') ??
-          _selectedAdditionalFees;
-    });
-    _safeInit(() {
-      _isBooked = prefs.getBool('ff_isBooked') ?? _isBooked;
-    });
-    _safeInit(() {
-      _numBookings = prefs.getInt('ff_numBookings') ?? _numBookings;
-    });
-    _safeInit(() {
-      _dashType = prefs.getBool('ff_dashType') ?? _dashType;
-    });
-    _safeInit(() {
-      _statusGo = prefs.getBool('ff_statusGo') ?? _statusGo;
-    });
-    _safeInit(() {
-      _cartPricer = prefs.getInt('ff_cartPricer') ?? _cartPricer;
-    });
-    _safeInit(() {
-      _timerUp = prefs.getBool('ff_timerUp') ?? _timerUp;
-    });
-    _safeInit(() {
-      _ac = prefs.getBool('ff_ac') ?? _ac;
-    });
-    _safeInit(() {
-      _gps = prefs.getBool('ff_gps') ?? _gps;
-    });
-    _safeInit(() {
-      _isScannedStart = prefs.getBool('ff_isScannedStart') ?? _isScannedStart;
-    });
-    _safeInit(() {
-      _isScannedStop = prefs.getBool('ff_isScannedStop') ?? _isScannedStop;
-    });
-    _safeInit(() {
-      _endTime = prefs.containsKey('ff_endTime')
-          ? DateTime.fromMillisecondsSinceEpoch(prefs.getInt('ff_endTime')!)
-          : _endTime;
-    });
-    _safeInit(() {
-      _startTime = prefs.containsKey('ff_startTime')
-          ? DateTime.fromMillisecondsSinceEpoch(prefs.getInt('ff_startTime')!)
-          : _startTime;
-    });
-    _safeInit(() {
-      _cartlikes = prefs
-              .getStringList('ff_cartlikes')
-              ?.map((path) => path.ref)
+      _LOCALCARTS = prefs
+              .getStringList('ff_LOCALCARTS')
+              ?.map((x) {
+                try {
+                  return LocalCartStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
               .toList() ??
-          _cartlikes;
+          _LOCALCARTS;
     });
     _safeInit(() {
-      _selectedcarts = prefs
-              .getStringList('ff_selectedcarts')
-              ?.map((path) => path.ref)
+      _CARTS = prefs
+              .getStringList('ff_CARTS')
+              ?.map((x) {
+                try {
+                  return CartStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
               .toList() ??
-          _selectedcarts;
+          _CARTS;
+    });
+    _safeInit(() {
+      _RENTEDCARTS = prefs
+              .getStringList('ff_RENTEDCARTS')
+              ?.map((x) {
+                try {
+                  return CartStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _RENTEDCARTS;
+    });
+    _safeInit(() {
+      _BOOKINGS = prefs
+              .getStringList('ff_BOOKINGS')
+              ?.map((x) {
+                try {
+                  return BookingStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _BOOKINGS;
+    });
+    _safeInit(() {
+      _MYBOOKINGS = prefs
+              .getStringList('ff_MYBOOKINGS')
+              ?.map((x) {
+                try {
+                  return BookingStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _MYBOOKINGS;
+    });
+    _safeInit(() {
+      _cartLock = prefs.getBool('ff_cartLock') ?? _cartLock;
+    });
+    _safeInit(() {
+      _CHATS = prefs
+              .getStringList('ff_CHATS')
+              ?.map((x) {
+                try {
+                  return ChatStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _CHATS;
+    });
+    _safeInit(() {
+      _CHATMESSAGES = prefs
+              .getStringList('ff_CHATMESSAGES')
+              ?.map((x) {
+                try {
+                  return ChatMessageStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _CHATMESSAGES;
+    });
+    _safeInit(() {
+      _CURRENTBOOKINGS = prefs
+              .getStringList('ff_CURRENTBOOKINGS')
+              ?.map((x) {
+                try {
+                  return BookingStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _CURRENTBOOKINGS;
+    });
+    _safeInit(() {
+      _PASTBOOKINGS = prefs
+              .getStringList('ff_PASTBOOKINGS')
+              ?.map((x) {
+                try {
+                  return BookingStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _PASTBOOKINGS;
     });
   }
 
@@ -149,472 +188,518 @@ class FFAppState extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  String _cardNumber = '';
-  String get cardNumber => _cardNumber;
-  set cardNumber(String _value) {
-    _cardNumber = _value;
-    prefs.setString('ff_cardNumber', _value);
+  UserStruct _APPUSER = UserStruct.fromSerializableMap(jsonDecode(
+      '{\"UID\":\"123\",\"APP_UID\":\"123\",\"USER_DISPLAY_NAME\":\"cONNOR\",\"USER_CURRENT_LOCATION\":\"30.3126834,-89.32703149999999\",\"USER_SHORT_DESCRIP\":\"IM COOL\",\"USER_ROLE_SET\":\"[]\",\"hasBooked\":\"true\"}'));
+  UserStruct get APPUSER => _APPUSER;
+  set APPUSER(UserStruct _value) {
+    _APPUSER = _value;
+    prefs.setString('ff_APPUSER', _value.serialize());
   }
 
-  String _cardHolderName = '';
-  String get cardHolderName => _cardHolderName;
-  set cardHolderName(String _value) {
-    _cardHolderName = _value;
-    prefs.setString('ff_cardHolderName', _value);
+  void updateAPPUSERStruct(Function(UserStruct) updateFn) {
+    updateFn(_APPUSER);
+    prefs.setString('ff_APPUSER', _APPUSER.serialize());
   }
 
-  String _cardName = '';
-  String get cardName => _cardName;
-  set cardName(String _value) {
-    _cardName = _value;
-    prefs.setString('ff_cardName', _value);
+  BookingStruct _CURRENTBOOKING = BookingStruct();
+  BookingStruct get CURRENTBOOKING => _CURRENTBOOKING;
+  set CURRENTBOOKING(BookingStruct _value) {
+    _CURRENTBOOKING = _value;
+    prefs.setString('ff_CURRENTBOOKING', _value.serialize());
   }
 
-  String _zipCode = '';
-  String get zipCode => _zipCode;
-  set zipCode(String _value) {
-    _zipCode = _value;
-    prefs.setString('ff_zipCode', _value);
+  void updateCURRENTBOOKINGStruct(Function(BookingStruct) updateFn) {
+    updateFn(_CURRENTBOOKING);
+    prefs.setString('ff_CURRENTBOOKING', _CURRENTBOOKING.serialize());
   }
 
-  List<dynamic> _amenities = [jsonDecode('{}'), jsonDecode('{}')];
-  List<dynamic> get amenities => _amenities;
-  set amenities(List<dynamic> _value) {
-    _amenities = _value;
+  List<LocalCartStruct> _LOCALCARTS = [];
+  List<LocalCartStruct> get LOCALCARTS => _LOCALCARTS;
+  set LOCALCARTS(List<LocalCartStruct> _value) {
+    _LOCALCARTS = _value;
     prefs.setStringList(
-        'ff_amenities', _value.map((x) => jsonEncode(x)).toList());
+        'ff_LOCALCARTS', _value.map((x) => x.serialize()).toList());
   }
 
-  void addToAmenities(dynamic _value) {
-    _amenities.add(_value);
+  void addToLOCALCARTS(LocalCartStruct _value) {
+    _LOCALCARTS.add(_value);
     prefs.setStringList(
-        'ff_amenities', _amenities.map((x) => jsonEncode(x)).toList());
+        'ff_LOCALCARTS', _LOCALCARTS.map((x) => x.serialize()).toList());
   }
 
-  void removeFromAmenities(dynamic _value) {
-    _amenities.remove(_value);
+  void removeFromLOCALCARTS(LocalCartStruct _value) {
+    _LOCALCARTS.remove(_value);
     prefs.setStringList(
-        'ff_amenities', _amenities.map((x) => jsonEncode(x)).toList());
+        'ff_LOCALCARTS', _LOCALCARTS.map((x) => x.serialize()).toList());
   }
 
-  void removeAtIndexFromAmenities(int _index) {
-    _amenities.removeAt(_index);
+  void removeAtIndexFromLOCALCARTS(int _index) {
+    _LOCALCARTS.removeAt(_index);
     prefs.setStringList(
-        'ff_amenities', _amenities.map((x) => jsonEncode(x)).toList());
+        'ff_LOCALCARTS', _LOCALCARTS.map((x) => x.serialize()).toList());
   }
 
-  void updateAmenitiesAtIndex(
+  void updateLOCALCARTSAtIndex(
     int _index,
-    dynamic Function(dynamic) updateFn,
+    LocalCartStruct Function(LocalCartStruct) updateFn,
   ) {
-    _amenities[_index] = updateFn(_amenities[_index]);
+    _LOCALCARTS[_index] = updateFn(_LOCALCARTS[_index]);
     prefs.setStringList(
-        'ff_amenities', _amenities.map((x) => jsonEncode(x)).toList());
+        'ff_LOCALCARTS', _LOCALCARTS.map((x) => x.serialize()).toList());
   }
 
-  void insertAtIndexInAmenities(int _index, dynamic _value) {
-    _amenities.insert(_index, _value);
+  void insertAtIndexInLOCALCARTS(int _index, LocalCartStruct _value) {
+    _LOCALCARTS.insert(_index, _value);
     prefs.setStringList(
-        'ff_amenities', _amenities.map((x) => jsonEncode(x)).toList());
+        'ff_LOCALCARTS', _LOCALCARTS.map((x) => x.serialize()).toList());
   }
 
-  bool _colors = false;
-  bool get colors => _colors;
-  set colors(bool _value) {
-    _colors = _value;
+  List<CartStruct> _CARTS = [
+    CartStruct.fromSerializableMap(jsonDecode(
+        '{\"APPLCART_ID\":\"Hello World\",\"CART_ID\":\"Hello World\",\"CART_DISPLAY_NAME\":\"Hello World\",\"CART_LOCATION\":\"0.0,0.0\",\"CART_RATE_dbl\":\"0.0\",\"CART_DESCRIPTION\":\"Hello World\",\"CART_PLATE\":\"Hello World\",\"CART_IS_INUSER\":\"false\",\"CART_CAPACITY\":\"0\",\"HOST_ID\":\"Hello World\",\"CART_ONLINE\":\"false\",\"IS_ELECTRIC\":\"false\",\"DECAL_PHOTO\":\"https://picsum.photos/seed/752/600\",\"AIR\":\"false\",\"STORAGE\":\"false\",\"RADIO\":\"false\",\"CART_BOOKED\":\"false\",\"CART_PHOTO\":\"https://picsum.photos/seed/761/600\",\"CART_RATE_int\":\"0\"}'))
+  ];
+  List<CartStruct> get CARTS => _CARTS;
+  set CARTS(List<CartStruct> _value) {
+    _CARTS = _value;
+    prefs.setStringList('ff_CARTS', _value.map((x) => x.serialize()).toList());
   }
 
-  String _selectedCartID = '';
-  String get selectedCartID => _selectedCartID;
-  set selectedCartID(String _value) {
-    _selectedCartID = _value;
-    prefs.setString('ff_selectedCartID', _value);
+  void addToCARTS(CartStruct _value) {
+    _CARTS.add(_value);
+    prefs.setStringList('ff_CARTS', _CARTS.map((x) => x.serialize()).toList());
   }
 
-  String _selectUserID = '';
-  String get selectUserID => _selectUserID;
-  set selectUserID(String _value) {
-    _selectUserID = _value;
+  void removeFromCARTS(CartStruct _value) {
+    _CARTS.remove(_value);
+    prefs.setStringList('ff_CARTS', _CARTS.map((x) => x.serialize()).toList());
   }
 
-  bool _isLooking = false;
-  bool get isLooking => _isLooking;
-  set isLooking(bool _value) {
-    _isLooking = _value;
-    prefs.setBool('ff_isLooking', _value);
+  void removeAtIndexFromCARTS(int _index) {
+    _CARTS.removeAt(_index);
+    prefs.setStringList('ff_CARTS', _CARTS.map((x) => x.serialize()).toList());
   }
 
-  String _hostID = '';
-  String get hostID => _hostID;
-  set hostID(String _value) {
-    _hostID = _value;
-    prefs.setString('ff_hostID', _value);
-  }
-
-  String _totalBookings = '';
-  String get totalBookings => _totalBookings;
-  set totalBookings(String _value) {
-    _totalBookings = _value;
-    prefs.setString('ff_totalBookings', _value);
-  }
-
-  String _userID = '';
-  String get userID => _userID;
-  set userID(String _value) {
-    _userID = _value;
-    prefs.setString('ff_userID', _value);
-  }
-
-  String _numberOfActiveBookings = '';
-  String get numberOfActiveBookings => _numberOfActiveBookings;
-  set numberOfActiveBookings(String _value) {
-    _numberOfActiveBookings = _value;
-    prefs.setString('ff_numberOfActiveBookings', _value);
-  }
-
-  DateTime? _tripEndDate;
-  DateTime? get tripEndDate => _tripEndDate;
-  set tripEndDate(DateTime? _value) {
-    _tripEndDate = _value;
-    _value != null
-        ? prefs.setInt('ff_tripEndDate', _value.millisecondsSinceEpoch)
-        : prefs.remove('ff_tripEndDate');
-  }
-
-  DateTime? _tripBeginDate;
-  DateTime? get tripBeginDate => _tripBeginDate;
-  set tripBeginDate(DateTime? _value) {
-    _tripBeginDate = _value;
-    _value != null
-        ? prefs.setInt('ff_tripBeginDate', _value.millisecondsSinceEpoch)
-        : prefs.remove('ff_tripBeginDate');
-  }
-
-  String _tripID = '';
-  String get tripID => _tripID;
-  set tripID(String _value) {
-    _tripID = _value;
-    prefs.setString('ff_tripID', _value);
-  }
-
-  double _paymentAmount = 0.0;
-  double get paymentAmount => _paymentAmount;
-  set paymentAmount(double _value) {
-    _paymentAmount = _value;
-    prefs.setDouble('ff_paymentAmount', _value);
-  }
-
-  double _paymentFees = 0.0;
-  double get paymentFees => _paymentFees;
-  set paymentFees(double _value) {
-    _paymentFees = _value;
-    prefs.setDouble('ff_paymentFees', _value);
-  }
-
-  String _cartID = '';
-  String get cartID => _cartID;
-  set cartID(String _value) {
-    _cartID = _value;
-  }
-
-  List<String> _selectedAmenities = [];
-  List<String> get selectedAmenities => _selectedAmenities;
-  set selectedAmenities(List<String> _value) {
-    _selectedAmenities = _value;
-  }
-
-  void addToSelectedAmenities(String _value) {
-    _selectedAmenities.add(_value);
-  }
-
-  void removeFromSelectedAmenities(String _value) {
-    _selectedAmenities.remove(_value);
-  }
-
-  void removeAtIndexFromSelectedAmenities(int _index) {
-    _selectedAmenities.removeAt(_index);
-  }
-
-  void updateSelectedAmenitiesAtIndex(
+  void updateCARTSAtIndex(
     int _index,
-    String Function(String) updateFn,
+    CartStruct Function(CartStruct) updateFn,
   ) {
-    _selectedAmenities[_index] = updateFn(_selectedAmenities[_index]);
+    _CARTS[_index] = updateFn(_CARTS[_index]);
+    prefs.setStringList('ff_CARTS', _CARTS.map((x) => x.serialize()).toList());
   }
 
-  void insertAtIndexInSelectedAmenities(int _index, String _value) {
-    _selectedAmenities.insert(_index, _value);
+  void insertAtIndexInCARTS(int _index, CartStruct _value) {
+    _CARTS.insert(_index, _value);
+    prefs.setStringList('ff_CARTS', _CARTS.map((x) => x.serialize()).toList());
   }
 
-  String _selectedAdditionalFees = '';
-  String get selectedAdditionalFees => _selectedAdditionalFees;
-  set selectedAdditionalFees(String _value) {
-    _selectedAdditionalFees = _value;
-    prefs.setString('ff_selectedAdditionalFees', _value);
+  List<CartStruct> _RENTEDCARTS = [
+    CartStruct.fromSerializableMap(jsonDecode(
+        '{\"APPLCART_ID\":\"Hello World\",\"CART_ID\":\"Hello World\",\"CART_DISPLAY_NAME\":\"Hello World\",\"CART_LOCATION\":\"0.0,0.0\",\"CART_RATE_dbl\":\"0.0\",\"CART_DESCRIPTION\":\"Hello World\",\"CART_PLATE\":\"Hello World\",\"CART_IS_INUSER\":\"false\",\"CART_CAPACITY\":\"0\",\"HOST_ID\":\"Hello World\",\"CART_ONLINE\":\"false\",\"IS_ELECTRIC\":\"false\",\"DECAL_PHOTO\":\"https://picsum.photos/seed/996/600\",\"AIR\":\"false\",\"STORAGE\":\"false\",\"RADIO\":\"false\",\"CART_BOOKED\":\"false\",\"CART_PHOTO\":\"https://picsum.photos/seed/831/600\",\"CART_RATE_int\":\"0\",\"HOSTREF\":\"/users/example\"}'))
+  ];
+  List<CartStruct> get RENTEDCARTS => _RENTEDCARTS;
+  set RENTEDCARTS(List<CartStruct> _value) {
+    _RENTEDCARTS = _value;
+    prefs.setStringList(
+        'ff_RENTEDCARTS', _value.map((x) => x.serialize()).toList());
   }
 
-  double _selectedDiscount = 0.0;
-  double get selectedDiscount => _selectedDiscount;
-  set selectedDiscount(double _value) {
-    _selectedDiscount = _value;
+  void addToRENTEDCARTS(CartStruct _value) {
+    _RENTEDCARTS.add(_value);
+    prefs.setStringList(
+        'ff_RENTEDCARTS', _RENTEDCARTS.map((x) => x.serialize()).toList());
   }
 
-  String _selectedHostID = '';
-  String get selectedHostID => _selectedHostID;
-  set selectedHostID(String _value) {
-    _selectedHostID = _value;
+  void removeFromRENTEDCARTS(CartStruct _value) {
+    _RENTEDCARTS.remove(_value);
+    prefs.setStringList(
+        'ff_RENTEDCARTS', _RENTEDCARTS.map((x) => x.serialize()).toList());
   }
 
-  String _selectedTripCost = '';
-  String get selectedTripCost => _selectedTripCost;
-  set selectedTripCost(String _value) {
-    _selectedTripCost = _value;
+  void removeAtIndexFromRENTEDCARTS(int _index) {
+    _RENTEDCARTS.removeAt(_index);
+    prefs.setStringList(
+        'ff_RENTEDCARTS', _RENTEDCARTS.map((x) => x.serialize()).toList());
   }
 
-  String _selectedLocation = '';
-  String get selectedLocation => _selectedLocation;
-  set selectedLocation(String _value) {
-    _selectedLocation = _value;
-  }
-
-  DateTime? _selectedTripEndDate;
-  DateTime? get selectedTripEndDate => _selectedTripEndDate;
-  set selectedTripEndDate(DateTime? _value) {
-    _selectedTripEndDate = _value;
-  }
-
-  DateTime? _selectedTripBeginDate;
-  DateTime? get selectedTripBeginDate => _selectedTripBeginDate;
-  set selectedTripBeginDate(DateTime? _value) {
-    _selectedTripBeginDate = _value;
-  }
-
-  String _bookingStatus = '';
-  String get bookingStatus => _bookingStatus;
-  set bookingStatus(String _value) {
-    _bookingStatus = _value;
-  }
-
-  bool _isBooked = false;
-  bool get isBooked => _isBooked;
-  set isBooked(bool _value) {
-    _isBooked = _value;
-    prefs.setBool('ff_isBooked', _value);
-  }
-
-  int _numBookings = 0;
-  int get numBookings => _numBookings;
-  set numBookings(int _value) {
-    _numBookings = _value;
-    prefs.setInt('ff_numBookings', _value);
-  }
-
-  double _cartPrice = 0.0;
-  double get cartPrice => _cartPrice;
-  set cartPrice(double _value) {
-    _cartPrice = _value;
-  }
-
-  double _cartCleanFee = 0.0;
-  double get cartCleanFee => _cartCleanFee;
-  set cartCleanFee(double _value) {
-    _cartCleanFee = _value;
-  }
-
-  bool _dashType = false;
-  bool get dashType => _dashType;
-  set dashType(bool _value) {
-    _dashType = _value;
-    prefs.setBool('ff_dashType', _value);
-  }
-
-  bool _statusGo = false;
-  bool get statusGo => _statusGo;
-  set statusGo(bool _value) {
-    _statusGo = _value;
-    prefs.setBool('ff_statusGo', _value);
-  }
-
-  double _newBalance = 0.0;
-  double get newBalance => _newBalance;
-  set newBalance(double _value) {
-    _newBalance = _value;
-  }
-
-  int _cartPricer = 0;
-  int get cartPricer => _cartPricer;
-  set cartPricer(int _value) {
-    _cartPricer = _value;
-    prefs.setInt('ff_cartPricer', _value);
-  }
-
-  bool _isbookedHost = false;
-  bool get isbookedHost => _isbookedHost;
-  set isbookedHost(bool _value) {
-    _isbookedHost = _value;
-  }
-
-  bool _timerUp = false;
-  bool get timerUp => _timerUp;
-  set timerUp(bool _value) {
-    _timerUp = _value;
-    prefs.setBool('ff_timerUp', _value);
-  }
-
-  bool _ac = false;
-  bool get ac => _ac;
-  set ac(bool _value) {
-    _ac = _value;
-    prefs.setBool('ff_ac', _value);
-  }
-
-  bool _radio = false;
-  bool get radio => _radio;
-  set radio(bool _value) {
-    _radio = _value;
-  }
-
-  bool _gps = false;
-  bool get gps => _gps;
-  set gps(bool _value) {
-    _gps = _value;
-    prefs.setBool('ff_gps', _value);
-  }
-
-  int _hoursMult = 0;
-  int get hoursMult => _hoursMult;
-  set hoursMult(int _value) {
-    _hoursMult = _value;
-  }
-
-  bool _isScannedStart = false;
-  bool get isScannedStart => _isScannedStart;
-  set isScannedStart(bool _value) {
-    _isScannedStart = _value;
-    prefs.setBool('ff_isScannedStart', _value);
-  }
-
-  bool _isScannedStop = false;
-  bool get isScannedStop => _isScannedStop;
-  set isScannedStop(bool _value) {
-    _isScannedStop = _value;
-    prefs.setBool('ff_isScannedStop', _value);
-  }
-
-  DateTime? _endTime;
-  DateTime? get endTime => _endTime;
-  set endTime(DateTime? _value) {
-    _endTime = _value;
-    _value != null
-        ? prefs.setInt('ff_endTime', _value.millisecondsSinceEpoch)
-        : prefs.remove('ff_endTime');
-  }
-
-  DateTime? _startTime;
-  DateTime? get startTime => _startTime;
-  set startTime(DateTime? _value) {
-    _startTime = _value;
-    _value != null
-        ? prefs.setInt('ff_startTime', _value.millisecondsSinceEpoch)
-        : prefs.remove('ff_startTime');
-  }
-
-  List<DocumentReference> _cartlikes = [];
-  List<DocumentReference> get cartlikes => _cartlikes;
-  set cartlikes(List<DocumentReference> _value) {
-    _cartlikes = _value;
-    prefs.setStringList('ff_cartlikes', _value.map((x) => x.path).toList());
-  }
-
-  void addToCartlikes(DocumentReference _value) {
-    _cartlikes.add(_value);
-    prefs.setStringList('ff_cartlikes', _cartlikes.map((x) => x.path).toList());
-  }
-
-  void removeFromCartlikes(DocumentReference _value) {
-    _cartlikes.remove(_value);
-    prefs.setStringList('ff_cartlikes', _cartlikes.map((x) => x.path).toList());
-  }
-
-  void removeAtIndexFromCartlikes(int _index) {
-    _cartlikes.removeAt(_index);
-    prefs.setStringList('ff_cartlikes', _cartlikes.map((x) => x.path).toList());
-  }
-
-  void updateCartlikesAtIndex(
+  void updateRENTEDCARTSAtIndex(
     int _index,
-    DocumentReference Function(DocumentReference) updateFn,
+    CartStruct Function(CartStruct) updateFn,
   ) {
-    _cartlikes[_index] = updateFn(_cartlikes[_index]);
-    prefs.setStringList('ff_cartlikes', _cartlikes.map((x) => x.path).toList());
-  }
-
-  void insertAtIndexInCartlikes(int _index, DocumentReference _value) {
-    _cartlikes.insert(_index, _value);
-    prefs.setStringList('ff_cartlikes', _cartlikes.map((x) => x.path).toList());
-  }
-
-  bool _isFavorite = false;
-  bool get isFavorite => _isFavorite;
-  set isFavorite(bool _value) {
-    _isFavorite = _value;
-  }
-
-  DateTime? _expiration;
-  DateTime? get expiration => _expiration;
-  set expiration(DateTime? _value) {
-    _expiration = _value;
-  }
-
-  List<DocumentReference> _selectedcarts = [];
-  List<DocumentReference> get selectedcarts => _selectedcarts;
-  set selectedcarts(List<DocumentReference> _value) {
-    _selectedcarts = _value;
-    prefs.setStringList('ff_selectedcarts', _value.map((x) => x.path).toList());
-  }
-
-  void addToSelectedcarts(DocumentReference _value) {
-    _selectedcarts.add(_value);
+    _RENTEDCARTS[_index] = updateFn(_RENTEDCARTS[_index]);
     prefs.setStringList(
-        'ff_selectedcarts', _selectedcarts.map((x) => x.path).toList());
+        'ff_RENTEDCARTS', _RENTEDCARTS.map((x) => x.serialize()).toList());
   }
 
-  void removeFromSelectedcarts(DocumentReference _value) {
-    _selectedcarts.remove(_value);
+  void insertAtIndexInRENTEDCARTS(int _index, CartStruct _value) {
+    _RENTEDCARTS.insert(_index, _value);
     prefs.setStringList(
-        'ff_selectedcarts', _selectedcarts.map((x) => x.path).toList());
+        'ff_RENTEDCARTS', _RENTEDCARTS.map((x) => x.serialize()).toList());
   }
 
-  void removeAtIndexFromSelectedcarts(int _index) {
-    _selectedcarts.removeAt(_index);
+  List<BookingStruct> _BOOKINGS = [
+    BookingStruct.fromSerializableMap(jsonDecode(
+        '{\"CART_REF\":\"Hello World\",\"BOOKING_UID\":\"Hello World\",\"TIMESTAMP\":\"1711082758916\",\"START_TIME\":\"1711082758916\",\"END_TIME\":\"1711082758916\",\"USER_REF\":\"Hello World\",\"PRICE\":\"0\",\"HOURS\":\"0\",\"STATUS\":\"Hello World\",\"HOST_REF\":\"Hello World\",\"STARTLOC\":\"0,0\"}')),
+    BookingStruct.fromSerializableMap(jsonDecode(
+        '{\"CART_REF\":\"Hello World\",\"BOOKING_UID\":\"Hello World\",\"TIMESTAMP\":\"1711082760061\",\"START_TIME\":\"1711082760061\",\"END_TIME\":\"1711082760061\",\"USER_REF\":\"Hello World\",\"PRICE\":\"0\",\"HOURS\":\"0\",\"STATUS\":\"Hello World\",\"HOST_REF\":\"Hello World\",\"STARTLOC\":\"0,0\"}')),
+    BookingStruct.fromSerializableMap(jsonDecode(
+        '{\"CART_REF\":\"Hello World\",\"BOOKING_UID\":\"Hello World\",\"TIMESTAMP\":\"1711082761081\",\"START_TIME\":\"1711082761081\",\"END_TIME\":\"1711082761081\",\"USER_REF\":\"Hello World\",\"PRICE\":\"0\",\"HOURS\":\"0\",\"STATUS\":\"Hello World\",\"HOST_REF\":\"Hello World\",\"STARTLOC\":\"0,0\"}'))
+  ];
+  List<BookingStruct> get BOOKINGS => _BOOKINGS;
+  set BOOKINGS(List<BookingStruct> _value) {
+    _BOOKINGS = _value;
     prefs.setStringList(
-        'ff_selectedcarts', _selectedcarts.map((x) => x.path).toList());
+        'ff_BOOKINGS', _value.map((x) => x.serialize()).toList());
   }
 
-  void updateSelectedcartsAtIndex(
+  void addToBOOKINGS(BookingStruct _value) {
+    _BOOKINGS.add(_value);
+    prefs.setStringList(
+        'ff_BOOKINGS', _BOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromBOOKINGS(BookingStruct _value) {
+    _BOOKINGS.remove(_value);
+    prefs.setStringList(
+        'ff_BOOKINGS', _BOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromBOOKINGS(int _index) {
+    _BOOKINGS.removeAt(_index);
+    prefs.setStringList(
+        'ff_BOOKINGS', _BOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void updateBOOKINGSAtIndex(
     int _index,
-    DocumentReference Function(DocumentReference) updateFn,
+    BookingStruct Function(BookingStruct) updateFn,
   ) {
-    _selectedcarts[_index] = updateFn(_selectedcarts[_index]);
+    _BOOKINGS[_index] = updateFn(_BOOKINGS[_index]);
     prefs.setStringList(
-        'ff_selectedcarts', _selectedcarts.map((x) => x.path).toList());
+        'ff_BOOKINGS', _BOOKINGS.map((x) => x.serialize()).toList());
   }
 
-  void insertAtIndexInSelectedcarts(int _index, DocumentReference _value) {
-    _selectedcarts.insert(_index, _value);
+  void insertAtIndexInBOOKINGS(int _index, BookingStruct _value) {
+    _BOOKINGS.insert(_index, _value);
     prefs.setStringList(
-        'ff_selectedcarts', _selectedcarts.map((x) => x.path).toList());
+        'ff_BOOKINGS', _BOOKINGS.map((x) => x.serialize()).toList());
   }
-}
 
-LatLng? _latLngFromString(String? val) {
-  if (val == null) {
-    return null;
+  List<BookingStruct> _MYBOOKINGS = [];
+  List<BookingStruct> get MYBOOKINGS => _MYBOOKINGS;
+  set MYBOOKINGS(List<BookingStruct> _value) {
+    _MYBOOKINGS = _value;
+    prefs.setStringList(
+        'ff_MYBOOKINGS', _value.map((x) => x.serialize()).toList());
   }
-  final split = val.split(',');
-  final lat = double.parse(split.first);
-  final lng = double.parse(split.last);
-  return LatLng(lat, lng);
+
+  void addToMYBOOKINGS(BookingStruct _value) {
+    _MYBOOKINGS.add(_value);
+    prefs.setStringList(
+        'ff_MYBOOKINGS', _MYBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromMYBOOKINGS(BookingStruct _value) {
+    _MYBOOKINGS.remove(_value);
+    prefs.setStringList(
+        'ff_MYBOOKINGS', _MYBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromMYBOOKINGS(int _index) {
+    _MYBOOKINGS.removeAt(_index);
+    prefs.setStringList(
+        'ff_MYBOOKINGS', _MYBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void updateMYBOOKINGSAtIndex(
+    int _index,
+    BookingStruct Function(BookingStruct) updateFn,
+  ) {
+    _MYBOOKINGS[_index] = updateFn(_MYBOOKINGS[_index]);
+    prefs.setStringList(
+        'ff_MYBOOKINGS', _MYBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInMYBOOKINGS(int _index, BookingStruct _value) {
+    _MYBOOKINGS.insert(_index, _value);
+    prefs.setStringList(
+        'ff_MYBOOKINGS', _MYBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  bool _cartLock = false;
+  bool get cartLock => _cartLock;
+  set cartLock(bool _value) {
+    _cartLock = _value;
+    prefs.setBool('ff_cartLock', _value);
+  }
+
+  List<ChatStruct> _CHATS = [];
+  List<ChatStruct> get CHATS => _CHATS;
+  set CHATS(List<ChatStruct> _value) {
+    _CHATS = _value;
+    prefs.setStringList('ff_CHATS', _value.map((x) => x.serialize()).toList());
+  }
+
+  void addToCHATS(ChatStruct _value) {
+    _CHATS.add(_value);
+    prefs.setStringList('ff_CHATS', _CHATS.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromCHATS(ChatStruct _value) {
+    _CHATS.remove(_value);
+    prefs.setStringList('ff_CHATS', _CHATS.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromCHATS(int _index) {
+    _CHATS.removeAt(_index);
+    prefs.setStringList('ff_CHATS', _CHATS.map((x) => x.serialize()).toList());
+  }
+
+  void updateCHATSAtIndex(
+    int _index,
+    ChatStruct Function(ChatStruct) updateFn,
+  ) {
+    _CHATS[_index] = updateFn(_CHATS[_index]);
+    prefs.setStringList('ff_CHATS', _CHATS.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInCHATS(int _index, ChatStruct _value) {
+    _CHATS.insert(_index, _value);
+    prefs.setStringList('ff_CHATS', _CHATS.map((x) => x.serialize()).toList());
+  }
+
+  List<ChatMessageStruct> _CHATMESSAGES = [
+    ChatMessageStruct.fromSerializableMap(jsonDecode(
+        '{\"user\":\"123\",\"chat\":\"chat1\",\"text\":\"Hello World\",\"image\":\"https://picsum.photos/seed/2/600\",\"timestamp\":\"1711330118140\"}'))
+  ];
+  List<ChatMessageStruct> get CHATMESSAGES => _CHATMESSAGES;
+  set CHATMESSAGES(List<ChatMessageStruct> _value) {
+    _CHATMESSAGES = _value;
+    prefs.setStringList(
+        'ff_CHATMESSAGES', _value.map((x) => x.serialize()).toList());
+  }
+
+  void addToCHATMESSAGES(ChatMessageStruct _value) {
+    _CHATMESSAGES.add(_value);
+    prefs.setStringList(
+        'ff_CHATMESSAGES', _CHATMESSAGES.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromCHATMESSAGES(ChatMessageStruct _value) {
+    _CHATMESSAGES.remove(_value);
+    prefs.setStringList(
+        'ff_CHATMESSAGES', _CHATMESSAGES.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromCHATMESSAGES(int _index) {
+    _CHATMESSAGES.removeAt(_index);
+    prefs.setStringList(
+        'ff_CHATMESSAGES', _CHATMESSAGES.map((x) => x.serialize()).toList());
+  }
+
+  void updateCHATMESSAGESAtIndex(
+    int _index,
+    ChatMessageStruct Function(ChatMessageStruct) updateFn,
+  ) {
+    _CHATMESSAGES[_index] = updateFn(_CHATMESSAGES[_index]);
+    prefs.setStringList(
+        'ff_CHATMESSAGES', _CHATMESSAGES.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInCHATMESSAGES(int _index, ChatMessageStruct _value) {
+    _CHATMESSAGES.insert(_index, _value);
+    prefs.setStringList(
+        'ff_CHATMESSAGES', _CHATMESSAGES.map((x) => x.serialize()).toList());
+  }
+
+  MeetingStruct _currentMeeting = MeetingStruct.fromSerializableMap(jsonDecode(
+      '{\"sub\":\"hiii\",\"start\":\"1711486320000\",\"end\":\"1711572720000\",\"id\":\"1\"}'));
+  MeetingStruct get currentMeeting => _currentMeeting;
+  set currentMeeting(MeetingStruct _value) {
+    _currentMeeting = _value;
+  }
+
+  void updateCurrentMeetingStruct(Function(MeetingStruct) updateFn) {
+    updateFn(_currentMeeting);
+  }
+
+  MeetingStruct _meetingThatChanged = MeetingStruct.fromSerializableMap(jsonDecode(
+      '{\"sub\":\"hi\",\"col\":\"#4b39ef\",\"start\":\"1713312000000\",\"end\":\"1713315600000\"}'));
+  MeetingStruct get meetingThatChanged => _meetingThatChanged;
+  set meetingThatChanged(MeetingStruct _value) {
+    _meetingThatChanged = _value;
+  }
+
+  void updateMeetingThatChangedStruct(Function(MeetingStruct) updateFn) {
+    updateFn(_meetingThatChanged);
+  }
+
+  List<MeetingStruct> _meetings = [
+    MeetingStruct.fromSerializableMap(jsonDecode(
+        '{\"sub\":\"Hello World\",\"col\":\"#0000\",\"start\":\"1713325789829\",\"end\":\"1713329340000\",\"id\":\"Hello World\"}')),
+    MeetingStruct.fromSerializableMap(jsonDecode(
+        '{\"sub\":\"Hello World\",\"col\":\"#ee8b60\",\"start\":\"1713325810924\",\"end\":\"1713286800000\",\"id\":\"Hello World\"}'))
+  ];
+  List<MeetingStruct> get meetings => _meetings;
+  set meetings(List<MeetingStruct> _value) {
+    _meetings = _value;
+  }
+
+  void addToMeetings(MeetingStruct _value) {
+    _meetings.add(_value);
+  }
+
+  void removeFromMeetings(MeetingStruct _value) {
+    _meetings.remove(_value);
+  }
+
+  void removeAtIndexFromMeetings(int _index) {
+    _meetings.removeAt(_index);
+  }
+
+  void updateMeetingsAtIndex(
+    int _index,
+    MeetingStruct Function(MeetingStruct) updateFn,
+  ) {
+    _meetings[_index] = updateFn(_meetings[_index]);
+  }
+
+  void insertAtIndexInMeetings(int _index, MeetingStruct _value) {
+    _meetings.insert(_index, _value);
+  }
+
+  List<GoogleMapDataStruct> _googleMapData = [
+    GoogleMapDataStruct.fromSerializableMap(jsonDecode(
+        '{\"latLng\":\"30.3126834,-89.32703149999999\",\"iconPath\":\"icon.png\",\"title\":\"lol\",\"description\":\"lol\"}')),
+    GoogleMapDataStruct.fromSerializableMap(jsonDecode(
+        '{\"latLng\":\"0.0,0.0\",\"iconPath\":\"https://picsum.photos/seed/610/600\",\"title\":\"Hello World\",\"description\":\"Hello World\"}')),
+    GoogleMapDataStruct.fromSerializableMap(jsonDecode(
+        '{\"latLng\":\"0.0,0.0\",\"iconPath\":\"https://picsum.photos/seed/522/600\",\"title\":\"Hello World\",\"description\":\"Hello World\"}'))
+  ];
+  List<GoogleMapDataStruct> get googleMapData => _googleMapData;
+  set googleMapData(List<GoogleMapDataStruct> _value) {
+    _googleMapData = _value;
+  }
+
+  void addToGoogleMapData(GoogleMapDataStruct _value) {
+    _googleMapData.add(_value);
+  }
+
+  void removeFromGoogleMapData(GoogleMapDataStruct _value) {
+    _googleMapData.remove(_value);
+  }
+
+  void removeAtIndexFromGoogleMapData(int _index) {
+    _googleMapData.removeAt(_index);
+  }
+
+  void updateGoogleMapDataAtIndex(
+    int _index,
+    GoogleMapDataStruct Function(GoogleMapDataStruct) updateFn,
+  ) {
+    _googleMapData[_index] = updateFn(_googleMapData[_index]);
+  }
+
+  void insertAtIndexInGoogleMapData(int _index, GoogleMapDataStruct _value) {
+    _googleMapData.insert(_index, _value);
+  }
+
+  BookingStruct _booked = BookingStruct();
+  BookingStruct get booked => _booked;
+  set booked(BookingStruct _value) {
+    _booked = _value;
+  }
+
+  void updateBookedStruct(Function(BookingStruct) updateFn) {
+    updateFn(_booked);
+  }
+
+  List<BookingStruct> _CURRENTBOOKINGS = [];
+  List<BookingStruct> get CURRENTBOOKINGS => _CURRENTBOOKINGS;
+  set CURRENTBOOKINGS(List<BookingStruct> _value) {
+    _CURRENTBOOKINGS = _value;
+    prefs.setStringList(
+        'ff_CURRENTBOOKINGS', _value.map((x) => x.serialize()).toList());
+  }
+
+  void addToCURRENTBOOKINGS(BookingStruct _value) {
+    _CURRENTBOOKINGS.add(_value);
+    prefs.setStringList('ff_CURRENTBOOKINGS',
+        _CURRENTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromCURRENTBOOKINGS(BookingStruct _value) {
+    _CURRENTBOOKINGS.remove(_value);
+    prefs.setStringList('ff_CURRENTBOOKINGS',
+        _CURRENTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromCURRENTBOOKINGS(int _index) {
+    _CURRENTBOOKINGS.removeAt(_index);
+    prefs.setStringList('ff_CURRENTBOOKINGS',
+        _CURRENTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void updateCURRENTBOOKINGSAtIndex(
+    int _index,
+    BookingStruct Function(BookingStruct) updateFn,
+  ) {
+    _CURRENTBOOKINGS[_index] = updateFn(_CURRENTBOOKINGS[_index]);
+    prefs.setStringList('ff_CURRENTBOOKINGS',
+        _CURRENTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInCURRENTBOOKINGS(int _index, BookingStruct _value) {
+    _CURRENTBOOKINGS.insert(_index, _value);
+    prefs.setStringList('ff_CURRENTBOOKINGS',
+        _CURRENTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  List<BookingStruct> _PASTBOOKINGS = [];
+  List<BookingStruct> get PASTBOOKINGS => _PASTBOOKINGS;
+  set PASTBOOKINGS(List<BookingStruct> _value) {
+    _PASTBOOKINGS = _value;
+    prefs.setStringList(
+        'ff_PASTBOOKINGS', _value.map((x) => x.serialize()).toList());
+  }
+
+  void addToPASTBOOKINGS(BookingStruct _value) {
+    _PASTBOOKINGS.add(_value);
+    prefs.setStringList(
+        'ff_PASTBOOKINGS', _PASTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromPASTBOOKINGS(BookingStruct _value) {
+    _PASTBOOKINGS.remove(_value);
+    prefs.setStringList(
+        'ff_PASTBOOKINGS', _PASTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromPASTBOOKINGS(int _index) {
+    _PASTBOOKINGS.removeAt(_index);
+    prefs.setStringList(
+        'ff_PASTBOOKINGS', _PASTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void updatePASTBOOKINGSAtIndex(
+    int _index,
+    BookingStruct Function(BookingStruct) updateFn,
+  ) {
+    _PASTBOOKINGS[_index] = updateFn(_PASTBOOKINGS[_index]);
+    prefs.setStringList(
+        'ff_PASTBOOKINGS', _PASTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInPASTBOOKINGS(int _index, BookingStruct _value) {
+    _PASTBOOKINGS.insert(_index, _value);
+    prefs.setStringList(
+        'ff_PASTBOOKINGS', _PASTBOOKINGS.map((x) => x.serialize()).toList());
+  }
+
+  String _link = '';
+  String get link => _link;
+  set link(String _value) {
+    _link = _value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

@@ -46,20 +46,10 @@ class CartsRecord extends FirestoreRecord {
   LatLng? get cartLoc => _cartLoc;
   bool hasCartLoc() => _cartLoc != null;
 
-  // "ammenities" field.
-  List<String>? _ammenities;
-  List<String> get ammenities => _ammenities ?? const [];
-  bool hasAmmenities() => _ammenities != null;
-
   // "cartPricer" field.
   int? _cartPricer;
   int get cartPricer => _cartPricer ?? 0;
   bool hasCartPricer() => _cartPricer != null;
-
-  // "photos" field.
-  List<String>? _photos;
-  List<String> get photos => _photos ?? const [];
-  bool hasPhotos() => _photos != null;
 
   // "description" field.
   String? _description;
@@ -91,6 +81,41 @@ class CartsRecord extends FirestoreRecord {
   bool get isBooked => _isBooked ?? false;
   bool hasIsBooked() => _isBooked != null;
 
+  // "photo_url" field.
+  String? _photoUrl;
+  String get photoUrl => _photoUrl ?? '';
+  bool hasPhotoUrl() => _photoUrl != null;
+
+  // "seats" field.
+  int? _seats;
+  int get seats => _seats ?? 0;
+  bool hasSeats() => _seats != null;
+
+  // "air" field.
+  bool? _air;
+  bool get air => _air ?? false;
+  bool hasAir() => _air != null;
+
+  // "radio" field.
+  bool? _radio;
+  bool get radio => _radio ?? false;
+  bool hasRadio() => _radio != null;
+
+  // "storage" field.
+  bool? _storage;
+  bool get storage => _storage ?? false;
+  bool hasStorage() => _storage != null;
+
+  // "isElectric" field.
+  bool? _isElectric;
+  bool get isElectric => _isElectric ?? false;
+  bool hasIsElectric() => _isElectric != null;
+
+  // "upcomingBookings" field.
+  List<BookingStruct>? _upcomingBookings;
+  List<BookingStruct> get upcomingBookings => _upcomingBookings ?? const [];
+  bool hasUpcomingBookings() => _upcomingBookings != null;
+
   void _initializeFields() {
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
     _cartID = snapshotData['cartID'] as String?;
@@ -98,15 +123,23 @@ class CartsRecord extends FirestoreRecord {
     _isAvailable = snapshotData['isAvailable'] as bool?;
     _cartImage = snapshotData['cartImage'] as String?;
     _cartLoc = snapshotData['cartLoc'] as LatLng?;
-    _ammenities = getDataList(snapshotData['ammenities']);
     _cartPricer = castToType<int>(snapshotData['cartPricer']);
-    _photos = getDataList(snapshotData['photos']);
     _description = snapshotData['description'] as String?;
     _ownersName = snapshotData['ownersName'] as String?;
     _plateNumber = snapshotData['plateNumber'] as String?;
     _insuranceNumber = snapshotData['insuranceNumber'] as String?;
     _isSigned = snapshotData['isSigned'] as bool?;
     _isBooked = snapshotData['isBooked'] as bool?;
+    _photoUrl = snapshotData['photo_url'] as String?;
+    _seats = castToType<int>(snapshotData['seats']);
+    _air = snapshotData['air'] as bool?;
+    _radio = snapshotData['radio'] as bool?;
+    _storage = snapshotData['storage'] as bool?;
+    _isElectric = snapshotData['isElectric'] as bool?;
+    _upcomingBookings = getStructList(
+      snapshotData['upcomingBookings'],
+      BookingStruct.fromMap,
+    );
   }
 
   static CollectionReference get collection =>
@@ -156,6 +189,12 @@ Map<String, dynamic> createCartsRecordData({
   String? insuranceNumber,
   bool? isSigned,
   bool? isBooked,
+  String? photoUrl,
+  int? seats,
+  bool? air,
+  bool? radio,
+  bool? storage,
+  bool? isElectric,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -172,6 +211,12 @@ Map<String, dynamic> createCartsRecordData({
       'insuranceNumber': insuranceNumber,
       'isSigned': isSigned,
       'isBooked': isBooked,
+      'photo_url': photoUrl,
+      'seats': seats,
+      'air': air,
+      'radio': radio,
+      'storage': storage,
+      'isElectric': isElectric,
     }.withoutNulls,
   );
 
@@ -190,15 +235,20 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e1?.isAvailable == e2?.isAvailable &&
         e1?.cartImage == e2?.cartImage &&
         e1?.cartLoc == e2?.cartLoc &&
-        listEquality.equals(e1?.ammenities, e2?.ammenities) &&
         e1?.cartPricer == e2?.cartPricer &&
-        listEquality.equals(e1?.photos, e2?.photos) &&
         e1?.description == e2?.description &&
         e1?.ownersName == e2?.ownersName &&
         e1?.plateNumber == e2?.plateNumber &&
         e1?.insuranceNumber == e2?.insuranceNumber &&
         e1?.isSigned == e2?.isSigned &&
-        e1?.isBooked == e2?.isBooked;
+        e1?.isBooked == e2?.isBooked &&
+        e1?.photoUrl == e2?.photoUrl &&
+        e1?.seats == e2?.seats &&
+        e1?.air == e2?.air &&
+        e1?.radio == e2?.radio &&
+        e1?.storage == e2?.storage &&
+        e1?.isElectric == e2?.isElectric &&
+        listEquality.equals(e1?.upcomingBookings, e2?.upcomingBookings);
   }
 
   @override
@@ -209,15 +259,20 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e?.isAvailable,
         e?.cartImage,
         e?.cartLoc,
-        e?.ammenities,
         e?.cartPricer,
-        e?.photos,
         e?.description,
         e?.ownersName,
         e?.plateNumber,
         e?.insuranceNumber,
         e?.isSigned,
-        e?.isBooked
+        e?.isBooked,
+        e?.photoUrl,
+        e?.seats,
+        e?.air,
+        e?.radio,
+        e?.storage,
+        e?.isElectric,
+        e?.upcomingBookings
       ]);
 
   @override

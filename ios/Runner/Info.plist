@@ -37,7 +37,7 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>cartrabbit.com</string>
+        <string>cart-rabbit.com</string>
         <key>CFBundleURLSchemes</key>
         <array>
         <string>cartrabbit</string>
@@ -52,15 +52,24 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>In order to search nearby, this app requires access to your current location.</string>
+    <string>cool</string>
 	<key>NSCameraUsageDescription</key>
-    <string>In order to scan for barcodes and QR codes, this app requires permission to access the camera.</string>
+    <string>cool</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>In order to upload data, this app requires permission to access the photo library.</string>
+    <string>cool</string>
 	<key>PermissionGroupNotification</key>
     <string>hii iji</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+    <string>need bluetooth</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
 
 
 	<key>UILaunchStoryboardName</key>

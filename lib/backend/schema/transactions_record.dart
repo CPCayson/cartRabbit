@@ -31,22 +31,22 @@ class TransactionsRecord extends FirestoreRecord {
   double get total => _total ?? 0.0;
   bool hasTotal() => _total != null;
 
-  // "balanceInt" field.
-  int? _balanceInt;
-  int get balanceInt => _balanceInt ?? 0;
-  bool hasBalanceInt() => _balanceInt != null;
+  // "buyer_ref" field.
+  DocumentReference? _buyerRef;
+  DocumentReference? get buyerRef => _buyerRef;
+  bool hasBuyerRef() => _buyerRef != null;
 
-  // "totalInt" field.
-  int? _totalInt;
-  int get totalInt => _totalInt ?? 0;
-  bool hasTotalInt() => _totalInt != null;
+  // "stripe_session_id" field.
+  String? _stripeSessionId;
+  String get stripeSessionId => _stripeSessionId ?? '';
+  bool hasStripeSessionId() => _stripeSessionId != null;
 
   void _initializeFields() {
     _userId = snapshotData['userId'] as DocumentReference?;
     _balance = castToType<double>(snapshotData['balance']);
     _total = castToType<double>(snapshotData['total']);
-    _balanceInt = castToType<int>(snapshotData['balanceInt']);
-    _totalInt = castToType<int>(snapshotData['totalInt']);
+    _buyerRef = snapshotData['buyer_ref'] as DocumentReference?;
+    _stripeSessionId = snapshotData['stripe_session_id'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -87,16 +87,16 @@ Map<String, dynamic> createTransactionsRecordData({
   DocumentReference? userId,
   double? balance,
   double? total,
-  int? balanceInt,
-  int? totalInt,
+  DocumentReference? buyerRef,
+  String? stripeSessionId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'userId': userId,
       'balance': balance,
       'total': total,
-      'balanceInt': balanceInt,
-      'totalInt': totalInt,
+      'buyer_ref': buyerRef,
+      'stripe_session_id': stripeSessionId,
     }.withoutNulls,
   );
 
@@ -112,13 +112,13 @@ class TransactionsRecordDocumentEquality
     return e1?.userId == e2?.userId &&
         e1?.balance == e2?.balance &&
         e1?.total == e2?.total &&
-        e1?.balanceInt == e2?.balanceInt &&
-        e1?.totalInt == e2?.totalInt;
+        e1?.buyerRef == e2?.buyerRef &&
+        e1?.stripeSessionId == e2?.stripeSessionId;
   }
 
   @override
   int hash(TransactionsRecord? e) => const ListEquality()
-      .hash([e?.userId, e?.balance, e?.total, e?.balanceInt, e?.totalInt]);
+      .hash([e?.userId, e?.balance, e?.total, e?.buyerRef, e?.stripeSessionId]);
 
   @override
   bool isValidKey(Object? o) => o is TransactionsRecord;
