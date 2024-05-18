@@ -27,3 +27,11 @@ export '/notyetneeded/user_dash_copy/user_dash_copy_widget.dart'
 export '/dashes/user_dash/user_dash_copy2/user_dash_copy2_widget.dart'
     show UserDashCopy2Widget;
 export '/stripe/stripe_widget.dart' show StripeWidget;
+export '/calander/calander_widget.dart' show CalanderWidget;
+export '/select_destination_page/select_destination_page_widget.dart'
+    show SelectDestinationPageWidget;
+export '/wallet/wallet_widget.dart' show WalletWidget;
+export '/hostermain/hostermain_widget.dart' show HostermainWidget;
+export '/dfghjkl/dfghjkl_widget.dart' show DfghjklWidget;
+export '/mapgs/mapgs_widget.dart' show MapgsWidget;
+export '/multiple_addy/multiple_addy_widget.dart' show MultipleAddyWidget;

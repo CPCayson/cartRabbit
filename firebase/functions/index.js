@@ -10,58 +10,55 @@ const firestore = admin.firestore();
 
 const kPushNotificationRuntimeOpts = {
   timeoutSeconds: 540,
-  memory: "2GB",
+  memory: "2GB"
 };
 
-exports.addFcmToken = functions
-  .region("us-central1")
-  .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      return "Failed: Unauthenticated calls are not allowed.";
+exports.addFcmToken = functions.region("us-central1").https.onCall(async (data, context) => {
+  if (!context.auth) {
+    return "Failed: Unauthenticated calls are not allowed.";
+  }
+  const userDocPath = data.userDocPath;
+  const fcmToken = data.fcmToken;
+  const deviceType = data.deviceType;
+  if (
+    typeof userDocPath === "undefined" ||
+    typeof fcmToken === "undefined" ||
+    typeof deviceType === "undefined" ||
+    userDocPath.split("/").length <= 1 ||
+    fcmToken.length === 0 ||
+    deviceType.length === 0
+  ) {
+    return "Invalid arguments encoutered when adding FCM token.";
+  }
+  if (context.auth.uid != userDocPath.split("/")[1]) {
+    return "Failed: Authenticated user doesn't match user provided.";
+  }
+  const existingTokens = await firestore
+    .collectionGroup(kFcmTokensCollection)
+    .where("fcm_token", "==", fcmToken)
+    .get();
+  var userAlreadyHasToken = false;
+  for (var doc of existingTokens.docs) {
+    const user = doc.ref.parent.parent;
+    if (user.path != userDocPath) {
+      // Should never have the same FCM token associated with multiple users.
+      await doc.ref.delete();
+    } else {
+      userAlreadyHasToken = true;
     }
-    const userDocPath = data.userDocPath;
-    const fcmToken = data.fcmToken;
-    const deviceType = data.deviceType;
-    if (
-      typeof userDocPath === "undefined" ||
-      typeof fcmToken === "undefined" ||
-      typeof deviceType === "undefined" ||
-      userDocPath.split("/").length <= 1 ||
-      fcmToken.length === 0 ||
-      deviceType.length === 0
-    ) {
-      return "Invalid arguments encoutered when adding FCM token.";
-    }
-    if (context.auth.uid != userDocPath.split("/")[1]) {
-      return "Failed: Authenticated user doesn't match user provided.";
-    }
-    const existingTokens = await firestore
-      .collectionGroup(kFcmTokensCollection)
-      .where("fcm_token", "==", fcmToken)
-      .get();
-    var userAlreadyHasToken = false;
-    for (var doc of existingTokens.docs) {
-      const user = doc.ref.parent.parent;
-      if (user.path != userDocPath) {
-        // Should never have the same FCM token associated with multiple users.
-        await doc.ref.delete();
-      } else {
-        userAlreadyHasToken = true;
-      }
-    }
-    if (userAlreadyHasToken) {
-      return "FCM token already exists for this user. Ignoring...";
-    }
-    await getUserFcmTokensCollection(userDocPath).doc().set({
-      fcm_token: fcmToken,
-      device_type: deviceType,
-      created_at: admin.firestore.FieldValue.serverTimestamp(),
-    });
-    return "Successfully added FCM token!";
+  }
+  if (userAlreadyHasToken) {
+    return "FCM token already exists for this user. Ignoring...";
+  }
+  await getUserFcmTokensCollection(userDocPath).doc().set({
+    fcm_token: fcmToken,
+    device_type: deviceType,
+    created_at: admin.firestore.FieldValue.serverTimestamp(),
   });
+  return "Successfully added FCM token!";
+});
 
-exports.sendPushNotificationsTrigger = functions
-  .region("us-central1")
+exports.sendPushNotificationsTrigger = functions.region("us-central1")
   .runWith(kPushNotificationRuntimeOpts)
   .firestore.document(`${kPushNotificationsCollection}/{id}`)
   .onCreate(async (snapshot, _) => {
@@ -79,32 +76,32 @@ exports.sendPushNotificationsTrigger = functions
     }
   });
 
-exports.sendUserPushNotificationsTrigger = functions
-  .region("us-central1")
-  .runWith(kPushNotificationRuntimeOpts)
-  .firestore.document(`${kUserPushNotificationsCollection}/{id}`)
-  .onCreate(async (snapshot, _) => {
-    try {
-      // Ignore scheduled push notifications on create
-      const scheduledTime = snapshot.data().scheduled_time || "";
-      if (scheduledTime) {
-        return;
-      }
-
-      // Don't let user-triggered notifications to be sent to all users.
-      const userRefsStr = snapshot.data().user_refs || "";
-      if (userRefsStr) {
-        await sendPushNotifications(snapshot);
-      }
-    } catch (e) {
-      console.log(`Error: ${e}`);
-      await snapshot.ref.update({ status: "failed", error: `${e}` });
+exports.sendUserPushNotificationsTrigger = functions.region("us-central1")
+.runWith(kPushNotificationRuntimeOpts)
+.firestore.document(`${kUserPushNotificationsCollection}/{id}`)
+.onCreate(async (snapshot, _) => {
+  try {
+    // Ignore scheduled push notifications on create
+    const scheduledTime = snapshot.data().scheduled_time || "";
+    if (scheduledTime) {
+      return;
     }
-  });
 
-exports.sendScheduledPushNotifications = functions
-  .region("us-central1")
-  .pubsub.schedule(`every ${kSchedulerIntervalMinutes} minutes synchronized`)
+    // Don't let user-triggered notifications to be sent to all users.
+    const userRefsStr = snapshot.data().user_refs || "";
+    if (userRefsStr) {
+      await sendPushNotifications(snapshot);
+    }
+  } catch (e) {
+    console.log(`Error: ${e}`);
+    await snapshot.ref.update({ status: "failed", error: `${e}` });
+  }
+});
+
+
+
+exports.sendScheduledPushNotifications = functions.region("us-central1").pubsub
+  .schedule(`every ${kSchedulerIntervalMinutes} minutes synchronized`)
   .onRun(async (_) => {
     const minutesToMilliseconds = (minutes) => minutes * 60 * 1000;
     function currentTimeDownToNearestMinute() {
@@ -151,7 +148,9 @@ exports.sendScheduledPushNotifications = functions
         await snapshot.ref.update({ status: "failed", error: `${e}` });
       }
     }
+
   });
+
 
 async function sendPushNotifications(snapshot) {
   const notificationData = snapshot.data();
@@ -224,7 +223,7 @@ async function sendPushNotifications(snapshot) {
       },
       data: {
         initialPageName,
-        parameterData,
+        parameterData
       },
       android: {
         notification: {
@@ -248,7 +247,7 @@ async function sendPushNotifications(snapshot) {
     messageBatches.map(async (messages) => {
       const response = await admin.messaging().sendMulticast(messages);
       numSent += response.successCount;
-    }),
+    })
   );
 
   await snapshot.ref.update({ status: "succeeded", num_sent: numSent });
@@ -289,8 +288,7 @@ const stripeModule = require("stripe");
 
 // Credentials
 const kStripeProdSecretKey = "";
-const kStripeTestSecretKey =
-  "sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm";
+const kStripeTestSecretKey = "sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm";
 
 const secretKey = (isProd) =>
   isProd ? kStripeProdSecretKey : kStripeTestSecretKey;
@@ -298,26 +296,24 @@ const secretKey = (isProd) =>
 /**
  *
  */
-exports.initStripePayment = functions
-  .region("us-central1")
-  .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      return "Unauthenticated calls are not allowed.";
-    }
-    return await initPayment(data, true);
-  });
+exports.initStripePayment = functions.region("us-central1").https.onCall(async (data, context) => {
+  if (!context.auth) {
+    return "Unauthenticated calls are not allowed.";
+  }
+  return await initPayment(data, true);
+});
 
 /**
  *
  */
-exports.initStripeTestPayment = functions
-  .region("us-central1")
-  .https.onCall(async (data, context) => {
+exports.initStripeTestPayment = functions.region("us-central1").https.onCall(
+  async (data, context) => {
     if (!context.auth) {
       return "Unauthenticated calls are not allowed.";
     }
     return await initPayment(data, false);
-  });
+  }
+);
 
 async function initPayment(data, isProd) {
   try {
@@ -339,7 +335,7 @@ async function initPayment(data, isProd) {
 
     const ephemeralKey = await stripe.ephemeralKeys.create(
       { customer: customer.id },
-      { apiVersion: "2020-08-27" },
+      { apiVersion: "2020-08-27" }
     );
     const paymentIntent = await stripe.paymentIntents.create({
       amount: data.amount,
@@ -369,10 +365,22 @@ function userFacingMessage(error) {
     ? error.message
     : "An error occurred, developers have been alerted";
 }
-exports.onUserDeleted = functions
-  .region("us-central1")
-  .auth.user()
-  .onDelete(async (user) => {
-    let firestore = admin.firestore();
-    let userRef = firestore.doc("users/" + user.uid);
+exports.onUserDeleted = functions.region("us-central1").auth.user().onDelete(async (user) => {
+  let firestore = admin.firestore();
+  let userRef = firestore.doc('users/' + user.uid);
+  await firestore.collection("payments").where("hostRef", "==", userRef).get().then(async (querySnapshot) => {
+    for (var doc of querySnapshot.docs) {
+            console.log(`Deleting document ${doc.id} from collection payments`);
+      await doc.ref.delete();
+
+    };
   });
+  await firestore.collection("Carts").where("hostRef", "==", userRef).get().then(async (querySnapshot) => {
+    for (var doc of querySnapshot.docs) {
+            console.log(`Deleting document ${doc.id} from collection Carts`);
+      await doc.ref.delete();
+
+    };
+  });
+  await firestore.collection("users").doc(user.uid).delete();
+});

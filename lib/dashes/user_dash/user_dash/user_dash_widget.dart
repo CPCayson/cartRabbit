@@ -13,6 +13,7 @@ import '/flutter_flow/lat_lng.dart';
 import '/notyetneeded/scan_cart_button/scan_cart_button_widget.dart';
 import '/notyetneeded/waiting/waiting_widget.dart';
 import '/pages/auth/authorization/authorization_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:aligned_tooltip/aligned_tooltip.dart';
 import 'package:mapbox_search/mapbox_search.dart' as mapbox;
@@ -172,7 +173,11 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  context.pushNamed('cartslist');
+                                  await actions.createConnectAccount(
+                                    'cpcays@gmail.com',
+                                  );
+                                  await launchURL(
+                                      'https://cartrabbitride.flutterflow.app/');
                                 },
                                 child: AutoSizeText(
                                   'cartRABBIT',
@@ -371,511 +376,490 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                                                   0.0, 1.0),
                                               child: Stack(
                                                 children: [
-                                                  InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      if (loggedIn) {
-                                                        await showModalBottomSheet(
-                                                          isScrollControlled:
-                                                              true,
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                          enableDrag: false,
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return GestureDetector(
-                                                              onTap: () => _model
-                                                                      .unfocusNode
-                                                                      .canRequestFocus
-                                                                  ? FocusScope.of(
-                                                                          context)
-                                                                      .requestFocus(
-                                                                          _model
-                                                                              .unfocusNode)
-                                                                  : FocusScope.of(
-                                                                          context)
-                                                                      .unfocus(),
-                                                              child: Padding(
-                                                                padding: MediaQuery
-                                                                    .viewInsetsOf(
-                                                                        context),
-                                                                child:
-                                                                    CheckoutWidget(
-                                                                  cartID:
-                                                                      cartsIndex,
-                                                                  cartRef:
-                                                                      cartsCartsRecord
-                                                                          .reference,
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                        ).then((value) =>
-                                                            safeSetState(
-                                                                () {}));
-                                                      } else {
-                                                        await showModalBottomSheet(
-                                                          isScrollControlled:
-                                                              true,
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                          enableDrag: false,
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return GestureDetector(
-                                                              onTap: () => _model
-                                                                      .unfocusNode
-                                                                      .canRequestFocus
-                                                                  ? FocusScope.of(
-                                                                          context)
-                                                                      .requestFocus(
-                                                                          _model
-                                                                              .unfocusNode)
-                                                                  : FocusScope.of(
-                                                                          context)
-                                                                      .unfocus(),
-                                                              child: Padding(
-                                                                padding: MediaQuery
-                                                                    .viewInsetsOf(
-                                                                        context),
-                                                                child:
-                                                                    AuthorizationWidget(),
-                                                              ),
-                                                            );
-                                                          },
-                                                        ).then((value) =>
-                                                            safeSetState(
-                                                                () {}));
-                                                      }
-                                                    },
-                                                    child: Stack(
-                                                      children: [
-                                                        Align(
-                                                          alignment:
-                                                              AlignmentDirectional(
-                                                                  0.0, 0.0),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    12.0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Align(
-                                                                  alignment:
-                                                                      AlignmentDirectional(
-                                                                          -1.0,
-                                                                          -1.0),
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .min,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      if ((cartsCartsRecord.isAvailable ==
-                                                                              true) &&
-                                                                          (cartsCartsRecord.isBooked ==
-                                                                              false))
-                                                                        Align(
-                                                                          alignment: AlignmentDirectional(
-                                                                              -1.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              AlignedTooltip(
-                                                                            content:
-                                                                                Padding(
-                                                                              padding: EdgeInsets.all(4.0),
-                                                                              child: Text(
-                                                                                'Available',
-                                                                                style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                                                                      fontFamily: 'Poppins',
-                                                                                      letterSpacing: 0.0,
-                                                                                    ),
-                                                                              ),
-                                                                            ),
-                                                                            offset:
-                                                                                4.0,
-                                                                            preferredDirection:
-                                                                                AxisDirection.left,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(8.0),
-                                                                            backgroundColor:
-                                                                                FlutterFlowTheme.of(context).secondaryBackground,
-                                                                            elevation:
-                                                                                4.0,
-                                                                            tailBaseWidth:
-                                                                                24.0,
-                                                                            tailLength:
-                                                                                12.0,
-                                                                            waitDuration:
-                                                                                Duration(milliseconds: 100),
-                                                                            showDuration:
-                                                                                Duration(milliseconds: 1500),
-                                                                            triggerMode:
-                                                                                TooltipTriggerMode.tap,
-                                                                            child:
-                                                                                Column(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Padding(
-                                                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
-                                                                                  child: Container(
-                                                                                    width: 25.0,
-                                                                                    height: 25.0,
-                                                                                    decoration: BoxDecoration(
-                                                                                      color: FlutterFlowTheme.of(context).secondary,
-                                                                                      boxShadow: [
-                                                                                        BoxShadow(
-                                                                                          blurRadius: 4.0,
-                                                                                          color: FlutterFlowTheme.of(context).primaryText,
-                                                                                          offset: Offset(
-                                                                                            0.0,
-                                                                                            2.0,
-                                                                                          ),
-                                                                                          spreadRadius: 2.0,
-                                                                                        )
-                                                                                      ],
-                                                                                      shape: BoxShape.circle,
-                                                                                      border: Border.all(
-                                                                                        color: FlutterFlowTheme.of(context).tertiary,
-                                                                                      ),
-                                                                                    ),
-                                                                                    alignment: AlignmentDirectional(1.0, -1.0),
-                                                                                  ),
-                                                                                ),
-                                                                                Align(
-                                                                                  alignment: AlignmentDirectional(-1.0, 0.0),
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 15.0, 10.0),
-                                                                                    child: Text(
-                                                                                      'online',
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Urbanist',
-                                                                                            color: FlutterFlowTheme.of(context).turquoise,
-                                                                                            letterSpacing: 0.0,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      if ((cartsCartsRecord.isAvailable ==
-                                                                              false) &&
-                                                                          (cartsCartsRecord.isBooked ==
-                                                                              false))
-                                                                        Align(
-                                                                          alignment: AlignmentDirectional(
-                                                                              1.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              AlignedTooltip(
-                                                                            content:
-                                                                                Padding(
-                                                                              padding: EdgeInsets.all(4.0),
-                                                                              child: Text(
-                                                                                'Booked',
-                                                                                textAlign: TextAlign.end,
-                                                                                style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                                                                      fontFamily: 'Poppins',
-                                                                                      letterSpacing: 0.0,
-                                                                                    ),
-                                                                              ),
-                                                                            ),
-                                                                            offset:
-                                                                                4.0,
-                                                                            preferredDirection:
-                                                                                AxisDirection.left,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(8.0),
-                                                                            backgroundColor:
-                                                                                FlutterFlowTheme.of(context).secondaryBackground,
-                                                                            elevation:
-                                                                                4.0,
-                                                                            tailBaseWidth:
-                                                                                24.0,
-                                                                            tailLength:
-                                                                                12.0,
-                                                                            waitDuration:
-                                                                                Duration(milliseconds: 100),
-                                                                            showDuration:
-                                                                                Duration(milliseconds: 1500),
-                                                                            triggerMode:
-                                                                                TooltipTriggerMode.tap,
-                                                                            child:
-                                                                                Column(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              children: [
-                                                                                Padding(
-                                                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
-                                                                                  child: Container(
-                                                                                    width: 25.0,
-                                                                                    height: 25.0,
-                                                                                    decoration: BoxDecoration(
-                                                                                      color: FlutterFlowTheme.of(context).error,
-                                                                                      boxShadow: [
-                                                                                        BoxShadow(
-                                                                                          blurRadius: 4.0,
-                                                                                          color: FlutterFlowTheme.of(context).primaryText,
-                                                                                          offset: Offset(
-                                                                                            0.0,
-                                                                                            2.0,
-                                                                                          ),
-                                                                                          spreadRadius: 2.0,
-                                                                                        )
-                                                                                      ],
-                                                                                      shape: BoxShape.circle,
-                                                                                      border: Border.all(
-                                                                                        color: FlutterFlowTheme.of(context).tertiary,
-                                                                                      ),
-                                                                                    ),
-                                                                                    alignment: AlignmentDirectional(1.0, -1.0),
-                                                                                  ),
-                                                                                ),
-                                                                                Align(
-                                                                                  alignment: AlignmentDirectional(-1.0, 0.0),
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 15.0, 10.0),
-                                                                                    child: Text(
-                                                                                      'offline',
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Urbanist',
-                                                                                            color: FlutterFlowTheme.of(context).turquoise,
-                                                                                            letterSpacing: 0.0,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      if ((cartsCartsRecord.isBooked ==
-                                                                              true) &&
-                                                                          (cartsCartsRecord.isAvailable ==
-                                                                              false))
-                                                                        Align(
-                                                                          alignment: AlignmentDirectional(
-                                                                              1.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              AlignedTooltip(
-                                                                            content:
-                                                                                Padding(
-                                                                              padding: EdgeInsets.all(4.0),
-                                                                              child: Text(
-                                                                                'Offline',
-                                                                                textAlign: TextAlign.end,
-                                                                                style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                                                                      fontFamily: 'Poppins',
-                                                                                      letterSpacing: 0.0,
-                                                                                    ),
-                                                                              ),
-                                                                            ),
-                                                                            offset:
-                                                                                4.0,
-                                                                            preferredDirection:
-                                                                                AxisDirection.left,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(8.0),
-                                                                            backgroundColor:
-                                                                                FlutterFlowTheme.of(context).secondaryBackground,
-                                                                            elevation:
-                                                                                4.0,
-                                                                            tailBaseWidth:
-                                                                                24.0,
-                                                                            tailLength:
-                                                                                12.0,
-                                                                            waitDuration:
-                                                                                Duration(milliseconds: 100),
-                                                                            showDuration:
-                                                                                Duration(milliseconds: 1500),
-                                                                            triggerMode:
-                                                                                TooltipTriggerMode.tap,
-                                                                            child:
-                                                                                Column(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              children: [
-                                                                                Padding(
-                                                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
-                                                                                  child: Container(
-                                                                                    width: 25.0,
-                                                                                    height: 25.0,
-                                                                                    decoration: BoxDecoration(
-                                                                                      color: FlutterFlowTheme.of(context).info,
-                                                                                      boxShadow: [
-                                                                                        BoxShadow(
-                                                                                          blurRadius: 4.0,
-                                                                                          color: FlutterFlowTheme.of(context).primaryText,
-                                                                                          offset: Offset(
-                                                                                            0.0,
-                                                                                            2.0,
-                                                                                          ),
-                                                                                          spreadRadius: 2.0,
-                                                                                        )
-                                                                                      ],
-                                                                                      shape: BoxShape.circle,
-                                                                                      border: Border.all(
-                                                                                        color: FlutterFlowTheme.of(context).tertiary,
-                                                                                      ),
-                                                                                    ),
-                                                                                    alignment: AlignmentDirectional(1.0, -1.0),
-                                                                                  ),
-                                                                                ),
-                                                                                Align(
-                                                                                  alignment: AlignmentDirectional(-1.0, 0.0),
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 15.0, 10.0),
-                                                                                    child: Text(
-                                                                                      'busy',
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Urbanist',
-                                                                                            color: FlutterFlowTheme.of(context).turquoise,
-                                                                                            letterSpacing: 0.0,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                Align(
-                                                                                  alignment: AlignmentDirectional(-1.0, -1.0),
-                                                                                  child: Text(
-                                                                                    '${formatNumber(
-                                                                                      functions.cartDist(currentUserLocationValue, cartsCartsRecord.cartLoc),
-                                                                                      formatType: FormatType.compactLong,
-                                                                                    )} feet Away  ',
-                                                                                    style: FlutterFlowTheme.of(context).labelLarge.override(
-                                                                                          fontFamily: 'Poppins',
-                                                                                          fontSize: 15.0,
-                                                                                          letterSpacing: 0.0,
-                                                                                        ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Align(
-                                                                  alignment:
-                                                                      AlignmentDirectional(
-                                                                          -0.89,
-                                                                          -0.66),
+                                                  Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            0.0, 0.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        if (loggedIn) {
+                                                          await showModalBottomSheet(
+                                                            isScrollControlled:
+                                                                true,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            enableDrag: false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return GestureDetector(
+                                                                onTap: () => _model
+                                                                        .unfocusNode
+                                                                        .canRequestFocus
+                                                                    ? FocusScope.of(
+                                                                            context)
+                                                                        .requestFocus(_model
+                                                                            .unfocusNode)
+                                                                    : FocusScope.of(
+                                                                            context)
+                                                                        .unfocus(),
+                                                                child: Padding(
+                                                                  padding: MediaQuery
+                                                                      .viewInsetsOf(
+                                                                          context),
                                                                   child:
-                                                                      FlutterFlowStaticMap(
-                                                                    location:
+                                                                      CheckoutWidget(
+                                                                    cartID:
+                                                                        cartsIndex,
+                                                                    cartRef:
                                                                         cartsCartsRecord
-                                                                            .cartLoc!,
-                                                                    apiKey:
-                                                                        'pk.eyJ1IjoiY3BjYXlzb24iLCJhIjoiY2xsc2c1NGhuMHg2djNlcWoxaGtpZnI5ciJ9.Ii17AAUzJUtFJAcvYbw5Mw',
-                                                                    style: mapbox
-                                                                        .MapBoxStyle
-                                                                        .Outdoors,
-                                                                    width:
-                                                                        150.0,
-                                                                    height:
-                                                                        100.0,
-                                                                    fit: BoxFit
-                                                                        .contain,
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .only(
-                                                                      bottomLeft:
-                                                                          Radius.circular(
-                                                                              0.0),
-                                                                      bottomRight:
-                                                                          Radius.circular(
-                                                                              0.0),
-                                                                      topLeft: Radius
-                                                                          .circular(
-                                                                              0.0),
-                                                                      topRight:
-                                                                          Radius.circular(
-                                                                              0.0),
-                                                                    ),
-                                                                    markerColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .secondary,
-                                                                    zoom: 15,
-                                                                    tilt: 60,
-                                                                    rotation: 0,
+                                                                            .reference,
                                                                   ),
                                                                 ),
-                                                              ],
+                                                              );
+                                                            },
+                                                          ).then((value) =>
+                                                              safeSetState(
+                                                                  () {}));
+                                                        } else {
+                                                          await showModalBottomSheet(
+                                                            isScrollControlled:
+                                                                true,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            enableDrag: false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return GestureDetector(
+                                                                onTap: () => _model
+                                                                        .unfocusNode
+                                                                        .canRequestFocus
+                                                                    ? FocusScope.of(
+                                                                            context)
+                                                                        .requestFocus(_model
+                                                                            .unfocusNode)
+                                                                    : FocusScope.of(
+                                                                            context)
+                                                                        .unfocus(),
+                                                                child: Padding(
+                                                                  padding: MediaQuery
+                                                                      .viewInsetsOf(
+                                                                          context),
+                                                                  child:
+                                                                      AuthorizationWidget(),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ).then((value) =>
+                                                              safeSetState(
+                                                                  () {}));
+                                                        }
+                                                      },
+                                                      child: Stack(
+                                                        children: [
+                                                          Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    0.0, 0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          12.0),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Align(
+                                                                    alignment:
+                                                                        AlignmentDirectional(
+                                                                            -1.0,
+                                                                            -1.0),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        if ((cartsCartsRecord.isAvailable ==
+                                                                                true) &&
+                                                                            (cartsCartsRecord.isBooked ==
+                                                                                false))
+                                                                          Align(
+                                                                            alignment:
+                                                                                AlignmentDirectional(-1.0, 0.0),
+                                                                            child:
+                                                                                AlignedTooltip(
+                                                                              content: Padding(
+                                                                                padding: EdgeInsets.all(4.0),
+                                                                                child: Text(
+                                                                                  'Available',
+                                                                                  style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                                                                        fontFamily: 'Poppins',
+                                                                                        letterSpacing: 0.0,
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                              offset: 4.0,
+                                                                              preferredDirection: AxisDirection.left,
+                                                                              borderRadius: BorderRadius.circular(8.0),
+                                                                              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              elevation: 4.0,
+                                                                              tailBaseWidth: 24.0,
+                                                                              tailLength: 12.0,
+                                                                              waitDuration: Duration(milliseconds: 100),
+                                                                              showDuration: Duration(milliseconds: 1500),
+                                                                              triggerMode: TooltipTriggerMode.tap,
+                                                                              child: Column(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Padding(
+                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
+                                                                                    child: Container(
+                                                                                      width: 25.0,
+                                                                                      height: 25.0,
+                                                                                      decoration: BoxDecoration(
+                                                                                        color: FlutterFlowTheme.of(context).secondary,
+                                                                                        boxShadow: [
+                                                                                          BoxShadow(
+                                                                                            blurRadius: 4.0,
+                                                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                                                            offset: Offset(
+                                                                                              0.0,
+                                                                                              2.0,
+                                                                                            ),
+                                                                                            spreadRadius: 2.0,
+                                                                                          )
+                                                                                        ],
+                                                                                        shape: BoxShape.circle,
+                                                                                        border: Border.all(
+                                                                                          color: FlutterFlowTheme.of(context).tertiary,
+                                                                                        ),
+                                                                                      ),
+                                                                                      alignment: AlignmentDirectional(1.0, -1.0),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                    child: Padding(
+                                                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 15.0, 10.0),
+                                                                                      child: Text(
+                                                                                        'online',
+                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                              fontFamily: 'Urbanist',
+                                                                                              color: FlutterFlowTheme.of(context).turquoise,
+                                                                                              letterSpacing: 0.0,
+                                                                                            ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        if ((cartsCartsRecord.isAvailable ==
+                                                                                false) &&
+                                                                            (cartsCartsRecord.isBooked ==
+                                                                                false))
+                                                                          Align(
+                                                                            alignment:
+                                                                                AlignmentDirectional(1.0, 0.0),
+                                                                            child:
+                                                                                AlignedTooltip(
+                                                                              content: Padding(
+                                                                                padding: EdgeInsets.all(4.0),
+                                                                                child: Text(
+                                                                                  'Booked',
+                                                                                  textAlign: TextAlign.end,
+                                                                                  style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                                                                        fontFamily: 'Poppins',
+                                                                                        letterSpacing: 0.0,
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                              offset: 4.0,
+                                                                              preferredDirection: AxisDirection.left,
+                                                                              borderRadius: BorderRadius.circular(8.0),
+                                                                              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              elevation: 4.0,
+                                                                              tailBaseWidth: 24.0,
+                                                                              tailLength: 12.0,
+                                                                              waitDuration: Duration(milliseconds: 100),
+                                                                              showDuration: Duration(milliseconds: 1500),
+                                                                              triggerMode: TooltipTriggerMode.tap,
+                                                                              child: Column(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                children: [
+                                                                                  Padding(
+                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
+                                                                                    child: Container(
+                                                                                      width: 25.0,
+                                                                                      height: 25.0,
+                                                                                      decoration: BoxDecoration(
+                                                                                        color: FlutterFlowTheme.of(context).error,
+                                                                                        boxShadow: [
+                                                                                          BoxShadow(
+                                                                                            blurRadius: 4.0,
+                                                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                                                            offset: Offset(
+                                                                                              0.0,
+                                                                                              2.0,
+                                                                                            ),
+                                                                                            spreadRadius: 2.0,
+                                                                                          )
+                                                                                        ],
+                                                                                        shape: BoxShape.circle,
+                                                                                        border: Border.all(
+                                                                                          color: FlutterFlowTheme.of(context).tertiary,
+                                                                                        ),
+                                                                                      ),
+                                                                                      alignment: AlignmentDirectional(1.0, -1.0),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                    child: Padding(
+                                                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 15.0, 10.0),
+                                                                                      child: Text(
+                                                                                        'offline',
+                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                              fontFamily: 'Urbanist',
+                                                                                              color: FlutterFlowTheme.of(context).turquoise,
+                                                                                              letterSpacing: 0.0,
+                                                                                            ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        if ((cartsCartsRecord.isBooked ==
+                                                                                true) &&
+                                                                            (cartsCartsRecord.isAvailable ==
+                                                                                false))
+                                                                          Align(
+                                                                            alignment:
+                                                                                AlignmentDirectional(1.0, 0.0),
+                                                                            child:
+                                                                                AlignedTooltip(
+                                                                              content: Padding(
+                                                                                padding: EdgeInsets.all(4.0),
+                                                                                child: Text(
+                                                                                  'Offline',
+                                                                                  textAlign: TextAlign.end,
+                                                                                  style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                                                                        fontFamily: 'Poppins',
+                                                                                        letterSpacing: 0.0,
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                              offset: 4.0,
+                                                                              preferredDirection: AxisDirection.left,
+                                                                              borderRadius: BorderRadius.circular(8.0),
+                                                                              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              elevation: 4.0,
+                                                                              tailBaseWidth: 24.0,
+                                                                              tailLength: 12.0,
+                                                                              waitDuration: Duration(milliseconds: 100),
+                                                                              showDuration: Duration(milliseconds: 1500),
+                                                                              triggerMode: TooltipTriggerMode.tap,
+                                                                              child: Column(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                children: [
+                                                                                  Padding(
+                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
+                                                                                    child: Container(
+                                                                                      width: 25.0,
+                                                                                      height: 25.0,
+                                                                                      decoration: BoxDecoration(
+                                                                                        color: FlutterFlowTheme.of(context).info,
+                                                                                        boxShadow: [
+                                                                                          BoxShadow(
+                                                                                            blurRadius: 4.0,
+                                                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                                                            offset: Offset(
+                                                                                              0.0,
+                                                                                              2.0,
+                                                                                            ),
+                                                                                            spreadRadius: 2.0,
+                                                                                          )
+                                                                                        ],
+                                                                                        shape: BoxShape.circle,
+                                                                                        border: Border.all(
+                                                                                          color: FlutterFlowTheme.of(context).tertiary,
+                                                                                        ),
+                                                                                      ),
+                                                                                      alignment: AlignmentDirectional(1.0, -1.0),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                    child: Padding(
+                                                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 15.0, 10.0),
+                                                                                      child: Text(
+                                                                                        'busy',
+                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                              fontFamily: 'Urbanist',
+                                                                                              color: FlutterFlowTheme.of(context).turquoise,
+                                                                                              letterSpacing: 0.0,
+                                                                                            ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(-1.0, -1.0),
+                                                                                    child: Text(
+                                                                                      '${formatNumber(
+                                                                                        functions.cartDist(currentUserLocationValue, cartsCartsRecord.cartLoc),
+                                                                                        formatType: FormatType.compactLong,
+                                                                                      )} feet Away  ',
+                                                                                      style: FlutterFlowTheme.of(context).labelLarge.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 15.0,
+                                                                                            letterSpacing: 0.0,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Align(
+                                                                    alignment:
+                                                                        AlignmentDirectional(
+                                                                            -0.89,
+                                                                            -0.66),
+                                                                    child:
+                                                                        FlutterFlowStaticMap(
+                                                                      location:
+                                                                          cartsCartsRecord
+                                                                              .cartLoc!,
+                                                                      apiKey:
+                                                                          'pk.eyJ1IjoiY3BjYXlzb24iLCJhIjoiY2xsc2c1NGhuMHg2djNlcWoxaGtpZnI5ciJ9.Ii17AAUzJUtFJAcvYbw5Mw',
+                                                                      style: mapbox
+                                                                          .MapBoxStyle
+                                                                          .Outdoors,
+                                                                      width:
+                                                                          150.0,
+                                                                      height:
+                                                                          100.0,
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .only(
+                                                                        bottomLeft:
+                                                                            Radius.circular(0.0),
+                                                                        bottomRight:
+                                                                            Radius.circular(0.0),
+                                                                        topLeft:
+                                                                            Radius.circular(0.0),
+                                                                        topRight:
+                                                                            Radius.circular(0.0),
+                                                                      ),
+                                                                      markerColor:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .secondary,
+                                                                      zoom: 15,
+                                                                      tilt: 60,
+                                                                      rotation:
+                                                                          0,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Align(
-                                                          alignment:
-                                                              AlignmentDirectional(
-                                                                  -0.12, 0.03),
-                                                          child: ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              bottomLeft: Radius
-                                                                  .circular(
-                                                                      8.0),
-                                                              bottomRight:
-                                                                  Radius
+                                                          Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    -0.12,
+                                                                    0.03),
+                                                            child: InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              onTap: () async {
+                                                                await launchURL(
+                                                                    'https://buy.stripe.com/test_28o17T5fW0g0doI001');
+                                                              },
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  bottomLeft: Radius
                                                                       .circular(
                                                                           8.0),
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                      8.0),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      8.0),
-                                                            ),
-                                                            child: Image.asset(
-                                                              'assets/images/cart.png',
-                                                              width: 157.0,
-                                                              height: 147.0,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                              alignment:
-                                                                  Alignment(0.0,
-                                                                      -1.0),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          8.0),
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          8.0),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          8.0),
+                                                                ),
+                                                                child:
+                                                                    Image.asset(
+                                                                  'assets/images/cart.png',
+                                                                  width: 157.0,
+                                                                  height: 147.0,
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                  alignment:
+                                                                      Alignment(
+                                                                          0.0,
+                                                                          -1.0),
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Align(
-                                                          alignment:
-                                                              AlignmentDirectional(
-                                                                  1.0, 0.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .double_arrow_outlined,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                            size: 50.0,
+                                                          Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    1.0, 0.0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .double_arrow_outlined,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primaryText,
+                                                              size: 50.0,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   Align(
@@ -883,169 +867,212 @@ class _UserDashWidgetState extends State<UserDashWidget> {
                                                         AlignmentDirectional(
                                                             0.43, 0.96),
                                                     child: Container(
-                                                      width: 360.0,
+                                                      width: double.infinity,
                                                       height: 100.0,
                                                       decoration: BoxDecoration(
                                                         color: Colors.black,
                                                       ),
                                                       child: Stack(
                                                         children: [
-                                                          Stack(
-                                                            children: [
-                                                              Align(
-                                                                alignment:
-                                                                    AlignmentDirectional(
-                                                                        -1.0,
-                                                                        0.0),
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: [
-                                                                    Align(
-                                                                      alignment:
-                                                                          AlignmentDirectional(
-                                                                              -1.0,
-                                                                              0.0),
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled:
+                                                                    true,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                enableDrag:
+                                                                    false,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return GestureDetector(
+                                                                    onTap: () => _model
+                                                                            .unfocusNode
+                                                                            .canRequestFocus
+                                                                        ? FocusScope.of(context).requestFocus(_model
+                                                                            .unfocusNode)
+                                                                        : FocusScope.of(context)
+                                                                            .unfocus(),
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
                                                                       child:
-                                                                          GradientText(
-                                                                        '${cartsCartsRecord.name}   '.maybeHandleOverflow(
-                                                                            maxChars:
-                                                                                15),
-                                                                        textAlign:
-                                                                            TextAlign.center,
+                                                                          CheckoutWidget(
+                                                                        cartID:
+                                                                            cartsIndex,
+                                                                        cartRef:
+                                                                            cartsCartsRecord.reference,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ).then((value) =>
+                                                                  safeSetState(
+                                                                      () {}));
+                                                            },
+                                                            child: Stack(
+                                                              children: [
+                                                                Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional(
+                                                                          -1.0,
+                                                                          0.0),
+                                                                  child: Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    children: [
+                                                                      Align(
+                                                                        alignment: AlignmentDirectional(
+                                                                            -1.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            GradientText(
+                                                                          '${cartsCartsRecord.name}   '
+                                                                              .maybeHandleOverflow(maxChars: 15),
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                fontFamily: 'Urbanist',
+                                                                                color: FlutterFlowTheme.of(context).tertiary,
+                                                                                fontSize: 15.0,
+                                                                                letterSpacing: 0.0,
+                                                                                fontWeight: FontWeight.w900,
+                                                                              ),
+                                                                          colors: [
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                            FlutterFlowTheme.of(context).secondary
+                                                                          ],
+                                                                          gradientDirection:
+                                                                              GradientDirection.ltr,
+                                                                          gradientType:
+                                                                              GradientType.linear,
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        Icons
+                                                                            .settings_outlined,
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .secondaryText,
+                                                                        size:
+                                                                            24.0,
+                                                                      ),
+                                                                      Text(
+                                                                        cartsCartsRecord
+                                                                            .seats
+                                                                            .toString(),
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyMedium
                                                                             .override(
                                                                               fontFamily: 'Urbanist',
-                                                                              color: FlutterFlowTheme.of(context).tertiary,
-                                                                              fontSize: 15.0,
                                                                               letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.w900,
                                                                             ),
-                                                                        colors: [
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondary
-                                                                        ],
-                                                                        gradientDirection:
-                                                                            GradientDirection.ltr,
-                                                                        gradientType:
-                                                                            GradientType.linear,
                                                                       ),
-                                                                    ),
-                                                                    Icon(
-                                                                      Icons
-                                                                          .settings_outlined,
-                                                                      color: FlutterFlowTheme.of(
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional(
+                                                                          0.69,
+                                                                          -0.44),
+                                                                  child:
+                                                                      GradientText(
+                                                                    '150/day',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Urbanist',
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).tertiary,
+                                                                          fontSize:
+                                                                              15.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w900,
+                                                                        ),
+                                                                    colors: [
+                                                                      FlutterFlowTheme.of(
                                                                               context)
-                                                                          .secondaryText,
-                                                                      size:
-                                                                          24.0,
-                                                                    ),
-                                                                    Text(
-                                                                      cartsCartsRecord
-                                                                          .seats
-                                                                          .toString(),
-                                                                      style: FlutterFlowTheme.of(
+                                                                          .primary,
+                                                                      FlutterFlowTheme.of(
                                                                               context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Urbanist',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
+                                                                          .secondary
+                                                                    ],
+                                                                    gradientDirection:
+                                                                        GradientDirection
+                                                                            .ltr,
+                                                                    gradientType:
+                                                                        GradientType
+                                                                            .linear,
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    AlignmentDirectional(
-                                                                        0.69,
-                                                                        -0.44),
-                                                                child:
-                                                                    GradientText(
-                                                                  '150/day',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Urbanist',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .tertiary,
-                                                                        fontSize:
-                                                                            15.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.w900,
-                                                                      ),
-                                                                  colors: [
-                                                                    FlutterFlowTheme.of(
+                                                                Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional(
+                                                                          0.73,
+                                                                          0.07),
+                                                                  child:
+                                                                      GradientText(
+                                                                    '62/hr',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .primary,
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondary
-                                                                  ],
-                                                                  gradientDirection:
-                                                                      GradientDirection
-                                                                          .ltr,
-                                                                  gradientType:
-                                                                      GradientType
-                                                                          .linear,
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Urbanist',
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).tertiary,
+                                                                          fontSize:
+                                                                              15.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w900,
+                                                                        ),
+                                                                    colors: [
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .secondary
+                                                                    ],
+                                                                    gradientDirection:
+                                                                        GradientDirection
+                                                                            .ltr,
+                                                                    gradientType:
+                                                                        GradientType
+                                                                            .linear,
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    AlignmentDirectional(
-                                                                        0.73,
-                                                                        0.07),
-                                                                child:
-                                                                    GradientText(
-                                                                  '62/hr',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Urbanist',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .tertiary,
-                                                                        fontSize:
-                                                                            15.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.w900,
-                                                                      ),
-                                                                  colors: [
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondary
-                                                                  ],
-                                                                  gradientDirection:
-                                                                      GradientDirection
-                                                                          .ltr,
-                                                                  gradientType:
-                                                                      GradientType
-                                                                          .linear,
-                                                                ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
                                                           Align(
                                                             alignment:

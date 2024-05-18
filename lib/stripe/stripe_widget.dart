@@ -166,13 +166,11 @@ class _StripeWidgetState extends State<StripeWidget> {
                     FFButtonWidget(
                       onPressed: () async {
                         _model.apiResultane = await AuthorizationGroup
-                            .stripePaymentLinkMadeByBluprycomNocodeMarketplaceCustomTemplateAndSupportCall
+                            .stripePaymentLinksCall
                             .call();
                         if ((_model.apiResultane?.succeeded ?? true)) {
-                          await launchURL(getJsonField(
-                            (_model.apiResultane?.jsonBody ?? ''),
-                            r'''$.url''',
-                          ).toString());
+                          await launchURL(
+                              'https://buy.stripe.com/test_28o17T5fW0g0doI001');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

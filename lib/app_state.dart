@@ -4,6 +4,7 @@ import '/backend/schema/structs/index.dart';
 import 'backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'dart:convert';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -699,6 +700,35 @@ class FFAppState extends ChangeNotifier {
   String get link => _link;
   set link(String _value) {
     _link = _value;
+  }
+
+  List<dynamic> _origin = [];
+  List<dynamic> get origin => _origin;
+  set origin(List<dynamic> _value) {
+    _origin = _value;
+  }
+
+  void addToOrigin(dynamic _value) {
+    _origin.add(_value);
+  }
+
+  void removeFromOrigin(dynamic _value) {
+    _origin.remove(_value);
+  }
+
+  void removeAtIndexFromOrigin(int _index) {
+    _origin.removeAt(_index);
+  }
+
+  void updateOriginAtIndex(
+    int _index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _origin[_index] = updateFn(_origin[_index]);
+  }
+
+  void insertAtIndexInOrigin(int _index, dynamic _value) {
+    _origin.insert(_index, _value);
   }
 }
 

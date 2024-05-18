@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/components/rabbit_profilenot_logged/rabbit_profilenot_logged_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -453,6 +454,17 @@ class _AuthorizationWidgetState extends State<AuthorizationWidget>
                                                         setState(() {});
                                                       return;
                                                     } else {
+                                                      _model.accountmade =
+                                                          await AuthorizationGroup
+                                                              .accountsCall
+                                                              .call(
+                                                        type: 'custom',
+                                                        country: 'usd',
+                                                      );
+                                                      _shouldSetState = true;
+                                                      await AuthorizationGroup
+                                                          .createAccountLinkCall
+                                                          .call();
                                                       final phoneNumberVal = _model
                                                           .phoneNumberTextController
                                                           .text;

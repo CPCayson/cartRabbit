@@ -41,12 +41,36 @@ class TransactionsRecord extends FirestoreRecord {
   String get stripeSessionId => _stripeSessionId ?? '';
   bool hasStripeSessionId() => _stripeSessionId != null;
 
+  // "stripeCustomerId" field.
+  String? _stripeCustomerId;
+  String get stripeCustomerId => _stripeCustomerId ?? '';
+  bool hasStripeCustomerId() => _stripeCustomerId != null;
+
+  // "type" field.
+  String? _type;
+  String get type => _type ?? '';
+  bool hasType() => _type != null;
+
+  // "description" field.
+  String? _description;
+  String get description => _description ?? '';
+  bool hasDescription() => _description != null;
+
+  // "createdAt" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
+
   void _initializeFields() {
     _userId = snapshotData['userId'] as DocumentReference?;
     _balance = castToType<double>(snapshotData['balance']);
     _total = castToType<double>(snapshotData['total']);
     _buyerRef = snapshotData['buyer_ref'] as DocumentReference?;
     _stripeSessionId = snapshotData['stripe_session_id'] as String?;
+    _stripeCustomerId = snapshotData['stripeCustomerId'] as String?;
+    _type = snapshotData['type'] as String?;
+    _description = snapshotData['description'] as String?;
+    _createdAt = snapshotData['createdAt'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -89,6 +113,10 @@ Map<String, dynamic> createTransactionsRecordData({
   double? total,
   DocumentReference? buyerRef,
   String? stripeSessionId,
+  String? stripeCustomerId,
+  String? type,
+  String? description,
+  DateTime? createdAt,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -97,6 +125,10 @@ Map<String, dynamic> createTransactionsRecordData({
       'total': total,
       'buyer_ref': buyerRef,
       'stripe_session_id': stripeSessionId,
+      'stripeCustomerId': stripeCustomerId,
+      'type': type,
+      'description': description,
+      'createdAt': createdAt,
     }.withoutNulls,
   );
 
@@ -113,12 +145,25 @@ class TransactionsRecordDocumentEquality
         e1?.balance == e2?.balance &&
         e1?.total == e2?.total &&
         e1?.buyerRef == e2?.buyerRef &&
-        e1?.stripeSessionId == e2?.stripeSessionId;
+        e1?.stripeSessionId == e2?.stripeSessionId &&
+        e1?.stripeCustomerId == e2?.stripeCustomerId &&
+        e1?.type == e2?.type &&
+        e1?.description == e2?.description &&
+        e1?.createdAt == e2?.createdAt;
   }
 
   @override
-  int hash(TransactionsRecord? e) => const ListEquality()
-      .hash([e?.userId, e?.balance, e?.total, e?.buyerRef, e?.stripeSessionId]);
+  int hash(TransactionsRecord? e) => const ListEquality().hash([
+        e?.userId,
+        e?.balance,
+        e?.total,
+        e?.buyerRef,
+        e?.stripeSessionId,
+        e?.stripeCustomerId,
+        e?.type,
+        e?.description,
+        e?.createdAt
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is TransactionsRecord;

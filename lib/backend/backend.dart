@@ -18,6 +18,8 @@ import 'schema/stripe_config_record.dart';
 import 'schema/orders_record.dart';
 import 'schema/place_record.dart';
 import 'schema/alluser_record.dart';
+import 'schema/tip_or_payout_record.dart';
+import 'schema/products_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -39,6 +41,8 @@ export 'schema/stripe_config_record.dart';
 export 'schema/orders_record.dart';
 export 'schema/place_record.dart';
 export 'schema/alluser_record.dart';
+export 'schema/tip_or_payout_record.dart';
+export 'schema/products_record.dart';
 
 /// Functions to query PaymentsRecords (as a Stream and as a Future).
 Future<int> queryPaymentsRecordCount({
@@ -516,6 +520,80 @@ Future<List<AlluserRecord>> queryAlluserRecordOnce({
     queryCollectionOnce(
       AlluserRecord.collection,
       AlluserRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query TipOrPayoutRecords (as a Stream and as a Future).
+Future<int> queryTipOrPayoutRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      TipOrPayoutRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<TipOrPayoutRecord>> queryTipOrPayoutRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      TipOrPayoutRecord.collection,
+      TipOrPayoutRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<TipOrPayoutRecord>> queryTipOrPayoutRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      TipOrPayoutRecord.collection,
+      TipOrPayoutRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query ProductsRecords (as a Stream and as a Future).
+Future<int> queryProductsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      ProductsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<ProductsRecord>> queryProductsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      ProductsRecord.collection,
+      ProductsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<ProductsRecord>> queryProductsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      ProductsRecord.collection,
+      ProductsRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

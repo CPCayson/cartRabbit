@@ -13,6 +13,7 @@ import '/flutter_flow/lat_lng.dart';
 import '/notyetneeded/scan_cart_button/scan_cart_button_widget.dart';
 import '/notyetneeded/waiting/waiting_widget.dart';
 import '/pages/auth/authorization/authorization_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:aligned_tooltip/aligned_tooltip.dart';
 import 'package:mapbox_search/mapbox_search.dart' as mapbox;

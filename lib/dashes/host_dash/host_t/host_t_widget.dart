@@ -857,7 +857,8 @@ class _HostTWidgetState extends State<HostTWidget>
                                                   ),
                                                   transactionsRecordReference);
                                       _model.apiResult2tc =
-                                          await AuthorizationGroup.sessionsCall
+                                          await AuthorizationGroup
+                                              .checkoutSessionsCall
                                               .call(
                                         cancelUrl: 'godaddy.com',
                                         successUrl: 'google.com',
@@ -877,14 +878,15 @@ class _HostTWidgetState extends State<HostTWidget>
                                             .update(
                                                 createTransactionsRecordData(
                                           stripeSessionId: AuthorizationGroup
-                                              .sessionsCall
+                                              .checkoutSessionsCall
                                               .id(
                                             (_model.apiResult2tc?.jsonBody ??
                                                 ''),
                                           ),
                                         ));
-                                        await launchURL(
-                                            AuthorizationGroup.sessionsCall.url(
+                                        await launchURL(AuthorizationGroup
+                                            .checkoutSessionsCall
+                                            .url(
                                           (_model.apiResult2tc?.jsonBody ?? ''),
                                         )!);
                                       } else {

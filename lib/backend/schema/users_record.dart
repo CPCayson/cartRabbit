@@ -121,6 +121,11 @@ class UsersRecord extends FirestoreRecord {
   DateTime? get birthdate => _birthdate;
   bool hasBirthdate() => _birthdate != null;
 
+  // "stripe_account_id" field.
+  String? _stripeAccountId;
+  String get stripeAccountId => _stripeAccountId ?? '';
+  bool hasStripeAccountId() => _stripeAccountId != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _photoUrl = snapshotData['photo_url'] as String?;
@@ -149,6 +154,7 @@ class UsersRecord extends FirestoreRecord {
       BookingStruct.fromMap,
     );
     _birthdate = snapshotData['birthdate'] as DateTime?;
+    _stripeAccountId = snapshotData['stripe_account_id'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -203,6 +209,7 @@ Map<String, dynamic> createUsersRecordData({
   String? stripeAccountID,
   bool? stripeChargesEnabled,
   DateTime? birthdate,
+  String? stripeAccountId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -224,6 +231,7 @@ Map<String, dynamic> createUsersRecordData({
       'stripeAccountID': stripeAccountID,
       'stripeChargesEnabled': stripeChargesEnabled,
       'birthdate': birthdate,
+      'stripe_account_id': stripeAccountId,
     }.withoutNulls,
   );
 
@@ -256,7 +264,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.stripeChargesEnabled == e2?.stripeChargesEnabled &&
         listEquality.equals(e1?.carts, e2?.carts) &&
         listEquality.equals(e1?.bookings, e2?.bookings) &&
-        e1?.birthdate == e2?.birthdate;
+        e1?.birthdate == e2?.birthdate &&
+        e1?.stripeAccountId == e2?.stripeAccountId;
   }
 
   @override
@@ -281,7 +290,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.stripeChargesEnabled,
         e?.carts,
         e?.bookings,
-        e?.birthdate
+        e?.birthdate,
+        e?.stripeAccountId
       ]);
 
   @override

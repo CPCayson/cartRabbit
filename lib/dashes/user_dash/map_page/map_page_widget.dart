@@ -1,19 +1,12 @@
 import '/backend/backend.dart';
-import '/components/map_book_widget.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/notyetneeded/scan_cart_button/scan_cart_button_widget.dart';
-import 'dart:math';
-import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,34 +22,15 @@ class MapPageWidget extends StatefulWidget {
   State<MapPageWidget> createState() => _MapPageWidgetState();
 }
 
-class _MapPageWidgetState extends State<MapPageWidget>
-    with TickerProviderStateMixin {
+class _MapPageWidgetState extends State<MapPageWidget> {
   late MapPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => MapPageModel());
-
-    animationsMap.addAll({
-      'rowOnPageLoadAnimation': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          VisibilityEffect(duration: 200.ms),
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 200.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-        ],
-      ),
-    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -110,7 +84,6 @@ class _MapPageWidgetState extends State<MapPageWidget>
                   : FocusScope.of(context).unfocus(),
               child: Scaffold(
                 key: scaffoldKey,
-                resizeToAvoidBottomInset: false,
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
                 appBar: PreferredSize(
                   preferredSize: Size.fromHeight(120.0),
@@ -615,290 +588,26 @@ class _MapPageWidgetState extends State<MapPageWidget>
                                                                   alignment:
                                                                       AlignmentDirectional(
                                                                           0.0,
-                                                                          -1.0),
-                                                                  child: StreamBuilder<
-                                                                      List<
-                                                                          CartsRecord>>(
-                                                                    stream:
-                                                                        queryCartsRecord(),
-                                                                    builder:
-                                                                        (context,
-                                                                            snapshot) {
-                                                                      // Customize what your widget looks like when it's loading.
-                                                                      if (!snapshot
-                                                                          .hasData) {
-                                                                        return Center(
-                                                                          child:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                50.0,
-                                                                            height:
-                                                                                50.0,
-                                                                            child:
-                                                                                SpinKitWave(
-                                                                              color: FlutterFlowTheme.of(context).turquoise,
-                                                                              size: 50.0,
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      }
-                                                                      List<CartsRecord>
-                                                                          googleMapCartsRecordList =
-                                                                          snapshot
-                                                                              .data!;
-                                                                      return FlutterFlowGoogleMap(
-                                                                        controller:
-                                                                            _model.googleMapsController,
-                                                                        onCameraIdle:
-                                                                            (latLng) =>
-                                                                                setState(() => _model.googleMapsCenter = latLng),
-                                                                        initialLocation: _model.googleMapsCenter ??= LatLng(
-                                                                            30.3126834,
-                                                                            -89.32703149999999),
-                                                                        markers: FFAppState()
-                                                                            .LOCALCARTS
-                                                                            .map((e) => e.cartLocation)
-                                                                            .withoutNulls
-                                                                            .toList()
-                                                                            .map(
-                                                                              (marker) => FlutterFlowMarker(
-                                                                                marker.serialize(),
-                                                                                marker,
-                                                                                () async {
-                                                                                  _model.idCart = await actions.findMarkerIndex(
-                                                                                    FFAppState().CARTS.map((e) => e.cartLocation).withoutNulls.toList(),
-                                                                                    _model.googleMapsCenter,
-                                                                                  );
-                                                                                  await showModalBottomSheet(
-                                                                                    isScrollControlled: true,
-                                                                                    backgroundColor: FlutterFlowTheme.of(context).tertiary,
-                                                                                    context: context,
-                                                                                    builder: (context) {
-                                                                                      return GestureDetector(
-                                                                                        onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
-                                                                                        child: Padding(
-                                                                                          padding: MediaQuery.viewInsetsOf(context),
-                                                                                          child: Container(
-                                                                                            height: 600.0,
-                                                                                            child: MapBookWidget(
-                                                                                              id: _model.idCart!,
-                                                                                              cartRef: googleMapCartsRecordList[_model.idCart!].reference,
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                      );
-                                                                                    },
-                                                                                  ).then((value) => safeSetState(() {}));
-
-                                                                                  setState(() {});
-                                                                                },
-                                                                              ),
-                                                                            )
-                                                                            .toList(),
-                                                                        markerColor:
-                                                                            GoogleMarkerColor.yellow,
-                                                                        markerImage:
-                                                                            MarkerImage(
-                                                                          imagePath:
-                                                                              'assets/images/Untitled-3.png',
-                                                                          isAssetImage:
-                                                                              true,
-                                                                          size: 30.0 ??
-                                                                              20,
-                                                                        ),
-                                                                        mapType:
-                                                                            MapType.normal,
-                                                                        style: GoogleMapStyle
-                                                                            .standard,
-                                                                        initialZoom:
-                                                                            15.0,
-                                                                        allowInteraction:
-                                                                            true,
-                                                                        allowZoom:
-                                                                            true,
-                                                                        showZoomControls:
-                                                                            true,
-                                                                        showLocation:
-                                                                            true,
-                                                                        showCompass:
-                                                                            true,
-                                                                        showMapToolbar:
-                                                                            true,
-                                                                        showTraffic:
-                                                                            true,
-                                                                        centerMapOnMarkerTap:
-                                                                            true,
-                                                                      );
-                                                                    },
+                                                                          0.0),
+                                                                  child:
+                                                                      Container(
+                                                                    width: MediaQuery.sizeOf(context)
+                                                                            .width *
+                                                                        5.0,
+                                                                    height:
+                                                                        1000.0,
+                                                                    child: custom_widgets
+                                                                        .CustomMapWidget(
+                                                                      width: MediaQuery.sizeOf(context)
+                                                                              .width *
+                                                                          5.0,
+                                                                      height:
+                                                                          1000.0,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ],
                                                             ),
-                                                            SingleChildScrollView(
-                                                              scrollDirection:
-                                                                  Axis.horizontal,
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          32.0,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .accent1,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        border:
-                                                                            Border.all(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primary,
-                                                                        ),
-                                                                      ),
-                                                                      child:
-                                                                          Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            0.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              8.0,
-                                                                              0.0,
-                                                                              8.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Text(
-                                                                            'cheapest',
-                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                  fontFamily: 'Urbanist',
-                                                                                  letterSpacing: 0.0,
-                                                                                ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          32.0,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .accent2,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        border:
-                                                                            Border.all(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondary,
-                                                                        ),
-                                                                      ),
-                                                                      child:
-                                                                          Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            0.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              8.0,
-                                                                              0.0,
-                                                                              8.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Text(
-                                                                            'closest',
-                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                  fontFamily: 'Urbanist',
-                                                                                  letterSpacing: 0.0,
-                                                                                ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          32.0,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .accent3,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        border:
-                                                                            Border.all(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).tertiary,
-                                                                        ),
-                                                                      ),
-                                                                      child:
-                                                                          Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            0.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              8.0,
-                                                                              0.0,
-                                                                              8.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Text(
-                                                                            '#events',
-                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                  fontFamily: 'Urbanist',
-                                                                                  letterSpacing: 0.0,
-                                                                                ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ]
-                                                                    .divide(SizedBox(
-                                                                        width:
-                                                                            8.0))
-                                                                    .addToStart(
-                                                                        SizedBox(
-                                                                            width:
-                                                                                16.0))
-                                                                    .addToEnd(
-                                                                        SizedBox(
-                                                                            width:
-                                                                                16.0)),
-                                                              ),
-                                                            ).animateOnPageLoad(
-                                                                animationsMap[
-                                                                    'rowOnPageLoadAnimation']!),
                                                           ],
                                                         ),
                                                       ),

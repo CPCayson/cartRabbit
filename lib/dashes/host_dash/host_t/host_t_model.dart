@@ -39,7 +39,7 @@ class HostTModel extends FlutterFlowModel<HostTWidget> {
   ApiCallResponse? continueOnboarding;
   // Stores action output result for [Backend Call - Create Document] action in Button widget.
   TransactionsRecord? transactionOutput;
-  // Stores action output result for [Backend Call - API (Sessions)] action in Button widget.
+  // Stores action output result for [Backend Call - API (CheckoutSessions)] action in Button widget.
   ApiCallResponse? apiResult2tc;
 
   @override

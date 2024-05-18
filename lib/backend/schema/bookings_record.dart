@@ -116,6 +116,11 @@ class BookingsRecord extends FirestoreRecord {
   UserStruct get user => _user ?? UserStruct();
   bool hasUser() => _user != null;
 
+  // "color" field.
+  Color? _color;
+  Color? get color => _color;
+  bool hasColor() => _color != null;
+
   void _initializeFields() {
     _cartRef = snapshotData['cartRef'] as DocumentReference?;
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
@@ -137,6 +142,7 @@ class BookingsRecord extends FirestoreRecord {
     _cart = CartStruct.maybeFromMap(snapshotData['cart']);
     _host = UserStruct.maybeFromMap(snapshotData['host']);
     _user = UserStruct.maybeFromMap(snapshotData['user']);
+    _color = getSchemaColor(snapshotData['color']);
   }
 
   static CollectionReference get collection =>
@@ -194,6 +200,7 @@ Map<String, dynamic> createBookingsRecordData({
   CartStruct? cart,
   UserStruct? host,
   UserStruct? user,
+  Color? color,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -217,6 +224,7 @@ Map<String, dynamic> createBookingsRecordData({
       'cart': CartStruct().toMap(),
       'host': UserStruct().toMap(),
       'user': UserStruct().toMap(),
+      'color': color,
     }.withoutNulls,
   );
 
@@ -256,7 +264,8 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
         e1?.price == e2?.price &&
         e1?.cart == e2?.cart &&
         e1?.host == e2?.host &&
-        e1?.user == e2?.user;
+        e1?.user == e2?.user &&
+        e1?.color == e2?.color;
   }
 
   @override
@@ -280,7 +289,8 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
         e?.price,
         e?.cart,
         e?.host,
-        e?.user
+        e?.user,
+        e?.color
       ]);
 
   @override

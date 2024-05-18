@@ -36,11 +36,41 @@ class PaymentsRecord extends FirestoreRecord {
   String get stripeSessionId => _stripeSessionId ?? '';
   bool hasStripeSessionId() => _stripeSessionId != null;
 
+  // "createdAt" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
+
+  // "type" field.
+  String? _type;
+  String get type => _type ?? '';
+  bool hasType() => _type != null;
+
+  // "status" field.
+  String? _status;
+  String get status => _status ?? '';
+  bool hasStatus() => _status != null;
+
+  // "paymentMethodID" field.
+  String? _paymentMethodID;
+  String get paymentMethodID => _paymentMethodID ?? '';
+  bool hasPaymentMethodID() => _paymentMethodID != null;
+
+  // "stripeCustomerId" field.
+  String? _stripeCustomerId;
+  String get stripeCustomerId => _stripeCustomerId ?? '';
+  bool hasStripeCustomerId() => _stripeCustomerId != null;
+
   void _initializeFields() {
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
     _amount = castToType<double>(snapshotData['amount']);
     _fees = castToType<double>(snapshotData['fees']);
     _stripeSessionId = snapshotData['stripe_session_id'] as String?;
+    _createdAt = snapshotData['createdAt'] as DateTime?;
+    _type = snapshotData['type'] as String?;
+    _status = snapshotData['status'] as String?;
+    _paymentMethodID = snapshotData['paymentMethodID'] as String?;
+    _stripeCustomerId = snapshotData['stripeCustomerId'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -82,6 +112,11 @@ Map<String, dynamic> createPaymentsRecordData({
   double? amount,
   double? fees,
   String? stripeSessionId,
+  DateTime? createdAt,
+  String? type,
+  String? status,
+  String? paymentMethodID,
+  String? stripeCustomerId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -89,6 +124,11 @@ Map<String, dynamic> createPaymentsRecordData({
       'amount': amount,
       'fees': fees,
       'stripe_session_id': stripeSessionId,
+      'createdAt': createdAt,
+      'type': type,
+      'status': status,
+      'paymentMethodID': paymentMethodID,
+      'stripeCustomerId': stripeCustomerId,
     }.withoutNulls,
   );
 
@@ -103,12 +143,26 @@ class PaymentsRecordDocumentEquality implements Equality<PaymentsRecord> {
     return e1?.hostRef == e2?.hostRef &&
         e1?.amount == e2?.amount &&
         e1?.fees == e2?.fees &&
-        e1?.stripeSessionId == e2?.stripeSessionId;
+        e1?.stripeSessionId == e2?.stripeSessionId &&
+        e1?.createdAt == e2?.createdAt &&
+        e1?.type == e2?.type &&
+        e1?.status == e2?.status &&
+        e1?.paymentMethodID == e2?.paymentMethodID &&
+        e1?.stripeCustomerId == e2?.stripeCustomerId;
   }
 
   @override
-  int hash(PaymentsRecord? e) => const ListEquality()
-      .hash([e?.hostRef, e?.amount, e?.fees, e?.stripeSessionId]);
+  int hash(PaymentsRecord? e) => const ListEquality().hash([
+        e?.hostRef,
+        e?.amount,
+        e?.fees,
+        e?.stripeSessionId,
+        e?.createdAt,
+        e?.type,
+        e?.status,
+        e?.paymentMethodID,
+        e?.stripeCustomerId
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is PaymentsRecord;

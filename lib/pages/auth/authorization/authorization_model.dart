@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/components/rabbit_profilenot_logged/rabbit_profilenot_logged_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -27,6 +28,8 @@ class AuthorizationModel extends FlutterFlowModel<AuthorizationWidget> {
   String? Function(BuildContext, String?)? phoneNumberTextControllerValidator;
   // Stores action output result for [Firestore Query - Query a collection] action in Icon widget.
   int? notZero;
+  // Stores action output result for [Backend Call - API (Accounts)] action in Icon widget.
+  ApiCallResponse? accountmade;
 
   @override
   void initState(BuildContext context) {}

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
@@ -22,6 +23,8 @@ import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
+export '/backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+    show generateCurrentPageLink;
 
 const kTransitionInfoKey = '__transition_info__';
 
@@ -82,8 +85,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : MapPageWidget(),
+      errorBuilder: (context, state) => _RouteErrorBuilder(
+        state: state,
+        child: appStateNotifier.loggedIn ? NavBarPage() : MapPageWidget(),
+      ),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -288,15 +293,52 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'userDashCopy2',
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'userDashCopy2')
-                  : NavBarPage(
-                      initialPage: 'userDashCopy2',
-                      page: UserDashCopy2Widget(),
-                    ),
+                  : UserDashCopy2Widget(),
             ),
             FFRoute(
               name: 'stripe',
               path: 'stripe',
               builder: (context, params) => StripeWidget(),
+            ),
+            FFRoute(
+              name: 'calander',
+              path: 'calander',
+              builder: (context, params) => CalanderWidget(),
+            ),
+            FFRoute(
+              name: 'SelectDestinationPage',
+              path: 'selectDestinationPage',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'SelectDestinationPage')
+                  : SelectDestinationPageWidget(),
+            ),
+            FFRoute(
+              name: 'wallet',
+              path: 'wallet',
+              builder: (context, params) => WalletWidget(),
+            ),
+            FFRoute(
+              name: 'hostermain',
+              path: 'hostermain',
+              builder: (context, params) => NavBarPage(
+                initialPage: '',
+                page: HostermainWidget(),
+              ),
+            ),
+            FFRoute(
+              name: 'dfghjkl',
+              path: 'dfghjkl',
+              builder: (context, params) => DfghjklWidget(),
+            ),
+            FFRoute(
+              name: 'mapgs',
+              path: 'mapgs',
+              builder: (context, params) => MapgsWidget(),
+            ),
+            FFRoute(
+              name: 'multipleAddy',
+              path: 'multipleAddy',
+              builder: (context, params) => MultipleAddyWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -539,6 +581,35 @@ class TransitionInfo {
   final Alignment? alignment;
 
   static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+}
+
+class _RouteErrorBuilder extends StatefulWidget {
+  const _RouteErrorBuilder({
+    Key? key,
+    required this.state,
+    required this.child,
+  }) : super(key: key);
+
+  final GoRouterState state;
+  final Widget child;
+
+  @override
+  State<_RouteErrorBuilder> createState() => _RouteErrorBuilderState();
+}
+
+class _RouteErrorBuilderState extends State<_RouteErrorBuilder> {
+  @override
+  void initState() {
+    super.initState();
+    // Handle erroneous links from Firebase Dynamic Links.
+    if (widget.state.uri.toString().startsWith('/link') &&
+        widget.state.uri.toString().contains('request_ip_version')) {
+      SchedulerBinding.instance.addPostFrameCallback((_) => context.go('/'));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
 
 class RootPageContext {

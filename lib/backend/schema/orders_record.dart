@@ -46,6 +46,11 @@ class OrdersRecord extends FirestoreRecord {
   List<LatLng> get driverPositions => _driverPositions ?? const [];
   bool hasDriverPositions() => _driverPositions != null;
 
+  // "payment_intent_id" field.
+  String? _paymentIntentId;
+  String get paymentIntentId => _paymentIntentId ?? '';
+  bool hasPaymentIntentId() => _paymentIntentId != null;
+
   void _initializeFields() {
     _source = snapshotData['source'] as LatLng?;
     _destination = snapshotData['destination'] as LatLng?;
@@ -53,6 +58,7 @@ class OrdersRecord extends FirestoreRecord {
     _timeLeft = snapshotData['timeLeft'] as String?;
     _name = snapshotData['name'] as String?;
     _driverPositions = getDataList(snapshotData['driverPositions']);
+    _paymentIntentId = snapshotData['payment_intent_id'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -94,6 +100,7 @@ Map<String, dynamic> createOrdersRecordData({
   String? distanceLeft,
   String? timeLeft,
   String? name,
+  String? paymentIntentId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -102,6 +109,7 @@ Map<String, dynamic> createOrdersRecordData({
       'distanceLeft': distanceLeft,
       'timeLeft': timeLeft,
       'name': name,
+      'payment_intent_id': paymentIntentId,
     }.withoutNulls,
   );
 
@@ -119,7 +127,8 @@ class OrdersRecordDocumentEquality implements Equality<OrdersRecord> {
         e1?.distanceLeft == e2?.distanceLeft &&
         e1?.timeLeft == e2?.timeLeft &&
         e1?.name == e2?.name &&
-        listEquality.equals(e1?.driverPositions, e2?.driverPositions);
+        listEquality.equals(e1?.driverPositions, e2?.driverPositions) &&
+        e1?.paymentIntentId == e2?.paymentIntentId;
   }
 
   @override
@@ -129,7 +138,8 @@ class OrdersRecordDocumentEquality implements Equality<OrdersRecord> {
         e?.distanceLeft,
         e?.timeLeft,
         e?.name,
-        e?.driverPositions
+        e?.driverPositions,
+        e?.paymentIntentId
       ]);
 
   @override

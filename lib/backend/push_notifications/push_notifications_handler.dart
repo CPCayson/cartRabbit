@@ -169,6 +169,13 @@ final parametersBuilderMap =
   'userDashCopy': ParameterData.none(),
   'userDashCopy2': ParameterData.none(),
   'stripe': ParameterData.none(),
+  'calander': ParameterData.none(),
+  'SelectDestinationPage': ParameterData.none(),
+  'wallet': ParameterData.none(),
+  'hostermain': ParameterData.none(),
+  'dfghjkl': ParameterData.none(),
+  'mapgs': ParameterData.none(),
+  'multipleAddy': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

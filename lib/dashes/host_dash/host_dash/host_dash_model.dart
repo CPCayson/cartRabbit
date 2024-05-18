@@ -1,5 +1,4 @@
 import '/auth/base_auth_user_provider.dart';
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/nav/nav_widget.dart';
 import '/components/rate_picker/rate_picker_widget.dart';

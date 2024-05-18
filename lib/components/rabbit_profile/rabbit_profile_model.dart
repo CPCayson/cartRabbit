@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'dart:math';
+import '/custom_code/actions/index.dart' as actions;
 import 'rabbit_profile_widget.dart' show RabbitProfileWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
@@ -36,6 +37,11 @@ class RabbitProfileModel extends FlutterFlowModel<RabbitProfileWidget> {
   TextEditingController? yourAgeTextController;
   final yourAgeMask = MaskTextInputFormatter(mask: '##/##/####');
   String? Function(BuildContext, String?)? yourAgeTextControllerValidator;
+  // State field(s) for birthdate widget.
+  FocusNode? birthdateFocusNode;
+  TextEditingController? birthdateTextController;
+  final birthdateMask = MaskTextInputFormatter(mask: '##/##/####');
+  String? Function(BuildContext, String?)? birthdateTextControllerValidator;
   // State field(s) for yourEmail widget.
   FocusNode? yourEmailFocusNode;
   TextEditingController? yourEmailTextController;
@@ -44,6 +50,8 @@ class RabbitProfileModel extends FlutterFlowModel<RabbitProfileWidget> {
   FocusNode? bioFocusNode;
   TextEditingController? bioTextController;
   String? Function(BuildContext, String?)? bioTextControllerValidator;
+  // Stores action output result for [Custom Action - createOrUpdateCustomer] action in Button widget.
+  String? custumerId;
 
   @override
   void initState(BuildContext context) {}
@@ -55,6 +63,9 @@ class RabbitProfileModel extends FlutterFlowModel<RabbitProfileWidget> {
 
     yourAgeFocusNode?.dispose();
     yourAgeTextController?.dispose();
+
+    birthdateFocusNode?.dispose();
+    birthdateTextController?.dispose();
 
     yourEmailFocusNode?.dispose();
     yourEmailTextController?.dispose();

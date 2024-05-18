@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'dart:math';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,10 @@ class _RabbitProfileWidgetState extends State<RabbitProfileWidget>
     _model.yourAgeTextController ??=
         TextEditingController(text: currentPhoneNumber);
     _model.yourAgeFocusNode ??= FocusNode();
+
+    _model.birthdateTextController ??= TextEditingController(
+        text: dateTimeFormat('d/M h:mm a', currentUserDocument?.birthdate));
+    _model.birthdateFocusNode ??= FocusNode();
 
     _model.yourEmailTextController ??=
         TextEditingController(text: currentUserEmail);
@@ -481,6 +486,82 @@ class _RabbitProfileWidgetState extends State<RabbitProfileWidget>
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 16.0, 16.0, 0.0),
+                        child: AuthUserStreamWidget(
+                          builder: (context) => Container(
+                            width: 500.0,
+                            child: TextFormField(
+                              controller: _model.birthdateTextController,
+                              focusNode: _model.birthdateFocusNode,
+                              autofocus: true,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                labelText: 'birthdate',
+                                labelStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      letterSpacing: 0.0,
+                                    ),
+                                hintText: '07/18/1990',
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      letterSpacing: 0.0,
+                                    ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xCD41FFEA),
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context).error,
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context).error,
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                filled: true,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 24.0, 20.0, 24.0),
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Urbanist',
+                                    letterSpacing: 0.0,
+                                  ),
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.datetime,
+                              cursorColor: FlutterFlowTheme.of(context).primary,
+                              validator: _model.birthdateTextControllerValidator
+                                  .asValidator(context),
+                              inputFormatters: [_model.birthdateMask],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 16.0, 16.0, 0.0),
                         child: Container(
                           width: 500.0,
                           child: TextFormField(
@@ -489,7 +570,7 @@ class _RabbitProfileWidgetState extends State<RabbitProfileWidget>
                             autofocus: true,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: currentUserEmail,
+                              labelText: 'Email',
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
@@ -779,8 +860,41 @@ class _RabbitProfileWidgetState extends State<RabbitProfileWidget>
                                   ),
                                 );
                               } else {
+                                _model.custumerId =
+                                    await actions.createOrUpdateCustomer(
+                                  currentUserDisplayName,
+                                  '07/18/1991',
+                                  currentUserEmail,
+                                  currentPhoneNumber,
+                                  valueOrDefault(
+                                      currentUserDocument?.shortDescription,
+                                      ''),
+                                  valueOrDefault(
+                                      currentUserDocument?.stripeAccountId, ''),
+                                );
+
+                                await currentUserReference!.update({
+                                  ...createUsersRecordData(
+                                    photoUrl: _model.uploadedFileUrl,
+                                    email: _model.yourEmailTextController.text,
+                                    shortDescription:
+                                        _model.bioTextController.text,
+                                    isHost: false,
+                                    displayName:
+                                        _model.yourNameTextController.text,
+                                    createdTime: getCurrentTimestamp,
+                                    stripeAccountId: _model.custumerId,
+                                  ),
+                                  ...mapToFirestore(
+                                    {
+                                      'birthdate': FieldValue.serverTimestamp(),
+                                    },
+                                  ),
+                                });
                                 Navigator.pop(context);
                               }
+
+                              setState(() {});
                             },
                             text: 'Save Changes',
                             options: FFButtonOptions(

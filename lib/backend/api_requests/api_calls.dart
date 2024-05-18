@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import '../schema/structs/index.dart';
 
+import 'package:flutter/foundation.dart';
+
 import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 
@@ -12,7 +14,7 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 /// Start Authorization Group Code
 
 class AuthorizationGroup {
-  static String baseUrl = 'https://api.stripe.com/v1';
+  static String getBaseUrl() => 'https://api.stripe.com/v1';
   static Map<String, String> headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
   };
@@ -22,11 +24,15 @@ class AuthorizationGroup {
       RetrieveAccountInformationCall();
   static CreateAccountSessionsCall createAccountSessionsCall =
       CreateAccountSessionsCall();
-  static SessionsCall sessionsCall = SessionsCall();
-  static StripePaymentLinkMadeByBluprycomNocodeMarketplaceCustomTemplateAndSupportCall
-      stripePaymentLinkMadeByBluprycomNocodeMarketplaceCustomTemplateAndSupportCall =
-      StripePaymentLinkMadeByBluprycomNocodeMarketplaceCustomTemplateAndSupportCall();
+  static CheckoutSessionsCall checkoutSessionsCall = CheckoutSessionsCall();
+  static StripePaymentLinksCall stripePaymentLinksCall =
+      StripePaymentLinksCall();
+  static CreateProductCall createProductCall = CreateProductCall();
+  static UpdateProductCall updateProductCall = UpdateProductCall();
   static StripeCreatePriceCall stripeCreatePriceCall = StripeCreatePriceCall();
+  static StripeUpdatePriceCall stripeUpdatePriceCall = StripeUpdatePriceCall();
+  static CustomerSessionCall customerSessionCall = CustomerSessionCall();
+  static CreatePLCall createPLCall = CreatePLCall();
 }
 
 class AccountsCall {
@@ -35,10 +41,15 @@ class AccountsCall {
     String? type = '',
     String? country = '',
     String? email = '',
+    String? payer = '',
+    bool? requested = true,
+    bool? transfers = true,
   }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'Accounts',
-      apiUrl: '${AuthorizationGroup.baseUrl}/accounts',
+      apiUrl: '${baseUrl}/accounts',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -50,6 +61,9 @@ class AccountsCall {
         'type': type,
         'country': country,
         'email': email,
+        'controller[fees][payer]': payer,
+        'capabilities[card_payments][requested]': requested,
+        'capabilities[transfers][requested]': transfers,
       },
       bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
       returnBody: true,
@@ -73,9 +87,11 @@ class CreateAccountLinkCall {
     String? refreshUrl = '',
     String? returnUrl = '',
   }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'createAccountLink',
-      apiUrl: '${AuthorizationGroup.baseUrl}/account_links',
+      apiUrl: '${baseUrl}/account_links',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -107,9 +123,11 @@ class RetrieveAccountInformationCall {
   Future<ApiCallResponse> call({
     String? accountID = '',
   }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'retrieveAccountInformation',
-      apiUrl: '${AuthorizationGroup.baseUrl}/accounts/${accountID}',
+      apiUrl: '${baseUrl}/accounts/${accountID}',
       callType: ApiCallType.GET,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -141,9 +159,11 @@ class CreateAccountSessionsCall {
     String? successUrl = '',
     String? cancelUrl = '',
   }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'createAccountSessions',
-      apiUrl: '${AuthorizationGroup.baseUrl}/account_sessions',
+      apiUrl: '${baseUrl}/account_sessions',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -169,7 +189,7 @@ class CreateAccountSessionsCall {
   }
 }
 
-class SessionsCall {
+class CheckoutSessionsCall {
   Future<ApiCallResponse> call({
     String? cancelUrl = '',
     String? successUrl = '',
@@ -181,9 +201,11 @@ class SessionsCall {
     int? applicationFeeAmount,
     String? paymentIntent = '',
   }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
-      callName: 'Sessions',
-      apiUrl: '${AuthorizationGroup.baseUrl}/checkout/sessions',
+      callName: 'CheckoutSessions',
+      apiUrl: '${baseUrl}/checkout/sessions',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -220,16 +242,17 @@ class SessionsCall {
       ));
 }
 
-class StripePaymentLinkMadeByBluprycomNocodeMarketplaceCustomTemplateAndSupportCall {
+class StripePaymentLinksCall {
   Future<ApiCallResponse> call({
     String? priceid = '',
     int? quantity,
     String? destination = '',
   }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
-      callName:
-          'stripe payment link Made by Bluprycom Nocode marketplace custom template and support',
-      apiUrl: '${AuthorizationGroup.baseUrl}/payment_links',
+      callName: 'stripe payment links',
+      apiUrl: '${baseUrl}/payment_links',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -251,21 +274,98 @@ class StripePaymentLinkMadeByBluprycomNocodeMarketplaceCustomTemplateAndSupportC
   }
 }
 
+class CreateProductCall {
+  Future<ApiCallResponse> call({
+    bool? active,
+    double? defaultPrice,
+    String? description = '',
+    List<String>? imagesList,
+    List<String>? featuresList,
+    String? name = '',
+  }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+    final images = _serializeList(imagesList);
+    final features = _serializeList(featuresList);
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'createProduct',
+      apiUrl: '${baseUrl}/products',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization':
+            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+      },
+      params: {
+        'active': active,
+        'default_price': defaultPrice,
+        'description': description,
+        'images': images,
+        'features': features,
+        'name': name,
+      },
+      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class UpdateProductCall {
+  Future<ApiCallResponse> call({
+    String? product = '',
+    double? defaultPrice,
+    String? description = '',
+    List<String>? imagesList,
+    List<String>? featuresList,
+    String? name = '',
+  }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+    final images = _serializeList(imagesList);
+    final features = _serializeList(featuresList);
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'updateProduct',
+      apiUrl: '${baseUrl}/products/${product}',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization':
+            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+      },
+      params: {
+        'default_price': defaultPrice,
+        'description': description,
+        'images': images,
+        'features': features,
+        'name': name,
+      },
+      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class StripeCreatePriceCall {
   Future<ApiCallResponse> call({
-    String? productId = '',
     int? unitAmount,
-    String? currency = '',
   }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
     final ffApiRequestBody = '''
 {
-  "product": "${productId}",
-  "unit_amount": "${unitAmount}",
-  "currency": "${currency}"
+  "unit_amount": "${unitAmount}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'stripe create price',
-      apiUrl: '${AuthorizationGroup.baseUrl}/prices',
+      apiUrl: '${baseUrl}/prices/{price}',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -284,12 +384,109 @@ class StripeCreatePriceCall {
   }
 }
 
+class StripeUpdatePriceCall {
+  Future<ApiCallResponse> call({
+    String? price = '',
+    int? unitAmount,
+  }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "unit_amount": "${unitAmount}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'stripe update price ',
+      apiUrl: '${baseUrl}/prices/${price}',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization':
+            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CustomerSessionCall {
+  Future<ApiCallResponse> call({
+    String? customer = '',
+    bool? tableEnabled = true,
+  }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'customerSession',
+      apiUrl: '${baseUrl}/customer_sessions',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization':
+            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+      },
+      params: {
+        'customer': customer,
+        'components[pricing_table][enabled]': tableEnabled,
+      },
+      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CreatePLCall {
+  Future<ApiCallResponse> call({
+    String? currency = 'usd',
+    String? productName = 'dhdhdhdhdh',
+    int? unitAmount = 3000,
+    int? quantity = 1,
+    String? customer = 'cus_4567890',
+    String? successUrl = 'yay.com',
+    String? cancelUrl = 'no.com',
+  }) async {
+    final baseUrl = AuthorizationGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'createPL',
+      apiUrl: '${baseUrl}/payment_links',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization':
+            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+      },
+      params: {
+        'line_items[0][currency]': currency,
+        'line_items[0][quantity]': quantity,
+      },
+      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 /// End Authorization Group Code
 
 /// Start ID Check Group Code
 
 class IDCheckGroup {
-  static String baseUrl = 'https://api.stripe.com/v1';
+  static String getBaseUrl() => 'https://api.stripe.com/v1';
   static Map<String, String> headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
   };
@@ -309,9 +506,11 @@ class IDCheckGroup {
 
 class VerificationSessionCall {
   Future<ApiCallResponse> call() async {
+    final baseUrl = IDCheckGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'VerificationSession',
-      apiUrl: '${IDCheckGroup.baseUrl}/v1/identity/verification_sessions',
+      apiUrl: '${baseUrl}/v1/identity/verification_sessions',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -329,9 +528,11 @@ class VerificationSessionCall {
 
 class UpdateVerificationSessionCall {
   Future<ApiCallResponse> call() async {
+    final baseUrl = IDCheckGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'UpdateVerificationSession',
-      apiUrl: '${IDCheckGroup.baseUrl}/v1/identity/verification_sessions/:id',
+      apiUrl: '${baseUrl}/v1/identity/verification_sessions/:id',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -349,9 +550,11 @@ class UpdateVerificationSessionCall {
 
 class RetrieveVerificationSessionCall {
   Future<ApiCallResponse> call() async {
+    final baseUrl = IDCheckGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'RetrieveVerificationSession',
-      apiUrl: '${IDCheckGroup.baseUrl}/v1/identity/verification_sessions/:id',
+      apiUrl: '${baseUrl}/v1/identity/verification_sessions/:id',
       callType: ApiCallType.GET,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -368,9 +571,11 @@ class RetrieveVerificationSessionCall {
 
 class ListVerificationSessionCall {
   Future<ApiCallResponse> call() async {
+    final baseUrl = IDCheckGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'listVerificationSession',
-      apiUrl: '${IDCheckGroup.baseUrl}/v1/identity/verification_sessions',
+      apiUrl: '${baseUrl}/v1/identity/verification_sessions',
       callType: ApiCallType.GET,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -387,10 +592,11 @@ class ListVerificationSessionCall {
 
 class CancelVerificationSessionCall {
   Future<ApiCallResponse> call() async {
+    final baseUrl = IDCheckGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'cancelVerificationSession',
-      apiUrl:
-          '${IDCheckGroup.baseUrl}/v1/identity/verification_sessions/:id/cancel',
+      apiUrl: '${baseUrl}/v1/identity/verification_sessions/:id/cancel',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -408,10 +614,11 @@ class CancelVerificationSessionCall {
 
 class RedactVerificationReportCall {
   Future<ApiCallResponse> call() async {
+    final baseUrl = IDCheckGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'RedactVerificationReport',
-      apiUrl:
-          '${IDCheckGroup.baseUrl}/v1/identity/verification_sessions/:id/redact',
+      apiUrl: '${baseUrl}/v1/identity/verification_sessions/:id/redact',
       callType: ApiCallType.GET,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -431,7 +638,7 @@ class RedactVerificationReportCall {
 /// Start GoogleAPI Group Code
 
 class GoogleAPIGroup {
-  static String baseUrl = 'https://maps.googleapis.com/maps/api';
+  static String getBaseUrl() => 'https://maps.googleapis.com/maps/api';
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
   };
@@ -447,12 +654,14 @@ class GetDistanceCall {
     bool? avoidHighways = true,
     String? key = 'AIzaSyAeU7_Y-1gOTgOoQCq_k6nuWn8KUlOeDvM',
   }) async {
+    final baseUrl = GoogleAPIGroup.getBaseUrl();
+
     final origins = _serializeJson(originsJson, true);
     final destinations = _serializeJson(destinationsJson, true);
 
     return ApiManager.instance.makeApiCall(
       callName: 'getDistance',
-      apiUrl: '${GoogleAPIGroup.baseUrl}/distancematrix/json',
+      apiUrl: '${baseUrl}/distancematrix/json',
       callType: ApiCallType.GET,
       headers: {
         'Content-Type': 'application/json',
@@ -481,9 +690,11 @@ class GetDirectionsCall {
     String? origin = '',
     String? key = 'AIzaSyAeU7_Y-1gOTgOoQCq_k6nuWn8KUlOeDvM',
   }) async {
+    final baseUrl = GoogleAPIGroup.getBaseUrl();
+
     return ApiManager.instance.makeApiCall(
       callName: 'getDirections',
-      apiUrl: '${GoogleAPIGroup.baseUrl}/directions/json',
+      apiUrl: '${baseUrl}/directions/json',
       callType: ApiCallType.GET,
       headers: {
         'Content-Type': 'application/json',
@@ -526,6 +737,9 @@ String _serializeList(List? list) {
   try {
     return json.encode(list);
   } catch (_) {
+    if (kDebugMode) {
+      print("List serialization failed. Returning empty list.");
+    }
     return '[]';
   }
 }
@@ -535,6 +749,9 @@ String _serializeJson(dynamic jsonVar, [bool isList = false]) {
   try {
     return json.encode(jsonVar);
   } catch (_) {
+    if (kDebugMode) {
+      print("Json serialization failed. Returning empty json.");
+    }
     return isList ? '[]' : '{}';
   }
 }

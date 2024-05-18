@@ -17,7 +17,7 @@ class StripeModel extends FlutterFlowModel<StripeWidget> {
   ApiCallResponse? apiResulthjx;
   // Stores action output result for [Backend Call - API (createAccountLink)] action in Button widget.
   ApiCallResponse? apiResulte14;
-  // Stores action output result for [Backend Call - API (stripe payment link Made by Bluprycom Nocode marketplace custom template and support)] action in Button widget.
+  // Stores action output result for [Backend Call - API (stripe payment links)] action in Button widget.
   ApiCallResponse? apiResultane;
 
   @override

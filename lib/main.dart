@@ -20,6 +20,8 @@ import 'index.dart';
 
 import 'backend/stripe/payment_manager.dart';
 
+import '/backend/firebase_dynamic_links/firebase_dynamic_links.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
@@ -128,6 +130,10 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       routerConfig: _router,
+      builder: (_, child) => DynamicLinksHandler(
+        router: _router,
+        child: child!,
+      ),
     );
   }
 }
@@ -161,6 +167,7 @@ class _NavBarPageState extends State<NavBarPage> {
       'userProfile': UserProfileWidget(),
       'hostDash': HostDashWidget(),
       'userDashCopy2': UserDashCopy2Widget(),
+      'SelectDestinationPage': SelectDestinationPageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -280,6 +287,30 @@ class _NavBarPageState extends State<NavBarPage> {
                         color: FlutterFlowTheme.of(context).tertiary,
                         letterSpacing: 0.0,
                       ),
+                ),
+              ],
+            ),
+          ),
+          FloatingNavbarItem(
+            customWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.home_outlined,
+                  color: currentIndex == 4
+                      ? FlutterFlowTheme.of(context).secondary
+                      : FlutterFlowTheme.of(context).lineGray,
+                  size: 24.0,
+                ),
+                Text(
+                  'Home',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 4
+                        ? FlutterFlowTheme.of(context).secondary
+                        : FlutterFlowTheme.of(context).lineGray,
+                    fontSize: 11.0,
+                  ),
                 ),
               ],
             ),
