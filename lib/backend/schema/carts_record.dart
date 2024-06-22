@@ -116,6 +116,16 @@ class CartsRecord extends FirestoreRecord {
   List<BookingStruct> get upcomingBookings => _upcomingBookings ?? const [];
   bool hasUpcomingBookings() => _upcomingBookings != null;
 
+  // "bookings" field.
+  List<BookingStruct>? _bookings;
+  List<BookingStruct> get bookings => _bookings ?? const [];
+  bool hasBookings() => _bookings != null;
+
+  // "cartRef" field.
+  String? _cartRef;
+  String get cartRef => _cartRef ?? '';
+  bool hasCartRef() => _cartRef != null;
+
   void _initializeFields() {
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
     _cartID = snapshotData['cartID'] as String?;
@@ -140,6 +150,11 @@ class CartsRecord extends FirestoreRecord {
       snapshotData['upcomingBookings'],
       BookingStruct.fromMap,
     );
+    _bookings = getStructList(
+      snapshotData['bookings'],
+      BookingStruct.fromMap,
+    );
+    _cartRef = snapshotData['cartRef'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -195,6 +210,7 @@ Map<String, dynamic> createCartsRecordData({
   bool? radio,
   bool? storage,
   bool? isElectric,
+  String? cartRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -217,6 +233,7 @@ Map<String, dynamic> createCartsRecordData({
       'radio': radio,
       'storage': storage,
       'isElectric': isElectric,
+      'cartRef': cartRef,
     }.withoutNulls,
   );
 
@@ -248,7 +265,9 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e1?.radio == e2?.radio &&
         e1?.storage == e2?.storage &&
         e1?.isElectric == e2?.isElectric &&
-        listEquality.equals(e1?.upcomingBookings, e2?.upcomingBookings);
+        listEquality.equals(e1?.upcomingBookings, e2?.upcomingBookings) &&
+        listEquality.equals(e1?.bookings, e2?.bookings) &&
+        e1?.cartRef == e2?.cartRef;
   }
 
   @override
@@ -272,7 +291,9 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e?.radio,
         e?.storage,
         e?.isElectric,
-        e?.upcomingBookings
+        e?.upcomingBookings,
+        e?.bookings,
+        e?.cartRef
       ]);
 
   @override

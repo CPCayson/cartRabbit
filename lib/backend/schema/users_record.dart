@@ -31,11 +31,6 @@ class UsersRecord extends FirestoreRecord {
   String get uid => _uid ?? '';
   bool hasUid() => _uid != null;
 
-  // "created_time" field.
-  DateTime? _createdTime;
-  DateTime? get createdTime => _createdTime;
-  bool hasCreatedTime() => _createdTime != null;
-
   // "currentLocation" field.
   LatLng? _currentLocation;
   LatLng? get currentLocation => _currentLocation;
@@ -55,11 +50,6 @@ class UsersRecord extends FirestoreRecord {
   String? _phoneNumber;
   String get phoneNumber => _phoneNumber ?? '';
   bool hasPhoneNumber() => _phoneNumber != null;
-
-  // "currentBalance" field.
-  double? _currentBalance;
-  double get currentBalance => _currentBalance ?? 0.0;
-  bool hasCurrentBalance() => _currentBalance != null;
 
   // "currentBalanceInt" field.
   int? _currentBalanceInt;
@@ -96,11 +86,6 @@ class UsersRecord extends FirestoreRecord {
   List<DocumentReference> get bookedCars => _bookedCars ?? const [];
   bool hasBookedCars() => _bookedCars != null;
 
-  // "stripeAccountID" field.
-  String? _stripeAccountID;
-  String get stripeAccountID => _stripeAccountID ?? '';
-  bool hasStripeAccountID() => _stripeAccountID != null;
-
   // "stripeChargesEnabled" field.
   bool? _stripeChargesEnabled;
   bool get stripeChargesEnabled => _stripeChargesEnabled ?? false;
@@ -121,21 +106,54 @@ class UsersRecord extends FirestoreRecord {
   DateTime? get birthdate => _birthdate;
   bool hasBirthdate() => _birthdate != null;
 
-  // "stripe_account_id" field.
+  // "stripeCustomerId" field.
+  String? _stripeCustomerId;
+  String get stripeCustomerId => _stripeCustomerId ?? '';
+  bool hasStripeCustomerId() => _stripeCustomerId != null;
+
+  // "stripeAccountId" field.
   String? _stripeAccountId;
   String get stripeAccountId => _stripeAccountId ?? '';
   bool hasStripeAccountId() => _stripeAccountId != null;
+
+  // "updatedAt" field.
+  DateTime? _updatedAt;
+  DateTime? get updatedAt => _updatedAt;
+  bool hasUpdatedAt() => _updatedAt != null;
+
+  // "name" field.
+  String? _name;
+  String get name => _name ?? '';
+  bool hasName() => _name != null;
+
+  // "created_time" field.
+  DateTime? _createdTime;
+  DateTime? get createdTime => _createdTime;
+  bool hasCreatedTime() => _createdTime != null;
+
+  // "location" field.
+  LatLng? _location;
+  LatLng? get location => _location;
+  bool hasLocation() => _location != null;
+
+  // "currentBalance" field.
+  int? _currentBalance;
+  int get currentBalance => _currentBalance ?? 0;
+  bool hasCurrentBalance() => _currentBalance != null;
+
+  // "paymentMethods" field.
+  List<String>? _paymentMethods;
+  List<String> get paymentMethods => _paymentMethods ?? const [];
+  bool hasPaymentMethods() => _paymentMethods != null;
 
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _photoUrl = snapshotData['photo_url'] as String?;
     _uid = snapshotData['uid'] as String?;
-    _createdTime = snapshotData['created_time'] as DateTime?;
     _currentLocation = snapshotData['currentLocation'] as LatLng?;
     _isHost = snapshotData['isHost'] as bool?;
     _displayName = snapshotData['display_name'] as String?;
     _phoneNumber = snapshotData['phone_number'] as String?;
-    _currentBalance = castToType<double>(snapshotData['currentBalance']);
     _currentBalanceInt = castToType<int>(snapshotData['currentBalanceInt']);
     _primary = snapshotData['primary'] as String?;
     _primarySet = snapshotData['primarySet'] as bool?;
@@ -143,7 +161,6 @@ class UsersRecord extends FirestoreRecord {
     _shortDescription = snapshotData['shortDescription'] as String?;
     _lastActiveTime = snapshotData['last_active_time'] as DateTime?;
     _bookedCars = getDataList(snapshotData['bookedCars']);
-    _stripeAccountID = snapshotData['stripeAccountID'] as String?;
     _stripeChargesEnabled = snapshotData['stripeChargesEnabled'] as bool?;
     _carts = getStructList(
       snapshotData['carts'],
@@ -154,7 +171,14 @@ class UsersRecord extends FirestoreRecord {
       BookingStruct.fromMap,
     );
     _birthdate = snapshotData['birthdate'] as DateTime?;
-    _stripeAccountId = snapshotData['stripe_account_id'] as String?;
+    _stripeCustomerId = snapshotData['stripeCustomerId'] as String?;
+    _stripeAccountId = snapshotData['stripeAccountId'] as String?;
+    _updatedAt = snapshotData['updatedAt'] as DateTime?;
+    _name = snapshotData['name'] as String?;
+    _createdTime = snapshotData['created_time'] as DateTime?;
+    _location = snapshotData['location'] as LatLng?;
+    _currentBalance = castToType<int>(snapshotData['currentBalance']);
+    _paymentMethods = getDataList(snapshotData['paymentMethods']);
   }
 
   static CollectionReference get collection =>
@@ -194,44 +218,50 @@ Map<String, dynamic> createUsersRecordData({
   String? email,
   String? photoUrl,
   String? uid,
-  DateTime? createdTime,
   LatLng? currentLocation,
   bool? isHost,
   String? displayName,
   String? phoneNumber,
-  double? currentBalance,
   int? currentBalanceInt,
   String? primary,
   bool? primarySet,
   DateTime? age,
   String? shortDescription,
   DateTime? lastActiveTime,
-  String? stripeAccountID,
   bool? stripeChargesEnabled,
   DateTime? birthdate,
+  String? stripeCustomerId,
   String? stripeAccountId,
+  DateTime? updatedAt,
+  String? name,
+  DateTime? createdTime,
+  LatLng? location,
+  int? currentBalance,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'email': email,
       'photo_url': photoUrl,
       'uid': uid,
-      'created_time': createdTime,
       'currentLocation': currentLocation,
       'isHost': isHost,
       'display_name': displayName,
       'phone_number': phoneNumber,
-      'currentBalance': currentBalance,
       'currentBalanceInt': currentBalanceInt,
       'primary': primary,
       'primarySet': primarySet,
       'age': age,
       'shortDescription': shortDescription,
       'last_active_time': lastActiveTime,
-      'stripeAccountID': stripeAccountID,
       'stripeChargesEnabled': stripeChargesEnabled,
       'birthdate': birthdate,
-      'stripe_account_id': stripeAccountId,
+      'stripeCustomerId': stripeCustomerId,
+      'stripeAccountId': stripeAccountId,
+      'updatedAt': updatedAt,
+      'name': name,
+      'created_time': createdTime,
+      'location': location,
+      'currentBalance': currentBalance,
     }.withoutNulls,
   );
 
@@ -247,12 +277,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
     return e1?.email == e2?.email &&
         e1?.photoUrl == e2?.photoUrl &&
         e1?.uid == e2?.uid &&
-        e1?.createdTime == e2?.createdTime &&
         e1?.currentLocation == e2?.currentLocation &&
         e1?.isHost == e2?.isHost &&
         e1?.displayName == e2?.displayName &&
         e1?.phoneNumber == e2?.phoneNumber &&
-        e1?.currentBalance == e2?.currentBalance &&
         e1?.currentBalanceInt == e2?.currentBalanceInt &&
         e1?.primary == e2?.primary &&
         e1?.primarySet == e2?.primarySet &&
@@ -260,12 +288,18 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.shortDescription == e2?.shortDescription &&
         e1?.lastActiveTime == e2?.lastActiveTime &&
         listEquality.equals(e1?.bookedCars, e2?.bookedCars) &&
-        e1?.stripeAccountID == e2?.stripeAccountID &&
         e1?.stripeChargesEnabled == e2?.stripeChargesEnabled &&
         listEquality.equals(e1?.carts, e2?.carts) &&
         listEquality.equals(e1?.bookings, e2?.bookings) &&
         e1?.birthdate == e2?.birthdate &&
-        e1?.stripeAccountId == e2?.stripeAccountId;
+        e1?.stripeCustomerId == e2?.stripeCustomerId &&
+        e1?.stripeAccountId == e2?.stripeAccountId &&
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.name == e2?.name &&
+        e1?.createdTime == e2?.createdTime &&
+        e1?.location == e2?.location &&
+        e1?.currentBalance == e2?.currentBalance &&
+        listEquality.equals(e1?.paymentMethods, e2?.paymentMethods);
   }
 
   @override
@@ -273,12 +307,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.email,
         e?.photoUrl,
         e?.uid,
-        e?.createdTime,
         e?.currentLocation,
         e?.isHost,
         e?.displayName,
         e?.phoneNumber,
-        e?.currentBalance,
         e?.currentBalanceInt,
         e?.primary,
         e?.primarySet,
@@ -286,12 +318,18 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.shortDescription,
         e?.lastActiveTime,
         e?.bookedCars,
-        e?.stripeAccountID,
         e?.stripeChargesEnabled,
         e?.carts,
         e?.bookings,
         e?.birthdate,
-        e?.stripeAccountId
+        e?.stripeCustomerId,
+        e?.stripeAccountId,
+        e?.updatedAt,
+        e?.name,
+        e?.createdTime,
+        e?.location,
+        e?.currentBalance,
+        e?.paymentMethods
       ]);
 
   @override

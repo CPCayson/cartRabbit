@@ -315,80 +315,309 @@ class _UserTWidgetState extends State<UserTWidget>
           alignment: AlignmentDirectional(1.0, 0.0),
           child: Stack(
             children: [
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: Stack(
-                  children: [
-                    PageView(
-                      controller: _model.pageViewController ??=
-                          PageController(initialPage: 0),
-                      scrollDirection: Axis.horizontal,
+              Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Stack(
                       children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 10.0, 0.0, 0.0),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 30.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 492.0,
-                                      height: 699.0,
-                                      decoration: BoxDecoration(
-                                        color:
-                                            FlutterFlowTheme.of(context).white,
-                                      ),
+                        PageView(
+                          controller: _model.pageViewController ??=
+                              PageController(initialPage: 0),
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 10.0, 0.0, 0.0),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
                                       child: Padding(
-                                        padding: EdgeInsets.all(24.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Opacity(
-                                              opacity: 0.5,
-                                              child: Image.asset(
-                                                'assets/images/cart.png',
-                                                width: double.infinity,
-                                                height: 358.0,
-                                                fit: BoxFit.cover,
-                                              ).animateOnPageLoad(animationsMap[
-                                                  'imageOnPageLoadAnimation1']!),
-                                            ),
-                                            Text(
-                                              'Rent a cart/ pick a time',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 30.0, 0.0, 0.0),
+                                        child: Container(
+                                          width: 492.0,
+                                          height: 699.0,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .white,
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(24.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Opacity(
+                                                  opacity: 0.5,
+                                                  child: Image.asset(
+                                                    'assets/images/cart.png',
+                                                    width: double.infinity,
+                                                    height: 358.0,
+                                                    fit: BoxFit.cover,
+                                                  ).animateOnPageLoad(animationsMap[
+                                                      'imageOnPageLoadAnimation1']!),
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [],
+                                                ),
+                                                Text(
+                                                  'Rent a cart/ pick a time',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .headlineMedium
                                                       .override(
                                                         fontFamily: 'Urbanist',
                                                         color: Colors.black,
                                                         letterSpacing: 0.0,
                                                       ),
-                                            ).animateOnPageLoad(animationsMap[
-                                                'textOnPageLoadAnimation1']!),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      12.0, 12.0, 0.0, 0.0),
-                                              child: Text(
-                                                'Enjoy paying by the hour',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                                ).animateOnPageLoad(animationsMap[
+                                                    'textOnPageLoadAnimation1']!),
+                                                Icon(
+                                                  Icons.settings_outlined,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .tertiary,
+                                                  size: 120.0,
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          1.0, 0.0),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                15.0, 0.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {},
+                                                      child: Icon(
+                                                        Icons
+                                                            .arrow_circle_right,
+                                                        color:
+                                                            Color(0xA7FF7F50),
+                                                        size: 60.0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          12.0, 12.0, 0.0, 0.0),
+                                                  child: Text(
+                                                    'Enjoy paying by the hour',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .labelMedium
                                                         .override(
                                                           fontFamily: 'Poppins',
                                                           color: Colors.black,
                                                           letterSpacing: 0.0,
                                                         ),
-                                              ).animateOnPageLoad(animationsMap[
-                                                  'textOnPageLoadAnimation2']!),
+                                                  ).animateOnPageLoad(animationsMap[
+                                                      'textOnPageLoadAnimation2']!),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Image.asset(
+                                  'assets/images/DALLE_2023-11-04_18.28.40_-_Design_an_infographic_with_the_same_aesthetic_as_the_previous_images,_featuring_a_stylized_human_hand_with_Caucasian_descent_tapping_a_modern_smartpho.png',
+                                  width: double.infinity,
+                                  height: 327.0,
+                                  fit: BoxFit.cover,
+                                ).animateOnPageLoad(animationsMap[
+                                    'imageOnPageLoadAnimation2']!),
+                                Padding(
+                                  padding: EdgeInsets.all(24.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Book more for a speedier time',
+                                        style: FlutterFlowTheme.of(context)
+                                            .headlineMedium
+                                            .override(
+                                              fontFamily: 'Urbanist',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .dark600,
+                                              letterSpacing: 0.0,
+                                            ),
+                                      ).animateOnPageLoad(animationsMap[
+                                          'textOnPageLoadAnimation3']!),
+                                      Text(
+                                        'Or skip the line an scan a cart',
+                                        style: FlutterFlowTheme.of(context)
+                                            .headlineMedium
+                                            .override(
+                                              fontFamily: 'Urbanist',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .dark600,
+                                              letterSpacing: 0.0,
+                                            ),
+                                      ).animateOnPageLoad(animationsMap[
+                                          'textOnPageLoadAnimation4']!),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 24.0, 0.0, 0.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Align(
+                                        alignment:
+                                            AlignmentDirectional(1.0, 0.0),
+                                        child: InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            await _model.pageViewController
+                                                ?.previousPage(
+                                              duration:
+                                                  Duration(milliseconds: 300),
+                                              curve: Curves.ease,
+                                            );
+                                          },
+                                          child: Icon(
+                                            Icons.arrow_circle_left,
+                                            color: Color(0xFFFF7F50),
+                                            size: 60.0,
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment:
+                                            AlignmentDirectional(1.0, 0.0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 15.0, 0.0),
+                                          child: Icon(
+                                            Icons.arrow_circle_right,
+                                            color: Color(0xFFFF7F50),
+                                            size: 60.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Image.asset(
+                                  'assets/images/info1.webp',
+                                  width: double.infinity,
+                                  height: 260.0,
+                                  fit: BoxFit.cover,
+                                ).animateOnPageLoad(animationsMap[
+                                    'imageOnPageLoadAnimation3']!),
+                                Padding(
+                                  padding: EdgeInsets.all(24.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Click on a cart to view more info',
+                                        style: FlutterFlowTheme.of(context)
+                                            .headlineMedium
+                                            .override(
+                                              fontFamily: 'Urbanist',
+                                              color: Colors.black,
+                                              letterSpacing: 0.0,
+                                            ),
+                                      ).animateOnPageLoad(animationsMap[
+                                          'textOnPageLoadAnimation5']!),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 12.0, 0.0, 0.0),
+                                        child: Text(
+                                          'fast, secure, reliable',
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Poppins',
+                                                color: Colors.black,
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ).animateOnPageLoad(animationsMap[
+                                            'textOnPageLoadAnimation6']!),
+                                      ),
+                                      Container(
+                                        height: 110.0,
+                                        decoration: BoxDecoration(),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 24.0, 0.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  1.0, 0.0),
+                                              child: InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  await _model
+                                                      .pageViewController
+                                                      ?.previousPage(
+                                                    duration: Duration(
+                                                        milliseconds: 300),
+                                                    curve: Curves.ease,
+                                                  );
+                                                },
+                                                child: Icon(
+                                                  Icons.arrow_circle_left,
+                                                  color: Color(0xFFFF7F50),
+                                                  size: 60.0,
+                                                ),
+                                              ),
                                             ),
                                             Align(
                                               alignment: AlignmentDirectional(
@@ -397,225 +626,21 @@ class _UserTWidgetState extends State<UserTWidget>
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 15.0, 0.0),
-                                                child: InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {},
-                                                  child: Icon(
-                                                    Icons.arrow_circle_right,
-                                                    color: Color(0xFFFF7F50),
-                                                    size: 60.0,
-                                                  ),
+                                                child: Icon(
+                                                  Icons.arrow_circle_right,
+                                                  color: Color(0xFFFF7F50),
+                                                  size: 60.0,
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Image.asset(
-                              'assets/images/DALLE_2023-11-04_18.28.40_-_Design_an_infographic_with_the_same_aesthetic_as_the_previous_images,_featuring_a_stylized_human_hand_with_Caucasian_descent_tapping_a_modern_smartpho.png',
-                              width: double.infinity,
-                              height: 327.0,
-                              fit: BoxFit.cover,
-                            ).animateOnPageLoad(
-                                animationsMap['imageOnPageLoadAnimation2']!),
-                            Padding(
-                              padding: EdgeInsets.all(24.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Book more for a speedier time',
-                                    style: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .override(
-                                          fontFamily: 'Urbanist',
-                                          color: FlutterFlowTheme.of(context)
-                                              .dark600,
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ).animateOnPageLoad(animationsMap[
-                                      'textOnPageLoadAnimation3']!),
-                                  Text(
-                                    'Or skip the line an scan a cart',
-                                    style: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .override(
-                                          fontFamily: 'Urbanist',
-                                          color: FlutterFlowTheme.of(context)
-                                              .dark600,
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ).animateOnPageLoad(animationsMap[
-                                      'textOnPageLoadAnimation4']!),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 24.0, 0.0, 0.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Align(
-                                    alignment: AlignmentDirectional(1.0, 0.0),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        await _model.pageViewController
-                                            ?.previousPage(
-                                          duration: Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
-                                      },
-                                      child: Icon(
-                                        Icons.arrow_circle_left,
-                                        color: Color(0xFFFF7F50),
-                                        size: 60.0,
-                                      ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(1.0, 0.0),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 15.0, 0.0),
-                                      child: Icon(
-                                        Icons.arrow_circle_right,
-                                        color: Color(0xFFFF7F50),
-                                        size: 60.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Image.asset(
-                              'assets/images/info1.webp',
-                              width: double.infinity,
-                              height: 260.0,
-                              fit: BoxFit.cover,
-                            ).animateOnPageLoad(
-                                animationsMap['imageOnPageLoadAnimation3']!),
-                            Padding(
-                              padding: EdgeInsets.all(24.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Click on a cart to view more info',
-                                    style: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .override(
-                                          fontFamily: 'Urbanist',
-                                          color: Colors.black,
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ).animateOnPageLoad(animationsMap[
-                                      'textOnPageLoadAnimation5']!),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 12.0, 0.0, 0.0),
-                                    child: Text(
-                                      'fast, secure, reliable',
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: Colors.black,
-                                            letterSpacing: 0.0,
-                                          ),
-                                    ).animateOnPageLoad(animationsMap[
-                                        'textOnPageLoadAnimation6']!),
-                                  ),
-                                  Container(
-                                    height: 110.0,
-                                    decoration: BoxDecoration(),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 24.0, 0.0, 0.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(1.0, 0.0),
-                                          child: InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              await _model.pageViewController
-                                                  ?.previousPage(
-                                                duration:
-                                                    Duration(milliseconds: 300),
-                                                curve: Curves.ease,
-                                              );
-                                            },
-                                            child: Icon(
-                                              Icons.arrow_circle_left,
-                                              color: Color(0xFFFF7F50),
-                                              size: 60.0,
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(1.0, 0.0),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 15.0, 0.0),
-                                            child: Icon(
-                                              Icons.arrow_circle_right,
-                                              color: Color(0xFFFF7F50),
-                                              size: 60.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
                             Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -735,70 +760,71 @@ class _UserTWidgetState extends State<UserTWidget>
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(-0.85, 0.85),
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
-                        child: smooth_page_indicator.SmoothPageIndicator(
-                          controller: _model.pageViewController ??=
-                              PageController(initialPage: 0),
-                          count: 4,
-                          axisDirection: Axis.horizontal,
-                          onDotClicked: (i) async {
-                            await _model.pageViewController!.animateToPage(
-                              i,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.ease,
-                            );
-                            setState(() {});
-                          },
-                          effect: smooth_page_indicator.ExpandingDotsEffect(
-                            expansionFactor: 2.0,
-                            spacing: 8.0,
-                            radius: 16.0,
-                            dotWidth: 16.0,
-                            dotHeight: 4.0,
-                            dotColor: FlutterFlowTheme.of(context).accent1,
-                            activeDotColor:
-                                FlutterFlowTheme.of(context).turquoise,
-                            paintStyle: PaintingStyle.fill,
+                        Align(
+                          alignment: AlignmentDirectional(-0.85, 0.85),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 10.0),
+                            child: smooth_page_indicator.SmoothPageIndicator(
+                              controller: _model.pageViewController ??=
+                                  PageController(initialPage: 0),
+                              count: 4,
+                              axisDirection: Axis.horizontal,
+                              onDotClicked: (i) async {
+                                await _model.pageViewController!.animateToPage(
+                                  i,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.ease,
+                                );
+                                setState(() {});
+                              },
+                              effect: smooth_page_indicator.ExpandingDotsEffect(
+                                expansionFactor: 2.0,
+                                spacing: 8.0,
+                                radius: 16.0,
+                                dotWidth: 16.0,
+                                dotHeight: 4.0,
+                                dotColor: FlutterFlowTheme.of(context).accent1,
+                                activeDotColor:
+                                    FlutterFlowTheme.of(context).turquoise,
+                                paintStyle: PaintingStyle.fill,
+                              ),
+                            ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional(1.0, -1.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                      },
+                      text: 'skip',
+                      options: FFButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            24.0, 0.0, 24.0, 0.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: Color(0x83EE8B60),
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  fontFamily: 'Urbanist',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                ),
+                        elevation: 3.0,
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional(1.0, -1.0),
-                child: FFButtonWidget(
-                  onPressed: () {
-                    print('Button pressed ...');
-                  },
-                  text: 'skip',
-                  options: FFButtonOptions(
-                    height: 40.0,
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                    iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: FlutterFlowTheme.of(context).secondary,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Urbanist',
-                          color: Colors.white,
-                          letterSpacing: 0.0,
-                        ),
-                    elevation: 3.0,
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1.0,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                ),
+                ],
               ),
             ],
           ),

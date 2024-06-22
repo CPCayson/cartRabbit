@@ -53,112 +53,133 @@ class UserStruct extends FFFirebaseStruct {
   String? _uid;
   String get uid => _uid ?? '';
   set uid(String? val) => _uid = val;
+
   bool hasUid() => _uid != null;
 
   // "USER_DISPLAY_NAME" field.
   String? _userDisplayName;
   String get userDisplayName => _userDisplayName ?? '';
   set userDisplayName(String? val) => _userDisplayName = val;
+
   bool hasUserDisplayName() => _userDisplayName != null;
 
   // "USER_PHONE" field.
   String? _userPhone;
   String get userPhone => _userPhone ?? '';
   set userPhone(String? val) => _userPhone = val;
+
   bool hasUserPhone() => _userPhone != null;
 
   // "USER_PHOTO" field.
   String? _userPhoto;
   String get userPhoto => _userPhoto ?? '';
   set userPhoto(String? val) => _userPhoto = val;
+
   bool hasUserPhoto() => _userPhoto != null;
 
   // "USER_EMAIL" field.
   String? _userEmail;
   String get userEmail => _userEmail ?? '';
   set userEmail(String? val) => _userEmail = val;
+
   bool hasUserEmail() => _userEmail != null;
 
   // "USER_CURRENT_LOCATION" field.
   LatLng? _userCurrentLocation;
   LatLng? get userCurrentLocation => _userCurrentLocation;
   set userCurrentLocation(LatLng? val) => _userCurrentLocation = val;
+
   bool hasUserCurrentLocation() => _userCurrentLocation != null;
 
   // "USER_AGE" field.
   DateTime? _userAge;
   DateTime? get userAge => _userAge;
   set userAge(DateTime? val) => _userAge = val;
+
   bool hasUserAge() => _userAge != null;
 
   // "USER_SHORT_DESCRIP" field.
   String? _userShortDescrip;
   String get userShortDescrip => _userShortDescrip ?? '';
   set userShortDescrip(String? val) => _userShortDescrip = val;
+
   bool hasUserShortDescrip() => _userShortDescrip != null;
 
   // "USER_IS_HOST" field.
   bool? _userIsHost;
   bool get userIsHost => _userIsHost ?? false;
   set userIsHost(bool? val) => _userIsHost = val;
+
   bool hasUserIsHost() => _userIsHost != null;
 
   // "USER_ONLINE" field.
   bool? _userOnline;
   bool get userOnline => _userOnline ?? false;
   set userOnline(bool? val) => _userOnline = val;
+
   bool hasUserOnline() => _userOnline != null;
 
   // "USER_CREATED" field.
   DateTime? _userCreated;
   DateTime? get userCreated => _userCreated;
   set userCreated(DateTime? val) => _userCreated = val;
+
   bool hasUserCreated() => _userCreated != null;
 
   // "USER_LAST_ACTIVE" field.
   DateTime? _userLastActive;
   DateTime? get userLastActive => _userLastActive;
   set userLastActive(DateTime? val) => _userLastActive = val;
+
   bool hasUserLastActive() => _userLastActive != null;
 
   // "USER_LAST_UPDATED" field.
   DateTime? _userLastUpdated;
   DateTime? get userLastUpdated => _userLastUpdated;
   set userLastUpdated(DateTime? val) => _userLastUpdated = val;
+
   bool hasUserLastUpdated() => _userLastUpdated != null;
 
   // "USER_ROLE_SET" field.
   List<bool>? _userRoleSet;
   List<bool> get userRoleSet => _userRoleSet ?? const [];
   set userRoleSet(List<bool>? val) => _userRoleSet = val;
-  void updateUserRoleSet(Function(List<bool>) updateFn) =>
-      updateFn(_userRoleSet ??= []);
+
+  void updateUserRoleSet(Function(List<bool>) updateFn) {
+    updateFn(userRoleSet ??= []);
+  }
+
   bool hasUserRoleSet() => _userRoleSet != null;
 
   // "USER_ROLE" field.
   String? _userRole;
   String get userRole => _userRole ?? '';
   set userRole(String? val) => _userRole = val;
+
   bool hasUserRole() => _userRole != null;
 
   // "hasBooked" field.
   bool? _hasBooked;
   bool get hasBooked => _hasBooked ?? false;
   set hasBooked(bool? val) => _hasBooked = val;
+
   bool hasHasBooked() => _hasBooked != null;
 
   // "lastCartSelected" field.
   int? _lastCartSelected;
   int get lastCartSelected => _lastCartSelected ?? 0;
   set lastCartSelected(int? val) => _lastCartSelected = val;
+
   void incrementLastCartSelected(int amount) =>
-      _lastCartSelected = lastCartSelected + amount;
+      lastCartSelected = lastCartSelected + amount;
+
   bool hasLastCartSelected() => _lastCartSelected != null;
 
   // "userAgeString" field.
   String? _userAgeString;
   String get userAgeString => _userAgeString ?? '';
   set userAgeString(String? val) => _userAgeString = val;
+
   bool hasUserAgeString() => _userAgeString != null;
 
   static UserStruct fromMap(Map<String, dynamic> data) => UserStruct(
@@ -263,7 +284,7 @@ class UserStruct extends FFFirebaseStruct {
         'USER_ROLE_SET': serializeParam(
           _userRoleSet,
           ParamType.bool,
-          true,
+          isList: true,
         ),
         'USER_ROLE': serializeParam(
           _userRole,

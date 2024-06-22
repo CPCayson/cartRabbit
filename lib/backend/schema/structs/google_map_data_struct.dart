@@ -14,36 +14,58 @@ class GoogleMapDataStruct extends FFFirebaseStruct {
     String? iconPath,
     String? title,
     String? description,
+    LatLng? coordinates,
+    String? imageUrl,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _latLng = latLng,
         _iconPath = iconPath,
         _title = title,
         _description = description,
+        _coordinates = coordinates,
+        _imageUrl = imageUrl,
         super(firestoreUtilData);
 
   // "latLng" field.
   LatLng? _latLng;
   LatLng? get latLng => _latLng;
   set latLng(LatLng? val) => _latLng = val;
+
   bool hasLatLng() => _latLng != null;
 
   // "iconPath" field.
   String? _iconPath;
   String get iconPath => _iconPath ?? '';
   set iconPath(String? val) => _iconPath = val;
+
   bool hasIconPath() => _iconPath != null;
 
   // "title" field.
   String? _title;
   String get title => _title ?? '';
   set title(String? val) => _title = val;
+
   bool hasTitle() => _title != null;
 
   // "description" field.
   String? _description;
   String get description => _description ?? '';
   set description(String? val) => _description = val;
+
   bool hasDescription() => _description != null;
+
+  // "coordinates" field.
+  LatLng? _coordinates;
+  LatLng? get coordinates => _coordinates;
+  set coordinates(LatLng? val) => _coordinates = val;
+
+  bool hasCoordinates() => _coordinates != null;
+
+  // "imageUrl" field.
+  String? _imageUrl;
+  String get imageUrl => _imageUrl ?? '';
+  set imageUrl(String? val) => _imageUrl = val;
+
+  bool hasImageUrl() => _imageUrl != null;
 
   static GoogleMapDataStruct fromMap(Map<String, dynamic> data) =>
       GoogleMapDataStruct(
@@ -51,6 +73,8 @@ class GoogleMapDataStruct extends FFFirebaseStruct {
         iconPath: data['iconPath'] as String?,
         title: data['title'] as String?,
         description: data['description'] as String?,
+        coordinates: data['coordinates'] as LatLng?,
+        imageUrl: data['imageUrl'] as String?,
       );
 
   static GoogleMapDataStruct? maybeFromMap(dynamic data) => data is Map
@@ -62,6 +86,8 @@ class GoogleMapDataStruct extends FFFirebaseStruct {
         'iconPath': _iconPath,
         'title': _title,
         'description': _description,
+        'coordinates': _coordinates,
+        'imageUrl': _imageUrl,
       }.withoutNulls;
 
   @override
@@ -80,6 +106,14 @@ class GoogleMapDataStruct extends FFFirebaseStruct {
         ),
         'description': serializeParam(
           _description,
+          ParamType.String,
+        ),
+        'coordinates': serializeParam(
+          _coordinates,
+          ParamType.LatLng,
+        ),
+        'imageUrl': serializeParam(
+          _imageUrl,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -106,6 +140,16 @@ class GoogleMapDataStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        coordinates: deserializeParam(
+          data['coordinates'],
+          ParamType.LatLng,
+          false,
+        ),
+        imageUrl: deserializeParam(
+          data['imageUrl'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -117,12 +161,14 @@ class GoogleMapDataStruct extends FFFirebaseStruct {
         latLng == other.latLng &&
         iconPath == other.iconPath &&
         title == other.title &&
-        description == other.description;
+        description == other.description &&
+        coordinates == other.coordinates &&
+        imageUrl == other.imageUrl;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([latLng, iconPath, title, description]);
+  int get hashCode => const ListEquality()
+      .hash([latLng, iconPath, title, description, coordinates, imageUrl]);
 }
 
 GoogleMapDataStruct createGoogleMapDataStruct({
@@ -130,6 +176,8 @@ GoogleMapDataStruct createGoogleMapDataStruct({
   String? iconPath,
   String? title,
   String? description,
+  LatLng? coordinates,
+  String? imageUrl,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -140,6 +188,8 @@ GoogleMapDataStruct createGoogleMapDataStruct({
       iconPath: iconPath,
       title: title,
       description: description,
+      coordinates: coordinates,
+      imageUrl: imageUrl,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

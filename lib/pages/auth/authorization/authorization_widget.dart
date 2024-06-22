@@ -1,14 +1,10 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/components/rabbit_profilenot_logged/rabbit_profilenot_logged_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -48,33 +44,6 @@ class _AuthorizationWidgetState extends State<AuthorizationWidget>
 
     authManager.handlePhoneAuthStateChanges(context);
     animationsMap.addAll({
-      'containerOnPageLoadAnimation': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          VisibilityEffect(duration: 1.ms),
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
-          ),
-          ScaleEffect(
-            curve: Curves.easeInOut,
-            delay: 150.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.8, 0.8),
-            end: Offset(1.0, 1.0),
-          ),
-        ],
-      ),
       'columnOnPageLoadAnimation': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
@@ -109,61 +78,48 @@ class _AuthorizationWidgetState extends State<AuthorizationWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       width: MediaQuery.sizeOf(context).width * 0.95,
       child: Stack(
         children: [
-          Align(
-            alignment: AlignmentDirectional(0.0, -1.0),
-            child: Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Container(
-                width: double.infinity,
-                height: 302.0,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 4.0,
-                      color: FlutterFlowTheme.of(context).turquoise,
-                      offset: Offset(
-                        0.0,
-                        2.0,
-                      ),
-                      spreadRadius: 3.0,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(
-                    color: FlutterFlowTheme.of(context).celadon,
-                    width: 3.0,
-                  ),
-                ),
-                alignment: AlignmentDirectional(0.0, 0.0),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional(0.0, -1.0),
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/cpcforai_simple_white_and_39D2C0_logo_of_a_golfcart_and_rabbit__4ba5b360-7e36-4a4d-868d-65d268fa9ad0.png',
-                            width: 279.0,
-                            height: 163.0,
-                            fit: BoxFit.cover,
-                          ),
+          Stack(
+            children: [
+              Opacity(
+                opacity: 0.7,
+                child: Align(
+                  alignment: AlignmentDirectional(0.0, -1.0),
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        GoRouter.of(context).prepareAuthEvent();
+                        final user =
+                            await authManager.signInWithGoogle(context);
+                        if (user == null) {
+                          return;
+                        }
+
+                        context.goNamedAuth('hostDash', context.mounted);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18.0),
+                        child: Image.asset(
+                          'assets/images/cpcforai_simple_white_and_39D2C0_logo_of_a_golfcart_and_rabbit__4ba5b360-7e36-4a4d-868d-65d268fa9ad0.png',
+                          width: 279.0,
+                          height: 163.0,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
           Align(
             alignment: AlignmentDirectional(0.0, 0.0),
@@ -171,7 +127,7 @@ class _AuthorizationWidgetState extends State<AuthorizationWidget>
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 200.0, 0.0, 0.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Align(
                     alignment: AlignmentDirectional(0.0, 0.0),
@@ -203,346 +159,313 @@ class _AuthorizationWidgetState extends State<AuthorizationWidget>
                             ],
                             borderRadius: BorderRadius.circular(50.0),
                             border: Border.all(
-                              color: FlutterFlowTheme.of(context).turquoise,
+                              color: Color(0xAE39D2C0),
                               width: 3.0,
                             ),
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 20.0, 0.0, 0.0),
-                                child: AutoSizeText(
-                                  'cartRABBIT',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Open Sans',
-                                        color: FlutterFlowTheme.of(context)
-                                            .turquoise,
-                                        fontSize: 40.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                              ),
-                              Container(
-                                width: 307.0,
-                                height: 400.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Align(
-                                  alignment: AlignmentDirectional(0.0, -1.0),
-                                  child: Padding(
+                          child: Align(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 50.0, 24.0, 0.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(0.0, 0.0),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 30.0, 0.0, 30.0),
-                                            child: Text(
-                                              'We\'ll text a code to verify your phone ',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                        0.0, 20.0, 0.0, 0.0),
+                                    child: AutoSizeText(
+                                      'cartRABBIT',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Open Sans',
+                                            color: FlutterFlowTheme.of(context)
+                                                .turquoise,
+                                            fontSize: 40.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 307.0,
+                                    height: 400.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                    ),
+                                    child: Align(
+                                      alignment:
+                                          AlignmentDirectional(0.0, -1.0),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            24.0, 50.0, 24.0, 0.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  0.0, 0.0),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 30.0, 0.0, 30.0),
+                                                child: Text(
+                                                  'We\'ll text a code to verify your phone ',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .bodyLarge
                                                       .override(
                                                         fontFamily: 'Poppins',
                                                         letterSpacing: 0.0,
                                                       ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 0.0, 8.0, 16.0),
-                                            child: TextFormField(
-                                              controller: _model
-                                                  .phoneNumberTextController,
-                                              focusNode:
-                                                  _model.phoneNumberFocusNode,
-                                              autofocus: true,
-                                              autofillHints: [
-                                                AutofillHints.telephoneNumber
-                                              ],
-                                              textCapitalization:
-                                                  TextCapitalization.sentences,
-                                              obscureText: false,
-                                              decoration: InputDecoration(
-                                                labelText:
-                                                    'Your phone number...',
-                                                labelStyle:
-                                                    FlutterFlowTheme.of(context)
+                                            Flexible(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 0.0, 8.0, 16.0),
+                                                child: TextFormField(
+                                                  controller: _model
+                                                      .phoneNumberTextController,
+                                                  focusNode: _model
+                                                      .phoneNumberFocusNode,
+                                                  autofocus: true,
+                                                  autofillHints: [
+                                                    AutofillHints
+                                                        .telephoneNumber
+                                                  ],
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .sentences,
+                                                  obscureText: false,
+                                                  decoration: InputDecoration(
+                                                    labelText:
+                                                        'Your phone number...',
+                                                    labelStyle: FlutterFlowTheme
+                                                            .of(context)
                                                         .titleLarge
                                                         .override(
                                                           fontFamily: 'Poppins',
+                                                          fontSize: 16.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                hintStyle:
-                                                    FlutterFlowTheme.of(context)
+                                                    hintStyle: FlutterFlowTheme
+                                                            .of(context)
                                                         .labelMedium
                                                         .override(
                                                           fontFamily: 'Poppins',
                                                           letterSpacing: 0.0,
                                                         ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .turquoise,
-                                                    width: 3.0,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primary,
-                                                    width: 3.0,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                errorBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .error,
-                                                    width: 3.0,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .error,
-                                                    width: 3.0,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                filled: true,
-                                                fillColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                              ),
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Urbanist',
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                              keyboardType: TextInputType.phone,
-                                              validator: _model
-                                                  .phoneNumberTextControllerValidator
-                                                  .asValidator(context),
-                                              inputFormatters: [
-                                                _model.phoneNumberMask
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(1.0, 0.0),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 15.0, 0.0),
-                                            child: StreamBuilder<
-                                                List<UsersRecord>>(
-                                              stream: queryUsersRecord(),
-                                              builder: (context, snapshot) {
-                                                // Customize what your widget looks like when it's loading.
-                                                if (!snapshot.hasData) {
-                                                  return Center(
-                                                    child: SizedBox(
-                                                      width: 50.0,
-                                                      height: 50.0,
-                                                      child: SpinKitWave(
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .turquoise,
-                                                        size: 50.0,
+                                                        width: 3.0,
                                                       ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                     ),
-                                                  );
-                                                }
-                                                List<UsersRecord>
-                                                    iconUsersRecordList =
-                                                    snapshot.data!;
-                                                return InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {
-                                                    var _shouldSetState = false;
-                                                    _model.notZero =
-                                                        await queryUsersRecordCount(
-                                                      queryBuilder:
-                                                          (usersRecord) =>
-                                                              usersRecord.where(
-                                                        'phone_number',
-                                                        isEqualTo: _model
-                                                            .phoneNumberTextController
-                                                            .text,
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        width: 3.0,
                                                       ),
-                                                    );
-                                                    _shouldSetState = true;
-                                                    if ((FFAppState()
-                                                                .APPUSER
-                                                                .userPhone ==
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                        width: 3.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                    focusedErrorBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                        width: 3.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                    filled: true,
+                                                    fillColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryBackground,
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Urbanist',
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .alternate,
+                                                        fontSize: 7.0,
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                  keyboardType:
+                                                      TextInputType.phone,
+                                                  validator: _model
+                                                      .phoneNumberTextControllerValidator
+                                                      .asValidator(context),
+                                                  inputFormatters: [
+                                                    _model.phoneNumberMask
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  1.0, 0.0),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 15.0, 0.0),
+                                                child: StreamBuilder<
+                                                    List<UsersRecord>>(
+                                                  stream: queryUsersRecord(),
+                                                  builder: (context, snapshot) {
+                                                    // Customize what your widget looks like when it's loading.
+                                                    if (!snapshot.hasData) {
+                                                      return Center(
+                                                        child: SizedBox(
+                                                          width: 50.0,
+                                                          height: 50.0,
+                                                          child: SpinKitWave(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .turquoise,
+                                                            size: 50.0,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                    List<UsersRecord>
+                                                        iconUsersRecordList =
+                                                        snapshot.data!;
+                                                    return InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        final phoneNumberVal =
                                                             _model
                                                                 .phoneNumberTextController
-                                                                .text) ||
-                                                        (_model.notZero == 0)) {
-                                                      Navigator.pop(context);
-                                                      await showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        enableDrag: false,
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return Padding(
-                                                            padding: MediaQuery
-                                                                .viewInsetsOf(
-                                                                    context),
-                                                            child:
-                                                                RabbitProfilenotLoggedWidget(
-                                                              phoneNumber: _model
-                                                                  .phoneNumberTextController
-                                                                  .text,
+                                                                .text;
+                                                        if (phoneNumberVal == null ||
+                                                            phoneNumberVal
+                                                                .isEmpty ||
+                                                            !phoneNumberVal
+                                                                .startsWith(
+                                                                    '+')) {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                  'Phone Number is required and has to start with +.'),
                                                             ),
                                                           );
-                                                        },
-                                                      ).then((value) =>
-                                                          safeSetState(() {}));
-
-                                                      if (_shouldSetState)
-                                                        setState(() {});
-                                                      return;
-                                                    } else {
-                                                      _model.accountmade =
-                                                          await AuthorizationGroup
-                                                              .accountsCall
-                                                              .call(
-                                                        type: 'custom',
-                                                        country: 'usd',
-                                                      );
-                                                      _shouldSetState = true;
-                                                      await AuthorizationGroup
-                                                          .createAccountLinkCall
-                                                          .call();
-                                                      final phoneNumberVal = _model
-                                                          .phoneNumberTextController
-                                                          .text;
-                                                      if (phoneNumberVal == null ||
-                                                          phoneNumberVal
-                                                              .isEmpty ||
-                                                          !phoneNumberVal
-                                                              .startsWith(
-                                                                  '+')) {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                            content: Text(
-                                                                'Phone Number is required and has to start with +.'),
-                                                          ),
+                                                          return;
+                                                        }
+                                                        await authManager
+                                                            .beginPhoneAuth(
+                                                          context: context,
+                                                          phoneNumber:
+                                                              phoneNumberVal,
+                                                          onCodeSent:
+                                                              (context) async {
+                                                            context.goNamedAuth(
+                                                              'pinCode',
+                                                              context.mounted,
+                                                              queryParameters: {
+                                                                'phone':
+                                                                    serializeParam(
+                                                                  _model
+                                                                      .phoneNumberTextController
+                                                                      .text,
+                                                                  ParamType
+                                                                      .String,
+                                                                ),
+                                                              }.withoutNulls,
+                                                              ignoreRedirect:
+                                                                  true,
+                                                            );
+                                                          },
                                                         );
-                                                        return;
-                                                      }
-                                                      await authManager
-                                                          .beginPhoneAuth(
-                                                        context: context,
-                                                        phoneNumber:
-                                                            phoneNumberVal,
-                                                        onCodeSent:
-                                                            (context) async {
-                                                          context.goNamedAuth(
-                                                            'pinCode',
-                                                            context.mounted,
-                                                            ignoreRedirect:
-                                                                true,
-                                                          );
-                                                        },
-                                                      );
-
-                                                      if (_shouldSetState)
-                                                        setState(() {});
-                                                      return;
-                                                    }
-
-                                                    if (_shouldSetState)
-                                                      setState(() {});
+                                                      },
+                                                      child: Icon(
+                                                        Icons
+                                                            .arrow_circle_right,
+                                                        color:
+                                                            Color(0xFFFFAA85),
+                                                        size: 60.0,
+                                                      ),
+                                                    );
                                                   },
-                                                  child: Icon(
-                                                    Icons.arrow_circle_right,
-                                                    color: Color(0xFFFF7F50),
-                                                    size: 60.0,
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(1.0, 1.0),
-                                          child: Text(
-                                            'start hopping',
-                                            style: FlutterFlowTheme.of(context)
-                                                .displaySmall
-                                                .override(
-                                                  fontFamily: 'Urbanist',
-                                                  fontSize: 17.0,
-                                                  letterSpacing: 0.0,
                                                 ),
-                                          ),
-                                        ),
-                                      ],
-                                    ).animateOnPageLoad(animationsMap[
-                                        'columnOnPageLoadAnimation']!),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  1.0, 1.0),
+                                              child: Text(
+                                                'start hopping',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .displaySmall
+                                                        .override(
+                                                          fontFamily:
+                                                              'Urbanist',
+                                                          fontSize: 17.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                              ),
+                                            ),
+                                          ],
+                                        ).animateOnPageLoad(animationsMap[
+                                            'columnOnPageLoadAnimation']!),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ).animateOnPageLoad(
-                          animationsMap['containerOnPageLoadAnimation']!),
+                      ),
                     ),
                   ),
                 ],

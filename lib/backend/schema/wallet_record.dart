@@ -26,11 +26,6 @@ class WalletRecord extends FirestoreRecord {
   double get deposits => _deposits ?? 0.0;
   bool hasDeposits() => _deposits != null;
 
-  // "timestamp" field.
-  DateTime? _timestamp;
-  DateTime? get timestamp => _timestamp;
-  bool hasTimestamp() => _timestamp != null;
-
   // "depositsInt" field.
   int? _depositsInt;
   int get depositsInt => _depositsInt ?? 0;
@@ -41,12 +36,23 @@ class WalletRecord extends FirestoreRecord {
   String get primary => _primary ?? '';
   bool hasPrimary() => _primary != null;
 
+  // "updatedAt" field.
+  DateTime? _updatedAt;
+  DateTime? get updatedAt => _updatedAt;
+  bool hasUpdatedAt() => _updatedAt != null;
+
+  // "currency" field.
+  String? _currency;
+  String get currency => _currency ?? '';
+  bool hasCurrency() => _currency != null;
+
   void _initializeFields() {
     _userID = snapshotData['userID'] as DocumentReference?;
     _deposits = castToType<double>(snapshotData['deposits']);
-    _timestamp = snapshotData['timestamp'] as DateTime?;
     _depositsInt = castToType<int>(snapshotData['depositsInt']);
     _primary = snapshotData['primary'] as String?;
+    _updatedAt = snapshotData['updatedAt'] as DateTime?;
+    _currency = snapshotData['currency'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -85,17 +91,19 @@ class WalletRecord extends FirestoreRecord {
 Map<String, dynamic> createWalletRecordData({
   DocumentReference? userID,
   double? deposits,
-  DateTime? timestamp,
   int? depositsInt,
   String? primary,
+  DateTime? updatedAt,
+  String? currency,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'userID': userID,
       'deposits': deposits,
-      'timestamp': timestamp,
       'depositsInt': depositsInt,
       'primary': primary,
+      'updatedAt': updatedAt,
+      'currency': currency,
     }.withoutNulls,
   );
 
@@ -109,14 +117,21 @@ class WalletRecordDocumentEquality implements Equality<WalletRecord> {
   bool equals(WalletRecord? e1, WalletRecord? e2) {
     return e1?.userID == e2?.userID &&
         e1?.deposits == e2?.deposits &&
-        e1?.timestamp == e2?.timestamp &&
         e1?.depositsInt == e2?.depositsInt &&
-        e1?.primary == e2?.primary;
+        e1?.primary == e2?.primary &&
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.currency == e2?.currency;
   }
 
   @override
-  int hash(WalletRecord? e) => const ListEquality()
-      .hash([e?.userID, e?.deposits, e?.timestamp, e?.depositsInt, e?.primary]);
+  int hash(WalletRecord? e) => const ListEquality().hash([
+        e?.userID,
+        e?.deposits,
+        e?.depositsInt,
+        e?.primary,
+        e?.updatedAt,
+        e?.currency
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is WalletRecord;

@@ -28,15 +28,12 @@ class RabbitProfileModel extends FlutterFlowModel<RabbitProfileWidget> {
       FFUploadedFile(bytes: Uint8List.fromList([]));
   String uploadedFileUrl = '';
 
+  // Stores action output result for [Custom Action - createOrUpdateCustomer] action in Button widget.
+  String? createGuest;
   // State field(s) for yourName widget.
   FocusNode? yourNameFocusNode;
   TextEditingController? yourNameTextController;
   String? Function(BuildContext, String?)? yourNameTextControllerValidator;
-  // State field(s) for yourAge widget.
-  FocusNode? yourAgeFocusNode;
-  TextEditingController? yourAgeTextController;
-  final yourAgeMask = MaskTextInputFormatter(mask: '##/##/####');
-  String? Function(BuildContext, String?)? yourAgeTextControllerValidator;
   // State field(s) for birthdate widget.
   FocusNode? birthdateFocusNode;
   TextEditingController? birthdateTextController;
@@ -50,8 +47,6 @@ class RabbitProfileModel extends FlutterFlowModel<RabbitProfileWidget> {
   FocusNode? bioFocusNode;
   TextEditingController? bioTextController;
   String? Function(BuildContext, String?)? bioTextControllerValidator;
-  // Stores action output result for [Custom Action - createOrUpdateCustomer] action in Button widget.
-  String? custumerId;
 
   @override
   void initState(BuildContext context) {}
@@ -60,9 +55,6 @@ class RabbitProfileModel extends FlutterFlowModel<RabbitProfileWidget> {
   void dispose() {
     yourNameFocusNode?.dispose();
     yourNameTextController?.dispose();
-
-    yourAgeFocusNode?.dispose();
-    yourAgeTextController?.dispose();
 
     birthdateFocusNode?.dispose();
     birthdateTextController?.dispose();

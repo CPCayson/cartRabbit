@@ -16,7 +16,7 @@ final _isProd = false;
 // Stripe Credentials
 const _kProdStripePublishableKey = '';
 const _kTestStripePublishableKey =
-    'pk_test_51KVWLuCox373OxMXkU9dlTZBMHJkmV9z8XCguTm4iSNaoxGFkhZ2UjcjaiHoJmvljbqqV0vm1XTk2W108Ep8ExxL00VSEiwo7V';
+    'pk_test_51PKXFdLZTLOaKlNslmwEPt9pWm5uS9ZyOsr5gXeJKCmLal5nT1gofFJm2icRtOJgxEhs5265M6LRpSGPHEHydRna00CVialgWd';
 const _kAppleMerchantId = '';
 
 String stripePublishableKey() =>

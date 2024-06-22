@@ -69,122 +69,117 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Title(
-        title: 'chatDetails',
-        color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
-        child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
-          child: Scaffold(
-            key: scaffoldKey,
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).tertiary,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 30.0,
-                ),
-                onPressed: () async {
-                  context.pop();
-                },
-              ),
-              title: Text(
-                'Page Title',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: 'Urbanist',
-                      letterSpacing: 0.0,
-                    ),
-              ),
-              actions: [],
-              centerTitle: true,
-              elevation: 2.0,
+    return GestureDetector(
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).tertiary,
+          automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).primaryText,
+              size: 30.0,
             ),
-            body: SafeArea(
-              top: true,
-              child: Stack(
-                children: [
-                  StreamBuilder<FFChatInfo>(
-                    stream: FFChatManager.instance.getChatInfo(
-                      otherUserRecord: widget.chatUser,
-                      chatReference: widget.chatRef,
-                    ),
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? FFChatPage(
-                            chatInfo: snapshot.data!,
-                            allowImages: true,
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).turquoise,
-                            timeDisplaySetting:
-                                TimeDisplaySetting.alwaysVisible,
-                            currentUserBoxDecoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Colors.transparent,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            otherUsersBoxDecoration: BoxDecoration(
-                              color: Color(0xFF4B39EF),
-                              border: Border.all(
-                                color: Colors.transparent,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            currentUserTextStyle: GoogleFonts.getFont(
-                              'Lexend Deca',
-                              color: Color(0xFF1E2429),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
-                              fontStyle: FontStyle.normal,
-                            ),
-                            otherUsersTextStyle: GoogleFonts.getFont(
-                              'Lexend Deca',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
-                            ),
-                            inputHintTextStyle: GoogleFonts.getFont(
-                              'Lexend Deca',
-                              color: Color(0xFF95A1AC),
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14.0,
-                            ),
-                            inputTextStyle: GoogleFonts.getFont(
-                              'Lexend Deca',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14.0,
-                            ),
-                            emptyChatWidget: Center(
-                              child: Image.asset(
-                                'assets/images/messagesEmpty@2x.png',
-                                width: 300.0,
-                              ),
-                            ),
-                          )
-                        : Center(
-                            child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
-                              child: SpinKitWave(
-                                color: FlutterFlowTheme.of(context).turquoise,
-                                size: 50.0,
-                              ),
-                            ),
-                          ),
-                  ),
-                ],
-              ),
-            ),
+            onPressed: () async {
+              context.pop();
+            },
           ),
-        ));
+          title: Text(
+            'Page Title',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Urbanist',
+                  letterSpacing: 0.0,
+                ),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 2.0,
+        ),
+        body: SafeArea(
+          top: true,
+          child: Stack(
+            children: [
+              StreamBuilder<FFChatInfo>(
+                stream: FFChatManager.instance.getChatInfo(
+                  otherUserRecord: widget.chatUser,
+                  chatReference: widget.chatRef,
+                ),
+                builder: (context, snapshot) => snapshot.hasData
+                    ? FFChatPage(
+                        chatInfo: snapshot.data!,
+                        allowImages: true,
+                        backgroundColor: FlutterFlowTheme.of(context).turquoise,
+                        timeDisplaySetting: TimeDisplaySetting.alwaysVisible,
+                        currentUserBoxDecoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        otherUsersBoxDecoration: BoxDecoration(
+                          color: Color(0xFF4B39EF),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        currentUserTextStyle: GoogleFonts.getFont(
+                          'Lexend Deca',
+                          color: Color(0xFF1E2429),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        otherUsersTextStyle: GoogleFonts.getFont(
+                          'Lexend Deca',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
+                        ),
+                        inputHintTextStyle: GoogleFonts.getFont(
+                          'Lexend Deca',
+                          color: Color(0xFF95A1AC),
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14.0,
+                        ),
+                        inputTextStyle: GoogleFonts.getFont(
+                          'Lexend Deca',
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14.0,
+                        ),
+                        emptyChatWidget: Center(
+                          child: Image.asset(
+                            'assets/images/messagesEmpty@2x.png',
+                            width: 300.0,
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: SpinKitWave(
+                            color: FlutterFlowTheme.of(context).turquoise,
+                            size: 50.0,
+                          ),
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

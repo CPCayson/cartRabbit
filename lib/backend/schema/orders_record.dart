@@ -51,6 +51,21 @@ class OrdersRecord extends FirestoreRecord {
   String get paymentIntentId => _paymentIntentId ?? '';
   bool hasPaymentIntentId() => _paymentIntentId != null;
 
+  // "timestamp" field.
+  DateTime? _timestamp;
+  DateTime? get timestamp => _timestamp;
+  bool hasTimestamp() => _timestamp != null;
+
+  // "destination_list" field.
+  List<LatLng>? _destinationList;
+  List<LatLng> get destinationList => _destinationList ?? const [];
+  bool hasDestinationList() => _destinationList != null;
+
+  // "refund_id" field.
+  String? _refundId;
+  String get refundId => _refundId ?? '';
+  bool hasRefundId() => _refundId != null;
+
   void _initializeFields() {
     _source = snapshotData['source'] as LatLng?;
     _destination = snapshotData['destination'] as LatLng?;
@@ -59,6 +74,9 @@ class OrdersRecord extends FirestoreRecord {
     _name = snapshotData['name'] as String?;
     _driverPositions = getDataList(snapshotData['driverPositions']);
     _paymentIntentId = snapshotData['payment_intent_id'] as String?;
+    _timestamp = snapshotData['timestamp'] as DateTime?;
+    _destinationList = getDataList(snapshotData['destination_list']);
+    _refundId = snapshotData['refund_id'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -101,6 +119,8 @@ Map<String, dynamic> createOrdersRecordData({
   String? timeLeft,
   String? name,
   String? paymentIntentId,
+  DateTime? timestamp,
+  String? refundId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -110,6 +130,8 @@ Map<String, dynamic> createOrdersRecordData({
       'timeLeft': timeLeft,
       'name': name,
       'payment_intent_id': paymentIntentId,
+      'timestamp': timestamp,
+      'refund_id': refundId,
     }.withoutNulls,
   );
 
@@ -128,7 +150,10 @@ class OrdersRecordDocumentEquality implements Equality<OrdersRecord> {
         e1?.timeLeft == e2?.timeLeft &&
         e1?.name == e2?.name &&
         listEquality.equals(e1?.driverPositions, e2?.driverPositions) &&
-        e1?.paymentIntentId == e2?.paymentIntentId;
+        e1?.paymentIntentId == e2?.paymentIntentId &&
+        e1?.timestamp == e2?.timestamp &&
+        listEquality.equals(e1?.destinationList, e2?.destinationList) &&
+        e1?.refundId == e2?.refundId;
   }
 
   @override
@@ -139,7 +164,10 @@ class OrdersRecordDocumentEquality implements Equality<OrdersRecord> {
         e?.timeLeft,
         e?.name,
         e?.driverPositions,
-        e?.paymentIntentId
+        e?.paymentIntentId,
+        e?.timestamp,
+        e?.destinationList,
+        e?.refundId
       ]);
 
   @override

@@ -1,8 +1,9 @@
 import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/nav/nav_widget.dart';
 import '/components/rabbit_profile/rabbit_profile_widget.dart';
+import '/components/wallet3_widget.dart';
+import '/dashes/nav/nav_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -22,17 +23,21 @@ class UserProfileModel extends FlutterFlowModel<UserProfileWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Model for authorization component.
+  late AuthorizationModel authorizationModel;
   // Model for nav component.
   late NavModel navModel;
 
   @override
   void initState(BuildContext context) {
+    authorizationModel = createModel(context, () => AuthorizationModel());
     navModel = createModel(context, () => NavModel());
   }
 
   @override
   void dispose() {
     unfocusNode.dispose();
+    authorizationModel.dispose();
     navModel.dispose();
   }
 }

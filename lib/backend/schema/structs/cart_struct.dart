@@ -57,125 +57,148 @@ class CartStruct extends FFFirebaseStruct {
   String? _applcartId;
   String get applcartId => _applcartId ?? '';
   set applcartId(String? val) => _applcartId = val;
+
   bool hasApplcartId() => _applcartId != null;
 
   // "CART_ID" field.
   String? _cartId;
   String get cartId => _cartId ?? '';
   set cartId(String? val) => _cartId = val;
+
   bool hasCartId() => _cartId != null;
 
   // "CART_DISPLAY_NAME" field.
   String? _cartDisplayName;
   String get cartDisplayName => _cartDisplayName ?? '';
   set cartDisplayName(String? val) => _cartDisplayName = val;
+
   bool hasCartDisplayName() => _cartDisplayName != null;
 
   // "CART_LOCATION" field.
   LatLng? _cartLocation;
   LatLng? get cartLocation => _cartLocation;
   set cartLocation(LatLng? val) => _cartLocation = val;
+
   bool hasCartLocation() => _cartLocation != null;
 
   // "CART_RATE_dbl" field.
   double? _cARTRATEDbl;
   double get cARTRATEDbl => _cARTRATEDbl ?? 0.0;
   set cARTRATEDbl(double? val) => _cARTRATEDbl = val;
+
   void incrementCARTRATEDbl(double amount) =>
-      _cARTRATEDbl = cARTRATEDbl + amount;
+      cARTRATEDbl = cARTRATEDbl + amount;
+
   bool hasCARTRATEDbl() => _cARTRATEDbl != null;
 
   // "CART_DESCRIPTION" field.
   String? _cartDescription;
   String get cartDescription => _cartDescription ?? '';
   set cartDescription(String? val) => _cartDescription = val;
+
   bool hasCartDescription() => _cartDescription != null;
 
   // "CART_PLATE" field.
   String? _cartPlate;
   String get cartPlate => _cartPlate ?? '';
   set cartPlate(String? val) => _cartPlate = val;
+
   bool hasCartPlate() => _cartPlate != null;
 
   // "CART_IS_INUSER" field.
   bool? _cartIsInuser;
   bool get cartIsInuser => _cartIsInuser ?? false;
   set cartIsInuser(bool? val) => _cartIsInuser = val;
+
   bool hasCartIsInuser() => _cartIsInuser != null;
 
   // "CART_CAPACITY" field.
   int? _cartCapacity;
   int get cartCapacity => _cartCapacity ?? 0;
   set cartCapacity(int? val) => _cartCapacity = val;
+
   void incrementCartCapacity(int amount) =>
-      _cartCapacity = cartCapacity + amount;
+      cartCapacity = cartCapacity + amount;
+
   bool hasCartCapacity() => _cartCapacity != null;
 
   // "HOST_ID" field.
   String? _hostId;
   String get hostId => _hostId ?? '';
   set hostId(String? val) => _hostId = val;
+
   bool hasHostId() => _hostId != null;
 
   // "CART_ONLINE" field.
   bool? _cartOnline;
   bool get cartOnline => _cartOnline ?? false;
   set cartOnline(bool? val) => _cartOnline = val;
+
   bool hasCartOnline() => _cartOnline != null;
 
   // "IS_ELECTRIC" field.
   bool? _isElectric;
   bool get isElectric => _isElectric ?? false;
   set isElectric(bool? val) => _isElectric = val;
+
   bool hasIsElectric() => _isElectric != null;
 
   // "DECAL_PHOTO" field.
   String? _decalPhoto;
   String get decalPhoto => _decalPhoto ?? '';
   set decalPhoto(String? val) => _decalPhoto = val;
+
   bool hasDecalPhoto() => _decalPhoto != null;
 
   // "AIR" field.
   bool? _air;
   bool get air => _air ?? false;
   set air(bool? val) => _air = val;
+
   bool hasAir() => _air != null;
 
   // "STORAGE" field.
   bool? _storage;
   bool get storage => _storage ?? false;
   set storage(bool? val) => _storage = val;
+
   bool hasStorage() => _storage != null;
 
   // "RADIO" field.
   bool? _radio;
   bool get radio => _radio ?? false;
   set radio(bool? val) => _radio = val;
+
   bool hasRadio() => _radio != null;
 
   // "CART_BOOKED" field.
   bool? _cartBooked;
   bool get cartBooked => _cartBooked ?? false;
   set cartBooked(bool? val) => _cartBooked = val;
+
   bool hasCartBooked() => _cartBooked != null;
 
   // "CART_PHOTO" field.
   String? _cartPhoto;
   String get cartPhoto => _cartPhoto ?? '';
   set cartPhoto(String? val) => _cartPhoto = val;
+
   bool hasCartPhoto() => _cartPhoto != null;
 
   // "CART_RATE_int" field.
   int? _cARTRATEInt;
   int get cARTRATEInt => _cARTRATEInt ?? 0;
   set cARTRATEInt(int? val) => _cARTRATEInt = val;
-  void incrementCARTRATEInt(int amount) => _cARTRATEInt = cARTRATEInt + amount;
+
+  void incrementCARTRATEInt(int amount) => cARTRATEInt = cARTRATEInt + amount;
+
   bool hasCARTRATEInt() => _cARTRATEInt != null;
 
   // "HOSTREF" field.
   DocumentReference? _hostref;
   DocumentReference? get hostref => _hostref;
   set hostref(DocumentReference? val) => _hostref = val;
+
   bool hasHostref() => _hostref != null;
 
   static CartStruct fromMap(Map<String, dynamic> data) => CartStruct(

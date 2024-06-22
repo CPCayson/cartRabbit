@@ -36,11 +36,6 @@ class PaymentsRecord extends FirestoreRecord {
   String get stripeSessionId => _stripeSessionId ?? '';
   bool hasStripeSessionId() => _stripeSessionId != null;
 
-  // "createdAt" field.
-  DateTime? _createdAt;
-  DateTime? get createdAt => _createdAt;
-  bool hasCreatedAt() => _createdAt != null;
-
   // "type" field.
   String? _type;
   String get type => _type ?? '';
@@ -51,26 +46,43 @@ class PaymentsRecord extends FirestoreRecord {
   String get status => _status ?? '';
   bool hasStatus() => _status != null;
 
-  // "paymentMethodID" field.
-  String? _paymentMethodID;
-  String get paymentMethodID => _paymentMethodID ?? '';
-  bool hasPaymentMethodID() => _paymentMethodID != null;
-
   // "stripeCustomerId" field.
   String? _stripeCustomerId;
   String get stripeCustomerId => _stripeCustomerId ?? '';
   bool hasStripeCustomerId() => _stripeCustomerId != null;
+
+  // "userID" field.
+  String? _userID;
+  String get userID => _userID ?? '';
+  bool hasUserID() => _userID != null;
+
+  // "paymentMethodId" field.
+  String? _paymentMethodId;
+  String get paymentMethodId => _paymentMethodId ?? '';
+  bool hasPaymentMethodId() => _paymentMethodId != null;
+
+  // "createdAt" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
+
+  // "setupIntentId" field.
+  String? _setupIntentId;
+  String get setupIntentId => _setupIntentId ?? '';
+  bool hasSetupIntentId() => _setupIntentId != null;
 
   void _initializeFields() {
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
     _amount = castToType<double>(snapshotData['amount']);
     _fees = castToType<double>(snapshotData['fees']);
     _stripeSessionId = snapshotData['stripe_session_id'] as String?;
-    _createdAt = snapshotData['createdAt'] as DateTime?;
     _type = snapshotData['type'] as String?;
     _status = snapshotData['status'] as String?;
-    _paymentMethodID = snapshotData['paymentMethodID'] as String?;
     _stripeCustomerId = snapshotData['stripeCustomerId'] as String?;
+    _userID = snapshotData['userID'] as String?;
+    _paymentMethodId = snapshotData['paymentMethodId'] as String?;
+    _createdAt = snapshotData['createdAt'] as DateTime?;
+    _setupIntentId = snapshotData['setupIntentId'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -112,11 +124,13 @@ Map<String, dynamic> createPaymentsRecordData({
   double? amount,
   double? fees,
   String? stripeSessionId,
-  DateTime? createdAt,
   String? type,
   String? status,
-  String? paymentMethodID,
   String? stripeCustomerId,
+  String? userID,
+  String? paymentMethodId,
+  DateTime? createdAt,
+  String? setupIntentId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -124,11 +138,13 @@ Map<String, dynamic> createPaymentsRecordData({
       'amount': amount,
       'fees': fees,
       'stripe_session_id': stripeSessionId,
-      'createdAt': createdAt,
       'type': type,
       'status': status,
-      'paymentMethodID': paymentMethodID,
       'stripeCustomerId': stripeCustomerId,
+      'userID': userID,
+      'paymentMethodId': paymentMethodId,
+      'createdAt': createdAt,
+      'setupIntentId': setupIntentId,
     }.withoutNulls,
   );
 
@@ -144,11 +160,13 @@ class PaymentsRecordDocumentEquality implements Equality<PaymentsRecord> {
         e1?.amount == e2?.amount &&
         e1?.fees == e2?.fees &&
         e1?.stripeSessionId == e2?.stripeSessionId &&
-        e1?.createdAt == e2?.createdAt &&
         e1?.type == e2?.type &&
         e1?.status == e2?.status &&
-        e1?.paymentMethodID == e2?.paymentMethodID &&
-        e1?.stripeCustomerId == e2?.stripeCustomerId;
+        e1?.stripeCustomerId == e2?.stripeCustomerId &&
+        e1?.userID == e2?.userID &&
+        e1?.paymentMethodId == e2?.paymentMethodId &&
+        e1?.createdAt == e2?.createdAt &&
+        e1?.setupIntentId == e2?.setupIntentId;
   }
 
   @override
@@ -157,11 +175,13 @@ class PaymentsRecordDocumentEquality implements Equality<PaymentsRecord> {
         e?.amount,
         e?.fees,
         e?.stripeSessionId,
-        e?.createdAt,
         e?.type,
         e?.status,
-        e?.paymentMethodID,
-        e?.stripeCustomerId
+        e?.stripeCustomerId,
+        e?.userID,
+        e?.paymentMethodId,
+        e?.createdAt,
+        e?.setupIntentId
       ]);
 
   @override

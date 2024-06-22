@@ -27,30 +27,35 @@ class ChatMessageStruct extends FFFirebaseStruct {
   String? _user;
   String get user => _user ?? '';
   set user(String? val) => _user = val;
+
   bool hasUser() => _user != null;
 
   // "chat" field.
   String? _chat;
   String get chat => _chat ?? '';
   set chat(String? val) => _chat = val;
+
   bool hasChat() => _chat != null;
 
   // "text" field.
   String? _text;
   String get text => _text ?? '';
   set text(String? val) => _text = val;
+
   bool hasText() => _text != null;
 
   // "image" field.
   String? _image;
   String get image => _image ?? '';
   set image(String? val) => _image = val;
+
   bool hasImage() => _image != null;
 
   // "timestamp" field.
   DateTime? _timestamp;
   DateTime? get timestamp => _timestamp;
   set timestamp(DateTime? val) => _timestamp = val;
+
   bool hasTimestamp() => _timestamp != null;
 
   static ChatMessageStruct fromMap(Map<String, dynamic> data) =>

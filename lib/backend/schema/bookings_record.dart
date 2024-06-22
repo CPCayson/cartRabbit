@@ -31,20 +31,10 @@ class BookingsRecord extends FirestoreRecord {
   DocumentReference? get userRef => _userRef;
   bool hasUserRef() => _userRef != null;
 
-  // "timestamp" field.
-  DateTime? _timestamp;
-  DateTime? get timestamp => _timestamp;
-  bool hasTimestamp() => _timestamp != null;
-
   // "bookingID" field.
   String? _bookingID;
   String get bookingID => _bookingID ?? '';
   bool hasBookingID() => _bookingID != null;
-
-  // "status" field.
-  bool? _status;
-  bool get status => _status ?? false;
-  bool hasStatus() => _status != null;
 
   // "isComplete" field.
   bool? _isComplete;
@@ -121,13 +111,46 @@ class BookingsRecord extends FirestoreRecord {
   Color? get color => _color;
   bool hasColor() => _color != null;
 
+  // "paymentIntentId" field.
+  String? _paymentIntentId;
+  String get paymentIntentId => _paymentIntentId ?? '';
+  bool hasPaymentIntentId() => _paymentIntentId != null;
+
+  // "amount" field.
+  int? _amount;
+  int get amount => _amount ?? 0;
+  bool hasAmount() => _amount != null;
+
+  // "status" field.
+  String? _status;
+  String get status => _status ?? '';
+  bool hasStatus() => _status != null;
+
+  // "created_at" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
+
+  // "updated_at" field.
+  DateTime? _updatedAt;
+  DateTime? get updatedAt => _updatedAt;
+  bool hasUpdatedAt() => _updatedAt != null;
+
+  // "driverID" field.
+  String? _driverID;
+  String get driverID => _driverID ?? '';
+  bool hasDriverID() => _driverID != null;
+
+  // "stripeSessionId" field.
+  String? _stripeSessionId;
+  String get stripeSessionId => _stripeSessionId ?? '';
+  bool hasStripeSessionId() => _stripeSessionId != null;
+
   void _initializeFields() {
     _cartRef = snapshotData['cartRef'] as DocumentReference?;
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
-    _timestamp = snapshotData['timestamp'] as DateTime?;
     _bookingID = snapshotData['bookingID'] as String?;
-    _status = snapshotData['status'] as bool?;
     _isComplete = snapshotData['isComplete'] as bool?;
     _numHours = castToType<int>(snapshotData['numHours']);
     _cancelReason = snapshotData['cancelReason'] as String?;
@@ -143,6 +166,13 @@ class BookingsRecord extends FirestoreRecord {
     _host = UserStruct.maybeFromMap(snapshotData['host']);
     _user = UserStruct.maybeFromMap(snapshotData['user']);
     _color = getSchemaColor(snapshotData['color']);
+    _paymentIntentId = snapshotData['paymentIntentId'] as String?;
+    _amount = castToType<int>(snapshotData['amount']);
+    _status = snapshotData['status'] as String?;
+    _createdAt = snapshotData['created_at'] as DateTime?;
+    _updatedAt = snapshotData['updated_at'] as DateTime?;
+    _driverID = snapshotData['driverID'] as String?;
+    _stripeSessionId = snapshotData['stripeSessionId'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -183,9 +213,7 @@ Map<String, dynamic> createBookingsRecordData({
   DocumentReference? cartRef,
   DocumentReference? hostRef,
   DocumentReference? userRef,
-  DateTime? timestamp,
   String? bookingID,
-  bool? status,
   bool? isComplete,
   int? numHours,
   String? cancelReason,
@@ -201,15 +229,20 @@ Map<String, dynamic> createBookingsRecordData({
   UserStruct? host,
   UserStruct? user,
   Color? color,
+  String? paymentIntentId,
+  int? amount,
+  String? status,
+  DateTime? createdAt,
+  DateTime? updatedAt,
+  String? driverID,
+  String? stripeSessionId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'cartRef': cartRef,
       'hostRef': hostRef,
       'userRef': userRef,
-      'timestamp': timestamp,
       'bookingID': bookingID,
-      'status': status,
       'isComplete': isComplete,
       'numHours': numHours,
       'cancelReason': cancelReason,
@@ -225,6 +258,13 @@ Map<String, dynamic> createBookingsRecordData({
       'host': UserStruct().toMap(),
       'user': UserStruct().toMap(),
       'color': color,
+      'paymentIntentId': paymentIntentId,
+      'amount': amount,
+      'status': status,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'driverID': driverID,
+      'stripeSessionId': stripeSessionId,
     }.withoutNulls,
   );
 
@@ -248,9 +288,7 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
     return e1?.cartRef == e2?.cartRef &&
         e1?.hostRef == e2?.hostRef &&
         e1?.userRef == e2?.userRef &&
-        e1?.timestamp == e2?.timestamp &&
         e1?.bookingID == e2?.bookingID &&
-        e1?.status == e2?.status &&
         e1?.isComplete == e2?.isComplete &&
         e1?.numHours == e2?.numHours &&
         e1?.cancelReason == e2?.cancelReason &&
@@ -265,7 +303,14 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
         e1?.cart == e2?.cart &&
         e1?.host == e2?.host &&
         e1?.user == e2?.user &&
-        e1?.color == e2?.color;
+        e1?.color == e2?.color &&
+        e1?.paymentIntentId == e2?.paymentIntentId &&
+        e1?.amount == e2?.amount &&
+        e1?.status == e2?.status &&
+        e1?.createdAt == e2?.createdAt &&
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.driverID == e2?.driverID &&
+        e1?.stripeSessionId == e2?.stripeSessionId;
   }
 
   @override
@@ -273,9 +318,7 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
         e?.cartRef,
         e?.hostRef,
         e?.userRef,
-        e?.timestamp,
         e?.bookingID,
-        e?.status,
         e?.isComplete,
         e?.numHours,
         e?.cancelReason,
@@ -290,7 +333,14 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
         e?.cart,
         e?.host,
         e?.user,
-        e?.color
+        e?.color,
+        e?.paymentIntentId,
+        e?.amount,
+        e?.status,
+        e?.createdAt,
+        e?.updatedAt,
+        e?.driverID,
+        e?.stripeSessionId
       ]);
 
   @override

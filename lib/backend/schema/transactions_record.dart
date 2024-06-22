@@ -16,11 +16,6 @@ class TransactionsRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "userId" field.
-  DocumentReference? _userId;
-  DocumentReference? get userId => _userId;
-  bool hasUserId() => _userId != null;
-
   // "balance" field.
   double? _balance;
   double get balance => _balance ?? 0.0;
@@ -36,16 +31,6 @@ class TransactionsRecord extends FirestoreRecord {
   DocumentReference? get buyerRef => _buyerRef;
   bool hasBuyerRef() => _buyerRef != null;
 
-  // "stripe_session_id" field.
-  String? _stripeSessionId;
-  String get stripeSessionId => _stripeSessionId ?? '';
-  bool hasStripeSessionId() => _stripeSessionId != null;
-
-  // "stripeCustomerId" field.
-  String? _stripeCustomerId;
-  String get stripeCustomerId => _stripeCustomerId ?? '';
-  bool hasStripeCustomerId() => _stripeCustomerId != null;
-
   // "type" field.
   String? _type;
   String get type => _type ?? '';
@@ -56,21 +41,60 @@ class TransactionsRecord extends FirestoreRecord {
   String get description => _description ?? '';
   bool hasDescription() => _description != null;
 
-  // "createdAt" field.
-  DateTime? _createdAt;
-  DateTime? get createdAt => _createdAt;
-  bool hasCreatedAt() => _createdAt != null;
+  // "userID" field.
+  String? _userID;
+  String get userID => _userID ?? '';
+  bool hasUserID() => _userID != null;
+
+  // "bookingID" field.
+  String? _bookingID;
+  String get bookingID => _bookingID ?? '';
+  bool hasBookingID() => _bookingID != null;
+
+  // "amount" field.
+  int? _amount;
+  int get amount => _amount ?? 0;
+  bool hasAmount() => _amount != null;
+
+  // "currency" field.
+  String? _currency;
+  String get currency => _currency ?? '';
+  bool hasCurrency() => _currency != null;
+
+  // "status" field.
+  String? _status;
+  String get status => _status ?? '';
+  bool hasStatus() => _status != null;
+
+  // "created_time" field.
+  DateTime? _createdTime;
+  DateTime? get createdTime => _createdTime;
+  bool hasCreatedTime() => _createdTime != null;
+
+  // "updatedAt" field.
+  DateTime? _updatedAt;
+  DateTime? get updatedAt => _updatedAt;
+  bool hasUpdatedAt() => _updatedAt != null;
+
+  // "stripeSessionId" field.
+  String? _stripeSessionId;
+  String get stripeSessionId => _stripeSessionId ?? '';
+  bool hasStripeSessionId() => _stripeSessionId != null;
 
   void _initializeFields() {
-    _userId = snapshotData['userId'] as DocumentReference?;
     _balance = castToType<double>(snapshotData['balance']);
     _total = castToType<double>(snapshotData['total']);
     _buyerRef = snapshotData['buyer_ref'] as DocumentReference?;
-    _stripeSessionId = snapshotData['stripe_session_id'] as String?;
-    _stripeCustomerId = snapshotData['stripeCustomerId'] as String?;
     _type = snapshotData['type'] as String?;
     _description = snapshotData['description'] as String?;
-    _createdAt = snapshotData['createdAt'] as DateTime?;
+    _userID = snapshotData['userID'] as String?;
+    _bookingID = snapshotData['bookingID'] as String?;
+    _amount = castToType<int>(snapshotData['amount']);
+    _currency = snapshotData['currency'] as String?;
+    _status = snapshotData['status'] as String?;
+    _createdTime = snapshotData['created_time'] as DateTime?;
+    _updatedAt = snapshotData['updatedAt'] as DateTime?;
+    _stripeSessionId = snapshotData['stripeSessionId'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -108,27 +132,35 @@ class TransactionsRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createTransactionsRecordData({
-  DocumentReference? userId,
   double? balance,
   double? total,
   DocumentReference? buyerRef,
-  String? stripeSessionId,
-  String? stripeCustomerId,
   String? type,
   String? description,
-  DateTime? createdAt,
+  String? userID,
+  String? bookingID,
+  int? amount,
+  String? currency,
+  String? status,
+  DateTime? createdTime,
+  DateTime? updatedAt,
+  String? stripeSessionId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'userId': userId,
       'balance': balance,
       'total': total,
       'buyer_ref': buyerRef,
-      'stripe_session_id': stripeSessionId,
-      'stripeCustomerId': stripeCustomerId,
       'type': type,
       'description': description,
-      'createdAt': createdAt,
+      'userID': userID,
+      'bookingID': bookingID,
+      'amount': amount,
+      'currency': currency,
+      'status': status,
+      'created_time': createdTime,
+      'updatedAt': updatedAt,
+      'stripeSessionId': stripeSessionId,
     }.withoutNulls,
   );
 
@@ -141,28 +173,36 @@ class TransactionsRecordDocumentEquality
 
   @override
   bool equals(TransactionsRecord? e1, TransactionsRecord? e2) {
-    return e1?.userId == e2?.userId &&
-        e1?.balance == e2?.balance &&
+    return e1?.balance == e2?.balance &&
         e1?.total == e2?.total &&
         e1?.buyerRef == e2?.buyerRef &&
-        e1?.stripeSessionId == e2?.stripeSessionId &&
-        e1?.stripeCustomerId == e2?.stripeCustomerId &&
         e1?.type == e2?.type &&
         e1?.description == e2?.description &&
-        e1?.createdAt == e2?.createdAt;
+        e1?.userID == e2?.userID &&
+        e1?.bookingID == e2?.bookingID &&
+        e1?.amount == e2?.amount &&
+        e1?.currency == e2?.currency &&
+        e1?.status == e2?.status &&
+        e1?.createdTime == e2?.createdTime &&
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.stripeSessionId == e2?.stripeSessionId;
   }
 
   @override
   int hash(TransactionsRecord? e) => const ListEquality().hash([
-        e?.userId,
         e?.balance,
         e?.total,
         e?.buyerRef,
-        e?.stripeSessionId,
-        e?.stripeCustomerId,
         e?.type,
         e?.description,
-        e?.createdAt
+        e?.userID,
+        e?.bookingID,
+        e?.amount,
+        e?.currency,
+        e?.status,
+        e?.createdTime,
+        e?.updatedAt,
+        e?.stripeSessionId
       ]);
 
   @override

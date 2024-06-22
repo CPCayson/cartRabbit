@@ -73,6 +73,13 @@ abstract class FlutterFlowTheme {
   late Color overlay;
   late Color overlay0;
   late Color primaryBtnText;
+  late Color customColor1;
+  late Color customColor2;
+  late Color customColor5;
+  late Color customColor6;
+  late Color customColor7;
+  late Color customColor8;
+  late Color customColor9;
 
   @Deprecated('Use displaySmallFamily instead')
   String get title1Family => displaySmallFamily;
@@ -181,6 +188,13 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color overlay = Color(0x9A1D2428);
   late Color overlay0 = Color(0x00FFFFFF);
   late Color primaryBtnText = Color(0xFFFFFFFF);
+  late Color customColor1 = Color(0xFF7EFC09);
+  late Color customColor2 = Color(0xFF1E913F);
+  late Color customColor5 = Color(0xFF8263A1);
+  late Color customColor6 = Color(0xFFD4D537);
+  late Color customColor7 = Color(0x00000000);
+  late Color customColor8 = Color(0xFFAE5D7B);
+  late Color customColor9 = Color(0xFFDF5771);
 }
 
 abstract class Typography {
@@ -372,6 +386,13 @@ class DarkModeTheme extends FlutterFlowTheme {
   late Color overlay = Color(0x981D2428);
   late Color overlay0 = Color(0x000B191E);
   late Color primaryBtnText = Color(0xFFFFFFFF);
+  late Color customColor1 = Color(0xFF7EFC09);
+  late Color customColor2 = Color(0xFF1E913F);
+  late Color customColor5 = Color(0xFF8263A1);
+  late Color customColor6 = Color(0xFFD4D537);
+  late Color customColor7 = Color(0xFF674499);
+  late Color customColor8 = Color(0xFFAE5D7B);
+  late Color customColor9 = Color(0xFFDF5771);
 }
 
 extension TextStyleHelper on TextStyle {

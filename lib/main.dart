@@ -1,3 +1,4 @@
+import '/custom_code/actions/index.dart' as actions;
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
 
-import 'backend/push_notifications/push_notifications_util.dart';
+import '/backend/supabase/supabase.dart';
 import 'backend/firebase/firebase_config.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
@@ -27,6 +28,12 @@ void main() async {
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
   await initFirebase();
+
+  // Start initial custom actions code
+  await actions.getUserBalance();
+  // End initial custom actions code
+
+  await SupaFlow.initialize();
 
   await FlutterFlowTheme.initialize();
 
@@ -53,13 +60,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
-  late Stream<BaseAuthUser> userStream;
-
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
 
+  late Stream<BaseAuthUser> userStream;
+
   final authUserSub = authenticatedUserStream.listen((_) {});
-  final fcmTokenSub = fcmTokenUserStream.listen((_) {});
 
   @override
   void initState() {
@@ -68,7 +74,9 @@ class _MyAppState extends State<MyApp> {
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
     userStream = cartRabbitFirebaseUserStream()
-      ..listen((user) => _appStateNotifier.update(user));
+      ..listen((user) {
+        _appStateNotifier.update(user);
+      });
     jwtTokenStream.listen((_) {});
     Future.delayed(
       Duration(milliseconds: 1000),
@@ -79,7 +87,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     authUserSub.cancel();
-    fcmTokenSub.cancel();
+
     super.dispose();
   }
 
@@ -150,7 +158,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPageName = 'userDash';
+  String _currentPageName = 'hostDash';
   late Widget? _currentPage;
 
   @override
@@ -163,11 +171,9 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'userDash': UserDashWidget(),
       'userProfile': UserProfileWidget(),
       'hostDash': HostDashWidget(),
-      'userDashCopy2': UserDashCopy2Widget(),
-      'SelectDestinationPage': SelectDestinationPageWidget(),
+      'findingRidePage': FindingRidePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -203,37 +209,12 @@ class _NavBarPageState extends State<NavBarPage> {
               children: [
                 Icon(
                   currentIndex == 0
-                      ? Icons.shutter_speed_rounded
-                      : Icons.sort_outlined,
+                      ? Icons.location_history
+                      : Icons.accessible_forward_rounded,
                   color: currentIndex == 0
                       ? FlutterFlowTheme.of(context).secondary
                       : FlutterFlowTheme.of(context).lineGray,
-                  size: currentIndex == 0 ? 50.0 : 50.0,
-                ),
-                Text(
-                  'Dash',
-                  overflow: TextOverflow.ellipsis,
-                  style: FlutterFlowTheme.of(context).labelLarge.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.of(context).tertiary,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  currentIndex == 1
-                      ? Icons.location_history
-                      : Icons.accessible_forward_rounded,
-                  color: currentIndex == 1
-                      ? FlutterFlowTheme.of(context).secondary
-                      : FlutterFlowTheme.of(context).lineGray,
-                  size: currentIndex == 1 ? 24.0 : 50.0,
+                  size: currentIndex == 0 ? 24.0 : 50.0,
                 ),
                 Text(
                   'Home',
@@ -251,7 +232,7 @@ class _NavBarPageState extends State<NavBarPage> {
               children: [
                 Icon(
                   Icons.sports_bar,
-                  color: currentIndex == 2
+                  color: currentIndex == 1
                       ? FlutterFlowTheme.of(context).secondary
                       : FlutterFlowTheme.of(context).lineGray,
                   size: 50.0,
@@ -271,33 +252,8 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  currentIndex == 3
-                      ? Icons.shutter_speed_rounded
-                      : Icons.sort_outlined,
-                  color: currentIndex == 3
-                      ? FlutterFlowTheme.of(context).secondary
-                      : FlutterFlowTheme.of(context).lineGray,
-                  size: currentIndex == 3 ? 50.0 : 50.0,
-                ),
-                Text(
-                  'Dash',
-                  overflow: TextOverflow.ellipsis,
-                  style: FlutterFlowTheme.of(context).labelLarge.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.of(context).tertiary,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
                   Icons.home_outlined,
-                  color: currentIndex == 4
+                  color: currentIndex == 2
                       ? FlutterFlowTheme.of(context).secondary
                       : FlutterFlowTheme.of(context).lineGray,
                   size: 24.0,
@@ -306,7 +262,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   'Home',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: currentIndex == 4
+                    color: currentIndex == 2
                         ? FlutterFlowTheme.of(context).secondary
                         : FlutterFlowTheme.of(context).lineGray,
                     fontSize: 11.0,

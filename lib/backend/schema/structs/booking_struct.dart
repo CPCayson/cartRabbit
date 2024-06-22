@@ -10,11 +10,8 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class BookingStruct extends FFFirebaseStruct {
   BookingStruct({
-    String? cartRef,
     String? bookingUid,
     DateTime? timestamp,
-    DateTime? startTime,
-    DateTime? endTime,
     String? userRef,
     double? price,
     int? hours,
@@ -26,12 +23,12 @@ class BookingStruct extends FFFirebaseStruct {
     DocumentReference? cartref,
     DocumentReference? hostref,
     DocumentReference? userref,
+    DateTime? startTime,
+    DateTime? endTime,
+    Color? color,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _cartRef = cartRef,
-        _bookingUid = bookingUid,
+  })  : _bookingUid = bookingUid,
         _timestamp = timestamp,
-        _startTime = startTime,
-        _endTime = endTime,
         _userRef = userRef,
         _price = price,
         _hours = hours,
@@ -43,112 +40,130 @@ class BookingStruct extends FFFirebaseStruct {
         _cartref = cartref,
         _hostref = hostref,
         _userref = userref,
+        _startTime = startTime,
+        _endTime = endTime,
+        _color = color,
         super(firestoreUtilData);
-
-  // "CART_REF" field.
-  String? _cartRef;
-  String get cartRef => _cartRef ?? '';
-  set cartRef(String? val) => _cartRef = val;
-  bool hasCartRef() => _cartRef != null;
 
   // "BOOKING_UID" field.
   String? _bookingUid;
   String get bookingUid => _bookingUid ?? '';
   set bookingUid(String? val) => _bookingUid = val;
+
   bool hasBookingUid() => _bookingUid != null;
 
   // "TIMESTAMP" field.
   DateTime? _timestamp;
   DateTime? get timestamp => _timestamp;
   set timestamp(DateTime? val) => _timestamp = val;
+
   bool hasTimestamp() => _timestamp != null;
-
-  // "START_TIME" field.
-  DateTime? _startTime;
-  DateTime? get startTime => _startTime;
-  set startTime(DateTime? val) => _startTime = val;
-  bool hasStartTime() => _startTime != null;
-
-  // "END_TIME" field.
-  DateTime? _endTime;
-  DateTime? get endTime => _endTime;
-  set endTime(DateTime? val) => _endTime = val;
-  bool hasEndTime() => _endTime != null;
 
   // "USER_REF" field.
   String? _userRef;
   String get userRef => _userRef ?? '';
   set userRef(String? val) => _userRef = val;
+
   bool hasUserRef() => _userRef != null;
 
   // "PRICE" field.
   double? _price;
   double get price => _price ?? 0.0;
   set price(double? val) => _price = val;
-  void incrementPrice(double amount) => _price = price + amount;
+
+  void incrementPrice(double amount) => price = price + amount;
+
   bool hasPrice() => _price != null;
 
   // "HOURS" field.
   int? _hours;
   int get hours => _hours ?? 0;
   set hours(int? val) => _hours = val;
-  void incrementHours(int amount) => _hours = hours + amount;
+
+  void incrementHours(int amount) => hours = hours + amount;
+
   bool hasHours() => _hours != null;
 
   // "STATUS" field.
   String? _status;
   String get status => _status ?? '';
   set status(String? val) => _status = val;
+
   bool hasStatus() => _status != null;
 
   // "HOST_REF" field.
   String? _hostRef;
   String get hostRef => _hostRef ?? '';
   set hostRef(String? val) => _hostRef = val;
+
   bool hasHostRef() => _hostRef != null;
 
   // "STARTLOC" field.
   LatLng? _startloc;
   LatLng? get startloc => _startloc;
   set startloc(LatLng? val) => _startloc = val;
+
   bool hasStartloc() => _startloc != null;
 
   // "USER_NAME" field.
   String? _userName;
   String get userName => _userName ?? '';
   set userName(String? val) => _userName = val;
+
   bool hasUserName() => _userName != null;
 
   // "CART_NAME" field.
   String? _cartName;
   String get cartName => _cartName ?? '';
   set cartName(String? val) => _cartName = val;
+
   bool hasCartName() => _cartName != null;
 
   // "CARTREF" field.
   DocumentReference? _cartref;
   DocumentReference? get cartref => _cartref;
   set cartref(DocumentReference? val) => _cartref = val;
+
   bool hasCartref() => _cartref != null;
 
   // "HOSTREF" field.
   DocumentReference? _hostref;
   DocumentReference? get hostref => _hostref;
   set hostref(DocumentReference? val) => _hostref = val;
+
   bool hasHostref() => _hostref != null;
 
   // "USERREF" field.
   DocumentReference? _userref;
   DocumentReference? get userref => _userref;
   set userref(DocumentReference? val) => _userref = val;
+
   bool hasUserref() => _userref != null;
 
+  // "startTime" field.
+  DateTime? _startTime;
+  DateTime? get startTime => _startTime;
+  set startTime(DateTime? val) => _startTime = val;
+
+  bool hasStartTime() => _startTime != null;
+
+  // "endTime" field.
+  DateTime? _endTime;
+  DateTime? get endTime => _endTime;
+  set endTime(DateTime? val) => _endTime = val;
+
+  bool hasEndTime() => _endTime != null;
+
+  // "color" field.
+  Color? _color;
+  Color? get color => _color;
+  set color(Color? val) => _color = val;
+
+  bool hasColor() => _color != null;
+
   static BookingStruct fromMap(Map<String, dynamic> data) => BookingStruct(
-        cartRef: data['CART_REF'] as String?,
         bookingUid: data['BOOKING_UID'] as String?,
         timestamp: data['TIMESTAMP'] as DateTime?,
-        startTime: data['START_TIME'] as DateTime?,
-        endTime: data['END_TIME'] as DateTime?,
         userRef: data['USER_REF'] as String?,
         price: castToType<double>(data['PRICE']),
         hours: castToType<int>(data['HOURS']),
@@ -160,17 +175,17 @@ class BookingStruct extends FFFirebaseStruct {
         cartref: data['CARTREF'] as DocumentReference?,
         hostref: data['HOSTREF'] as DocumentReference?,
         userref: data['USERREF'] as DocumentReference?,
+        startTime: data['startTime'] as DateTime?,
+        endTime: data['endTime'] as DateTime?,
+        color: getSchemaColor(data['color']),
       );
 
   static BookingStruct? maybeFromMap(dynamic data) =>
       data is Map ? BookingStruct.fromMap(data.cast<String, dynamic>()) : null;
 
   Map<String, dynamic> toMap() => {
-        'CART_REF': _cartRef,
         'BOOKING_UID': _bookingUid,
         'TIMESTAMP': _timestamp,
-        'START_TIME': _startTime,
-        'END_TIME': _endTime,
         'USER_REF': _userRef,
         'PRICE': _price,
         'HOURS': _hours,
@@ -182,28 +197,19 @@ class BookingStruct extends FFFirebaseStruct {
         'CARTREF': _cartref,
         'HOSTREF': _hostref,
         'USERREF': _userref,
+        'startTime': _startTime,
+        'endTime': _endTime,
+        'color': _color,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'CART_REF': serializeParam(
-          _cartRef,
-          ParamType.String,
-        ),
         'BOOKING_UID': serializeParam(
           _bookingUid,
           ParamType.String,
         ),
         'TIMESTAMP': serializeParam(
           _timestamp,
-          ParamType.DateTime,
-        ),
-        'START_TIME': serializeParam(
-          _startTime,
-          ParamType.DateTime,
-        ),
-        'END_TIME': serializeParam(
-          _endTime,
           ParamType.DateTime,
         ),
         'USER_REF': serializeParam(
@@ -250,15 +256,22 @@ class BookingStruct extends FFFirebaseStruct {
           _userref,
           ParamType.DocumentReference,
         ),
+        'startTime': serializeParam(
+          _startTime,
+          ParamType.DateTime,
+        ),
+        'endTime': serializeParam(
+          _endTime,
+          ParamType.DateTime,
+        ),
+        'color': serializeParam(
+          _color,
+          ParamType.Color,
+        ),
       }.withoutNulls;
 
   static BookingStruct fromSerializableMap(Map<String, dynamic> data) =>
       BookingStruct(
-        cartRef: deserializeParam(
-          data['CART_REF'],
-          ParamType.String,
-          false,
-        ),
         bookingUid: deserializeParam(
           data['BOOKING_UID'],
           ParamType.String,
@@ -266,16 +279,6 @@ class BookingStruct extends FFFirebaseStruct {
         ),
         timestamp: deserializeParam(
           data['TIMESTAMP'],
-          ParamType.DateTime,
-          false,
-        ),
-        startTime: deserializeParam(
-          data['START_TIME'],
-          ParamType.DateTime,
-          false,
-        ),
-        endTime: deserializeParam(
-          data['END_TIME'],
           ParamType.DateTime,
           false,
         ),
@@ -337,6 +340,21 @@ class BookingStruct extends FFFirebaseStruct {
           false,
           collectionNamePath: ['users'],
         ),
+        startTime: deserializeParam(
+          data['startTime'],
+          ParamType.DateTime,
+          false,
+        ),
+        endTime: deserializeParam(
+          data['endTime'],
+          ParamType.DateTime,
+          false,
+        ),
+        color: deserializeParam(
+          data['color'],
+          ParamType.Color,
+          false,
+        ),
       );
 
   @override
@@ -345,11 +363,8 @@ class BookingStruct extends FFFirebaseStruct {
   @override
   bool operator ==(Object other) {
     return other is BookingStruct &&
-        cartRef == other.cartRef &&
         bookingUid == other.bookingUid &&
         timestamp == other.timestamp &&
-        startTime == other.startTime &&
-        endTime == other.endTime &&
         userRef == other.userRef &&
         price == other.price &&
         hours == other.hours &&
@@ -360,16 +375,16 @@ class BookingStruct extends FFFirebaseStruct {
         cartName == other.cartName &&
         cartref == other.cartref &&
         hostref == other.hostref &&
-        userref == other.userref;
+        userref == other.userref &&
+        startTime == other.startTime &&
+        endTime == other.endTime &&
+        color == other.color;
   }
 
   @override
   int get hashCode => const ListEquality().hash([
-        cartRef,
         bookingUid,
         timestamp,
-        startTime,
-        endTime,
         userRef,
         price,
         hours,
@@ -380,16 +395,16 @@ class BookingStruct extends FFFirebaseStruct {
         cartName,
         cartref,
         hostref,
-        userref
+        userref,
+        startTime,
+        endTime,
+        color
       ]);
 }
 
 BookingStruct createBookingStruct({
-  String? cartRef,
   String? bookingUid,
   DateTime? timestamp,
-  DateTime? startTime,
-  DateTime? endTime,
   String? userRef,
   double? price,
   int? hours,
@@ -401,17 +416,17 @@ BookingStruct createBookingStruct({
   DocumentReference? cartref,
   DocumentReference? hostref,
   DocumentReference? userref,
+  DateTime? startTime,
+  DateTime? endTime,
+  Color? color,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     BookingStruct(
-      cartRef: cartRef,
       bookingUid: bookingUid,
       timestamp: timestamp,
-      startTime: startTime,
-      endTime: endTime,
       userRef: userRef,
       price: price,
       hours: hours,
@@ -423,6 +438,9 @@ BookingStruct createBookingStruct({
       cartref: cartref,
       hostref: hostref,
       userref: userref,
+      startTime: startTime,
+      endTime: endTime,
+      color: color,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

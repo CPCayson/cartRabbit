@@ -2,17 +2,17 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /payments/{document} {
-      allow create: if request.auth != null;
+      allow create: if true;
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if true;
       allow delete: if resource.data.hostRef == /databases/$(database)/documents/users/$(request.auth.uid);
     }
 
     match /Carts/{document} {
       allow create: if request.auth != null;
       allow read: if true;
-      allow write: if true;
-      allow delete: if resource.data.hostRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
     }
 
     match /users/{document} {
@@ -30,8 +30,8 @@ service cloud.firestore {
     }
 
     match /bookings/{document} {
-      allow create: if true;
-      allow read: if true;
+      allow create: if request.auth != null;
+      allow read: if request.auth != null;
       allow write: if request.auth != null;
       allow delete: if request.auth != null;
     }
@@ -44,7 +44,7 @@ service cloud.firestore {
     }
 
     match /wallet/{document} {
-      allow create: if request.auth != null;
+      allow create: if true;
       allow read: if true;
       allow write: if true;
       allow delete: if request.auth != null;
@@ -107,9 +107,25 @@ service cloud.firestore {
       allow delete: if true;
     }
 
-    match /ff_user_push_notifications/{id} {
-      allow read, update, delete: if false;
-      allow create: if /databases/$(database)/documents/users/$(request.auth.uid) == request.resource.data.sender;
+    match /ride/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
+
+    match /balances/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
+
+    match /notifications/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
     }
   }
 }

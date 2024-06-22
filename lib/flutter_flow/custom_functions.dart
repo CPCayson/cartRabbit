@@ -11,58 +11,13 @@ import 'uploaded_file.dart';
 import '/backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
 import '/auth/firebase_auth/auth_util.dart';
-
-bool? timelimit(
-  DateTime? initialTime,
-  int? plusHour,
-) {
-  // return false if datetime(hour) + plusHour occur between 2am through 5am
-  if (initialTime == null || plusHour == null) {
-    return null;
-  }
-  final newTime = initialTime.add(Duration(hours: plusHour));
-  final hour = newTime.hour;
-  if (hour >= 2 && hour <= 5) {
-    return false;
-  }
-  return true;
-}
-
-bool? checkBirthday(String? userDOB) {
-  // check to see if user is at least 16 of age, return true if inputed age in format d/M/y
-  if (userDOB == null) {
-    return null;
-  }
-  final dob = DateFormat('d/M/y').parse(userDOB);
-  final age = DateTime.now().year - dob.year;
-  if (age > 16) {
-    return true;
-  } else if (age == 16) {
-    if (DateTime.now().month > dob.month) {
-      return true;
-    } else if (DateTime.now().month == dob.month) {
-      if (DateTime.now().day >= dob.day) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
 
 double? stepcont(int? stepcontroller) {
   // take the value from step controller, make it a double, and multiply it by 0.06
   if (stepcontroller != null) {
     return stepcontroller.toDouble() * 0.06;
-  } else {
-    return null;
-  }
-}
-
-int? slider(double? sliderDouble) {
-  // convert the sliders selection (double) into an integer
-  if (sliderDouble != null) {
-    return sliderDouble.round();
   } else {
     return null;
   }
@@ -142,21 +97,43 @@ DateTime? caclulateEndDate(
   return startTime.add(Duration(hours: hours, minutes: 30));
 }
 
-DateTime? endTimeCountdown(
-  DateTime endtime,
-  DateTime starttime,
+String latlngString(LatLng location) {
+  // latlng to a string
+  return '${location.latitude.toStringAsFixed(6)},${location.longitude.toStringAsFixed(6)}';
+}
+
+int milesintointeger(
+  String miles,
+  double rate,
 ) {
-  if (endtime == null || starttime == null) {
-    return null;
+  // take a miles (string) multiply by rate and then multiplied by 100 so it is an integer
+  return (double.parse(miles) * rate * 100).toInt();
+}
+
+double digitStringtodigit(String digitString) {
+  // convert the string into its corresponding number type
+  return double.parse(digitString);
+}
+
+bool? latlnglocation(LatLng? deviceLocation) {
+  // return false if latitude and longitude returned back from devicelocation global properties is 0
+  if (deviceLocation == null ||
+      deviceLocation.latitude == 0.0 ||
+      deviceLocation.longitude == 0.0) {
+    return false;
+  } else {
+    return true;
   }
+}
 
-  Duration difference = endtime.difference(starttime);
+LatLng makeLatLon(
+  double lat,
+  double lon,
+) {
+  return LatLng(lat, lon);
+}
 
-  // Example condition: If the difference is more than a certain period, adjust endtime
-  if (difference > Duration(hours: 1)) {
-    // Adjust endtime by a criteria, e.g., subtracting a certain Duration
-    return endtime.subtract(Duration(minutes: 30));
-  }
-
-  return endtime;
+int money(double dollar) {
+  // multiply double by 100 to make an integer
+  return ((dollar + 5) * 100).toInt();
 }

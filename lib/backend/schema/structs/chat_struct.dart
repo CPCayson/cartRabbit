@@ -33,38 +33,46 @@ class ChatStruct extends FFFirebaseStruct {
   String? _userA;
   String get userA => _userA ?? '';
   set userA(String? val) => _userA = val;
+
   bool hasUserA() => _userA != null;
 
   // "user_b" field.
   String? _userB;
   String get userB => _userB ?? '';
   set userB(String? val) => _userB = val;
+
   bool hasUserB() => _userB != null;
 
   // "last_message" field.
   String? _lastMessage;
   String get lastMessage => _lastMessage ?? '';
   set lastMessage(String? val) => _lastMessage = val;
+
   bool hasLastMessage() => _lastMessage != null;
 
   // "last_message_time" field.
   DateTime? _lastMessageTime;
   DateTime? get lastMessageTime => _lastMessageTime;
   set lastMessageTime(DateTime? val) => _lastMessageTime = val;
+
   bool hasLastMessageTime() => _lastMessageTime != null;
 
   // "last_message_sent_by" field.
   String? _lastMessageSentBy;
   String get lastMessageSentBy => _lastMessageSentBy ?? '';
   set lastMessageSentBy(String? val) => _lastMessageSentBy = val;
+
   bool hasLastMessageSentBy() => _lastMessageSentBy != null;
 
   // "users" field.
   List<DocumentReference>? _users;
   List<DocumentReference> get users => _users ?? const [];
   set users(List<DocumentReference>? val) => _users = val;
-  void updateUsers(Function(List<DocumentReference>) updateFn) =>
-      updateFn(_users ??= []);
+
+  void updateUsers(Function(List<DocumentReference>) updateFn) {
+    updateFn(users ??= []);
+  }
+
   bool hasUsers() => _users != null;
 
   // "last_message_seen_by" field.
@@ -73,15 +81,20 @@ class ChatStruct extends FFFirebaseStruct {
       _lastMessageSeenBy ?? const [];
   set lastMessageSeenBy(List<DocumentReference>? val) =>
       _lastMessageSeenBy = val;
-  void updateLastMessageSeenBy(Function(List<DocumentReference>) updateFn) =>
-      updateFn(_lastMessageSeenBy ??= []);
+
+  void updateLastMessageSeenBy(Function(List<DocumentReference>) updateFn) {
+    updateFn(lastMessageSeenBy ??= []);
+  }
+
   bool hasLastMessageSeenBy() => _lastMessageSeenBy != null;
 
   // "chat_id" field.
   int? _chatId;
   int get chatId => _chatId ?? 0;
   set chatId(int? val) => _chatId = val;
-  void incrementChatId(int amount) => _chatId = chatId + amount;
+
+  void incrementChatId(int amount) => chatId = chatId + amount;
+
   bool hasChatId() => _chatId != null;
 
   static ChatStruct fromMap(Map<String, dynamic> data) => ChatStruct(
@@ -134,12 +147,12 @@ class ChatStruct extends FFFirebaseStruct {
         'users': serializeParam(
           _users,
           ParamType.DocumentReference,
-          true,
+          isList: true,
         ),
         'last_message_seen_by': serializeParam(
           _lastMessageSeenBy,
           ParamType.DocumentReference,
-          true,
+          isList: true,
         ),
         'chat_id': serializeParam(
           _chatId,

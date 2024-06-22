@@ -70,6 +70,7 @@ class AccountsCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -109,6 +110,7 @@ class CreateAccountLinkCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -139,6 +141,7 @@ class RetrieveAccountInformationCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -168,7 +171,7 @@ class CreateAccountSessionsCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Bearer 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',
         'Stripe-Account': 'acct_1KVWLuCox373OxMX',
       },
       params: {
@@ -184,6 +187,7 @@ class CreateAccountSessionsCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -199,7 +203,6 @@ class CheckoutSessionsCall {
     int? unitAmount,
     int? quantity,
     int? applicationFeeAmount,
-    String? paymentIntent = '',
   }) async {
     final baseUrl = AuthorizationGroup.getBaseUrl();
 
@@ -211,7 +214,7 @@ class CheckoutSessionsCall {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Stripe-Account': 'acct_1KVWLuCox373OxMX',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Bearer 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',
       },
       params: {
         'cancel_url': cancelUrl,
@@ -221,13 +224,13 @@ class CheckoutSessionsCall {
         'line_items[0][price_data][product_data][name]': productName,
         'line_items[0][price_data][unit_amount]': unitAmount,
         'mode': "payment",
-        'payment_intent[destination]': paymentIntent,
       },
       bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -257,7 +260,7 @@ class StripePaymentLinksCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Authorization: Bearer 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',
       },
       params: {
         'line_items[0][price]': priceid,
@@ -269,6 +272,7 @@ class StripePaymentLinksCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -277,7 +281,6 @@ class StripePaymentLinksCall {
 class CreateProductCall {
   Future<ApiCallResponse> call({
     bool? active,
-    double? defaultPrice,
     String? description = '',
     List<String>? imagesList,
     List<String>? featuresList,
@@ -294,11 +297,10 @@ class CreateProductCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Authorization: Bearer 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',
       },
       params: {
         'active': active,
-        'default_price': defaultPrice,
         'description': description,
         'images': images,
         'features': features,
@@ -309,6 +311,7 @@ class CreateProductCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -334,7 +337,7 @@ class UpdateProductCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Authorization: Bearer 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',
       },
       params: {
         'default_price': defaultPrice,
@@ -348,6 +351,7 @@ class UpdateProductCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -370,7 +374,7 @@ class StripeCreatePriceCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Authorization: Bearer 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',
       },
       params: {},
       body: ffApiRequestBody,
@@ -379,6 +383,7 @@ class StripeCreatePriceCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -402,7 +407,7 @@ class StripeUpdatePriceCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Bearer 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',
       },
       params: {},
       body: ffApiRequestBody,
@@ -411,6 +416,7 @@ class StripeUpdatePriceCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -430,7 +436,7 @@ class CustomerSessionCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Bearer  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',
       },
       params: {
         'customer': customer,
@@ -441,6 +447,7 @@ class CustomerSessionCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -465,7 +472,7 @@ class CreatePLCall {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization':
-            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+            'Bearer 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',
       },
       params: {
         'line_items[0][currency]': currency,
@@ -476,6 +483,7 @@ class CreatePLCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -521,6 +529,7 @@ class VerificationSessionCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -543,6 +552,7 @@ class UpdateVerificationSessionCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -564,6 +574,7 @@ class RetrieveVerificationSessionCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -585,6 +596,7 @@ class ListVerificationSessionCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -607,6 +619,7 @@ class CancelVerificationSessionCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -628,6 +641,7 @@ class RedactVerificationReportCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -642,53 +656,19 @@ class GoogleAPIGroup {
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
   };
-  static GetDistanceCall getDistanceCall = GetDistanceCall();
   static GetDirectionsCall getDirectionsCall = GetDirectionsCall();
-}
-
-class GetDistanceCall {
-  Future<ApiCallResponse> call({
-    dynamic? originsJson,
-    dynamic? destinationsJson,
-    String? travelMode = 'DRIVING',
-    bool? avoidHighways = true,
-    String? key = 'AIzaSyAeU7_Y-1gOTgOoQCq_k6nuWn8KUlOeDvM',
-  }) async {
-    final baseUrl = GoogleAPIGroup.getBaseUrl();
-
-    final origins = _serializeJson(originsJson, true);
-    final destinations = _serializeJson(destinationsJson, true);
-
-    return ApiManager.instance.makeApiCall(
-      callName: 'getDistance',
-      apiUrl: '${baseUrl}/distancematrix/json',
-      callType: ApiCallType.GET,
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      params: {
-        'units': "imperial",
-        'origins': origins,
-        'destinations': destinations,
-        'avoidHighways': avoidHighways,
-        'travelMose': travelMode,
-        'key': key,
-      },
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
+  static GetRateCall getRateCall = GetRateCall();
+  static AutocompleteCall autocompleteCall = AutocompleteCall();
+  static NearbyCall nearbyCall = NearbyCall();
+  static GetReferenceCall getReferenceCall = GetReferenceCall();
 }
 
 class GetDirectionsCall {
   Future<ApiCallResponse> call({
     String? destination = '',
     String? origin = '',
-    String? key = 'AIzaSyAeU7_Y-1gOTgOoQCq_k6nuWn8KUlOeDvM',
+    String? waypoints = '',
+    String? key = 'AIzaSyAawLGPiBxFNY144jjcCZFn7vfDlB-1Csc',
   }) async {
     final baseUrl = GoogleAPIGroup.getBaseUrl();
 
@@ -703,18 +683,448 @@ class GetDirectionsCall {
       params: {
         'destination': destination,
         'origin': origin,
+        'waypoints': waypoints,
         'key': key,
       },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
 }
 
+class GetRateCall {
+  Future<ApiCallResponse> call({
+    String? units = 'imperial',
+    String? origins = '',
+    String? destinations = '',
+    String? travelmode = 'BICYCLING',
+    String? key = 'AIzaSyAawLGPiBxFNY144jjcCZFn7vfDlB-1Csc',
+  }) async {
+    final baseUrl = GoogleAPIGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'getRate',
+      apiUrl: '${baseUrl}/distancematrix/json',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        'units': "imperial",
+        'origins': origins,
+        'destinations': destinations,
+        'travelMode': "DRIVING",
+        'key': key,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? duration(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.rows[:].elements[:].duration.text''',
+      ));
+  String? time(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.rows[:].elements[:].distance.text''',
+      ));
+}
+
+class AutocompleteCall {
+  Future<ApiCallResponse> call({
+    String? input = '',
+    String? location = '',
+    String? radius = '',
+    bool? strictbounds = true,
+    String? key = 'AIzaSyAeU7_Y-1gOTgOoQCq_k6nuWn8KUlOeDvM',
+  }) async {
+    final baseUrl = GoogleAPIGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'autocomplete',
+      apiUrl: '${baseUrl}/place/autocomplete/json',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        'input': input,
+        'location': location,
+        'radius': radius,
+        'strictbounds': strictbounds,
+        'key': key,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List<String>? pred(dynamic response) => (getJsonField(
+        response,
+        r'''$.predictions[:].description''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List<String>? placeid(dynamic response) => (getJsonField(
+        response,
+        r'''$.predictions[:].place_id''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+}
+
+class NearbyCall {
+  Future<ApiCallResponse> call({
+    String? keyword = '',
+  }) async {
+    final baseUrl = GoogleAPIGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'nearby',
+      apiUrl: '${baseUrl}/place/nearbysearch/json',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        'keyword': keyword,
+        'location': "30.3107976,-89.3652744",
+        'radius': "2000",
+        'key': "AIzaSyAeU7_Y-1gOTgOoQCq_k6nuWn8KUlOeDvM",
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List<String>? pred(dynamic response) => (getJsonField(
+        response,
+        r'''$.predictions[:].description''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List<String>? placeid(dynamic response) => (getJsonField(
+        response,
+        r'''$.predictions[:].place_id''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+}
+
+class GetReferenceCall {
+  Future<ApiCallResponse> call({
+    String? input = '',
+  }) async {
+    final baseUrl = GoogleAPIGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'getReference',
+      apiUrl: '${baseUrl}/place/details/json',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      params: {
+        'placeid': input,
+        'key': "AIzaSyAeU7_Y-1gOTgOoQCq_k6nuWn8KUlOeDvM",
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  double? lat(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.result.geometry.location.lat''',
+      ));
+  double? lng(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.result.geometry.location.lng''',
+      ));
+}
+
 /// End GoogleAPI Group Code
+
+/// Start fcgroup Group Code
+
+class FcgroupGroup {
+  static String getBaseUrl() => 'https://rabbit-2ba47.uc.r.appspot.com/';
+  static Map<String, String> headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+  static CreatepaymentintentCall createpaymentintentCall =
+      CreatepaymentintentCall();
+  static RefundCall refundCall = RefundCall();
+  static CreatepayoutCall createpayoutCall = CreatepayoutCall();
+  static RetrievedisputeCall retrievedisputeCall = RetrievedisputeCall();
+  static WebhookCall webhookCall = WebhookCall();
+  static CreateexpressaccountCall createexpressaccountCall =
+      CreateexpressaccountCall();
+  static AutoCall autoCall = AutoCall();
+}
+
+class CreatepaymentintentCall {
+  Future<ApiCallResponse> call({
+    String? amount = '',
+    String? endTime = '',
+    String? startTime = '',
+    String? driverId = '',
+    String? customerId = '',
+    int? currency,
+  }) async {
+    final baseUrl = FcgroupGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'createpaymentintent',
+      apiUrl: '${baseUrl}create_payment_intent',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        'amount': amount,
+        'currency': "usd",
+        'customer_id': customerId,
+        'driver_id': driverId,
+        'start_time': startTime,
+        'end_time': endTime,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class RefundCall {
+  Future<ApiCallResponse> call() async {
+    final baseUrl = FcgroupGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'refund',
+      apiUrl: '${baseUrl}refund',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CreatepayoutCall {
+  Future<ApiCallResponse> call() async {
+    final baseUrl = FcgroupGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'createpayout',
+      apiUrl: '${baseUrl}create_payout',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class RetrievedisputeCall {
+  Future<ApiCallResponse> call() async {
+    final baseUrl = FcgroupGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'retrievedispute',
+      apiUrl: '${baseUrl}retrieve_dispute',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class WebhookCall {
+  Future<ApiCallResponse> call() async {
+    final baseUrl = FcgroupGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'webhook',
+      apiUrl: '${baseUrl}create_payment_intent',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CreateexpressaccountCall {
+  Future<ApiCallResponse> call() async {
+    final baseUrl = FcgroupGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'createexpressaccount',
+      apiUrl: '${baseUrl}/create_express_account',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization':
+            'Bearer sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm',
+      },
+      params: {},
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class AutoCall {
+  Future<ApiCallResponse> call({
+    String? input = '',
+  }) async {
+    final baseUrl = FcgroupGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'auto',
+      apiUrl: '${baseUrl}autocomplete',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        'input': input,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+/// End fcgroup Group Code
+
+class WeatherCall {
+  static Future<ApiCallResponse> call() async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'weather',
+      apiUrl:
+          'https://api.openweathermap.org/data/2.5/weather?q=London&appid=4c30fb6bdde1f850e52d45d0754fc524',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static double? temp(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.main.temp''',
+      ));
+  static double? feelsliketemp(dynamic response) =>
+      castToType<double>(getJsonField(
+        response,
+        r'''$.main.feels_like''',
+      ));
+  static String? overcastclouds(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.weather[:].description''',
+      ));
+  static int? sunset(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.sys.sunset''',
+      ));
+  static int? sunrise(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.sys.sunrise''',
+      ));
+  static int? humidity(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.main.humidity''',
+      ));
+  static double? speed(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.wind.speed''',
+      ));
+}
 
 class ApiPagingParams {
   int nextPageNumber = 0;
@@ -732,10 +1142,17 @@ class ApiPagingParams {
       'PagingParams(nextPageNumber: $nextPageNumber, numItems: $numItems, lastResponse: $lastResponse,)';
 }
 
+String _toEncodable(dynamic item) {
+  if (item is DocumentReference) {
+    return item.path;
+  }
+  return item;
+}
+
 String _serializeList(List? list) {
   list ??= <String>[];
   try {
-    return json.encode(list);
+    return json.encode(list, toEncodable: _toEncodable);
   } catch (_) {
     if (kDebugMode) {
       print("List serialization failed. Returning empty list.");
@@ -747,7 +1164,7 @@ String _serializeList(List? list) {
 String _serializeJson(dynamic jsonVar, [bool isList = false]) {
   jsonVar ??= (isList ? [] : {});
   try {
-    return json.encode(jsonVar);
+    return json.encode(jsonVar, toEncodable: _toEncodable);
   } catch (_) {
     if (kDebugMode) {
       print("Json serialization failed. Returning empty json.");

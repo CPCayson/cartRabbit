@@ -42,249 +42,225 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Title(
-        title: 'chatMain',
-        color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
-        child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
-          child: Scaffold(
-            key: scaffoldKey,
-            backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(150.0),
-              child: AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).turquoise,
-                automaticallyImplyLeading: false,
-                actions: [],
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 14.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    12.0, 0.0, 0.0, 0.0),
-                                child: FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30.0,
-                                  borderWidth: 1.0,
-                                  buttonSize: 50.0,
-                                  icon: Icon(
-                                    Icons.arrow_back_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 30.0,
-                                  ),
-                                  onPressed: () async {
-                                    context.pop();
-                                  },
-                                ),
+    return GestureDetector(
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: FlutterFlowTheme.of(context).tertiary,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(150.0),
+          child: AppBar(
+            backgroundColor: FlutterFlowTheme.of(context).turquoise,
+            automaticallyImplyLeading: false,
+            actions: [],
+            flexibleSpace: FlexibleSpaceBar(
+              title: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 14.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 0.0, 0.0),
+                            child: FlutterFlowIconButton(
+                              borderColor: Colors.transparent,
+                              borderRadius: 30.0,
+                              borderWidth: 1.0,
+                              buttonSize: 50.0,
+                              icon: Icon(
+                                Icons.arrow_back_rounded,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 30.0,
                               ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    4.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  'Back',
-                                  style: FlutterFlowTheme.of(context)
-                                      .headlineMedium
-                                      .override(
-                                        fontFamily: 'Urbanist',
-                                        fontSize: 16.0,
-                                        letterSpacing: 0.0,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: AlignmentDirectional(0.0, -1.0),
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed('mapPage');
-                            },
-                            child: AutoSizeText(
-                              'cartRABBIT',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Open Sans',
-                                    color:
-                                        FlutterFlowTheme.of(context).tertiary,
-                                    fontSize: 40.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              onPressed: () async {
+                                context.pop();
+                              },
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: AlignmentDirectional(1.0, 0.0),
-                          child: Padding(
+                          Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 30.0, 0.0),
+                                4.0, 0.0, 0.0, 0.0),
                             child: Text(
-                              'Messages',
+                              'Back',
                               style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
+                                  .headlineMedium
                                   .override(
                                     fontFamily: 'Urbanist',
-                                    color:
-                                        FlutterFlowTheme.of(context).tertiary,
-                                    fontSize: 20.0,
+                                    fontSize: 16.0,
                                     letterSpacing: 0.0,
                                   ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  centerTitle: true,
-                  expandedTitleScale: 1.0,
-                ),
-                elevation: 2.0,
-              ),
-            ),
-            body: SafeArea(
-              top: true,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 2.0, 0.0, 0.0),
-                    child: StreamBuilder<List<ChatsRecord>>(
-                      stream: queryChatsRecord(
-                        queryBuilder: (chatsRecord) => chatsRecord
-                            .where(
-                              'users',
-                              arrayContains: currentUserReference,
-                            )
-                            .orderBy('last_message_time', descending: true),
+                        ],
                       ),
-                      builder: (context, snapshot) {
-                        // Customize what your widget looks like when it's loading.
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
-                              child: SpinKitWave(
-                                color: FlutterFlowTheme.of(context).turquoise,
-                                size: 50.0,
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, -1.0),
+                      child: AutoSizeText(
+                        'cartRABBIT',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Open Sans',
+                              color: FlutterFlowTheme.of(context).tertiary,
+                              fontSize: 40.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(1.0, 0.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 30.0, 0.0),
+                        child: Text(
+                          'Messages',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Urbanist',
+                                color: FlutterFlowTheme.of(context).tertiary,
+                                fontSize: 20.0,
+                                letterSpacing: 0.0,
                               ),
-                            ),
-                          );
-                        }
-                        List<ChatsRecord> listViewChatsRecordList =
-                            snapshot.data!;
-                        if (listViewChatsRecordList.isEmpty) {
-                          return Center(
-                            child: Image.asset(
-                              'assets/images/messagesMainEmpty@2x.png',
-                              width: 300.0,
-                            ),
-                          );
-                        }
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: listViewChatsRecordList.length,
-                          itemBuilder: (context, listViewIndex) {
-                            final listViewChatsRecord =
-                                listViewChatsRecordList[listViewIndex];
-                            return StreamBuilder<FFChatInfo>(
-                              stream: FFChatManager.instance
-                                  .getChatInfo(chatRecord: listViewChatsRecord),
-                              builder: (context, snapshot) {
-                                final chatInfo = snapshot.data ??
-                                    FFChatInfo(listViewChatsRecord);
-                                return FFChatPreview(
-                                  onTap: () => context.pushNamed(
-                                    'chatDetails',
-                                    queryParameters: {
-                                      'chatUser': serializeParam(
-                                        chatInfo.otherUsers.length == 1
-                                            ? chatInfo.otherUsersList.first
-                                            : null,
-                                        ParamType.Document,
-                                      ),
-                                      'chatRef': serializeParam(
-                                        chatInfo.chatRecord.reference,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'chatUser':
-                                          chatInfo.otherUsers.length == 1
-                                              ? chatInfo.otherUsersList.first
-                                              : null,
-                                    },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              centerTitle: true,
+              expandedTitleScale: 1.0,
+            ),
+            elevation: 2.0,
+          ),
+        ),
+        body: SafeArea(
+          top: true,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 2.0, 0.0, 0.0),
+                child: StreamBuilder<List<ChatsRecord>>(
+                  stream: queryChatsRecord(
+                    queryBuilder: (chatsRecord) => chatsRecord
+                        .where(
+                          'users',
+                          arrayContains: currentUserReference,
+                        )
+                        .orderBy('last_message_time', descending: true),
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: SpinKitWave(
+                            color: FlutterFlowTheme.of(context).turquoise,
+                            size: 50.0,
+                          ),
+                        ),
+                      );
+                    }
+                    List<ChatsRecord> listViewChatsRecordList = snapshot.data!;
+                    if (listViewChatsRecordList.isEmpty) {
+                      return Center(
+                        child: Image.asset(
+                          'assets/images/messagesMainEmpty@2x.png',
+                          width: 300.0,
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: listViewChatsRecordList.length,
+                      itemBuilder: (context, listViewIndex) {
+                        final listViewChatsRecord =
+                            listViewChatsRecordList[listViewIndex];
+                        return StreamBuilder<FFChatInfo>(
+                          stream: FFChatManager.instance
+                              .getChatInfo(chatRecord: listViewChatsRecord),
+                          builder: (context, snapshot) {
+                            final chatInfo = snapshot.data ??
+                                FFChatInfo(listViewChatsRecord);
+                            return FFChatPreview(
+                              onTap: () => context.pushNamed(
+                                'chatDetails',
+                                queryParameters: {
+                                  'chatUser': serializeParam(
+                                    chatInfo.otherUsers.length == 1
+                                        ? chatInfo.otherUsersList.first
+                                        : null,
+                                    ParamType.Document,
                                   ),
-                                  lastChatText: chatInfo.chatPreviewMessage(),
-                                  lastChatTime:
-                                      listViewChatsRecord.lastMessageTime,
-                                  seen: listViewChatsRecord.lastMessageSeenBy!
-                                      .contains(currentUserReference),
-                                  title: chatInfo.chatPreviewTitle(),
-                                  userProfilePic: chatInfo.chatPreviewPic(),
-                                  color: FlutterFlowTheme.of(context).tertiary,
-                                  unreadColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                  titleTextStyle: GoogleFonts.getFont(
-                                    'Poppins',
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
+                                  'chatRef': serializeParam(
+                                    chatInfo.chatRecord.reference,
+                                    ParamType.DocumentReference,
                                   ),
-                                  dateTextStyle: GoogleFonts.getFont(
-                                    'Poppins',
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14.0,
-                                  ),
-                                  previewTextStyle: GoogleFonts.getFont(
-                                    'Poppins',
-                                    color:
-                                        FlutterFlowTheme.of(context).grayIcon,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.0,
-                                  ),
-                                  contentPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 3.0, 8.0, 3.0),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                );
-                              },
+                                }.withoutNulls,
+                                extra: <String, dynamic>{
+                                  'chatUser': chatInfo.otherUsers.length == 1
+                                      ? chatInfo.otherUsersList.first
+                                      : null,
+                                },
+                              ),
+                              lastChatText: chatInfo.chatPreviewMessage(),
+                              lastChatTime: listViewChatsRecord.lastMessageTime,
+                              seen: listViewChatsRecord.lastMessageSeenBy!
+                                  .contains(currentUserReference),
+                              title: chatInfo.chatPreviewTitle(),
+                              userProfilePic: chatInfo.chatPreviewPic(),
+                              color: FlutterFlowTheme.of(context).tertiary,
+                              unreadColor:
+                                  FlutterFlowTheme.of(context).secondary,
+                              titleTextStyle: GoogleFonts.getFont(
+                                'Poppins',
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                              dateTextStyle: GoogleFonts.getFont(
+                                'Poppins',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14.0,
+                              ),
+                              previewTextStyle: GoogleFonts.getFont(
+                                'Poppins',
+                                color: FlutterFlowTheme.of(context).grayIcon,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                              ),
+                              contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 3.0, 8.0, 3.0),
+                              borderRadius: BorderRadius.circular(4.0),
                             );
                           },
                         );
                       },
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                ),
               ),
-            ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

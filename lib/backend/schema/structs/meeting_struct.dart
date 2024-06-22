@@ -27,30 +27,35 @@ class MeetingStruct extends FFFirebaseStruct {
   String? _sub;
   String get sub => _sub ?? '';
   set sub(String? val) => _sub = val;
+
   bool hasSub() => _sub != null;
 
   // "col" field.
   Color? _col;
   Color get col => _col ?? const Color(0xFFFF0303);
   set col(Color? val) => _col = val;
+
   bool hasCol() => _col != null;
 
   // "start" field.
   DateTime? _start;
   DateTime? get start => _start;
   set start(DateTime? val) => _start = val;
+
   bool hasStart() => _start != null;
 
   // "end" field.
   DateTime? _end;
   DateTime? get end => _end;
   set end(DateTime? val) => _end = val;
+
   bool hasEnd() => _end != null;
 
   // "id" field.
   String? _id;
   String get id => _id ?? '';
   set id(String? val) => _id = val;
+
   bool hasId() => _id != null;
 
   static MeetingStruct fromMap(Map<String, dynamic> data) => MeetingStruct(

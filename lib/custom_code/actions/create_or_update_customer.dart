@@ -1,6 +1,7 @@
 // Automatic FlutterFlow imports
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom actions
@@ -13,7 +14,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 const String stripeSecretKey =
-    'sk_test_51KVWLuCox373OxMXDZfa49Vs6gpnSGbXaJCCwKde0An6rdW9JjK99tw1xWL6eOZASRWamXGxZOLx1PzDqxFqwD1100DYo992cm';
+    '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';
 
 Future<String?> createOrUpdateCustomer(
     String name,

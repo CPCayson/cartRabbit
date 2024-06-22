@@ -1,6 +1,7 @@
 // Automatic FlutterFlow imports
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
@@ -17,12 +18,12 @@ class HorizontalCalendarWidget extends StatefulWidget {
     super.key,
     this.width,
     this.height,
-    required this.cartID, // Add cartID parameter
+    required this.cartRef, // Add cartRef parameter
   });
 
   final double? width;
   final double? height;
-  final String cartID; // Cart ID parameter
+  final String cartRef; // Cart document reference
 
   @override
   State<HorizontalCalendarWidget> createState() =>
@@ -35,35 +36,39 @@ class _HorizontalCalendarWidgetState extends State<HorizontalCalendarWidget> {
   @override
   void initState() {
     super.initState();
-    _bookingsFuture = fetchBookings(
-        DateTime(2024, 5, 17), widget.cartID); // Update to your specific date
+    print('Initializing with cartRef: ${widget.cartRef}');
+    _bookingsFuture =
+        fetchBookings(widget.cartRef); // Fetch bookings using cartRef
   }
 
-  Future<List<BookingsRecord>> fetchBookings(
-      DateTime date, String cartID) async {
+  Future<List<BookingsRecord>> fetchBookings(String cartRef) async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection('bookings')
-          .where('cartID', isEqualTo: cartID) // Filter by cartID
-          .where('startTime',
-              isGreaterThanOrEqualTo:
-                  Timestamp.fromDate(DateTime(date.year, date.month, date.day)))
-          .where('startTime',
-              isLessThan: Timestamp.fromDate(
-                  DateTime(date.year, date.month, date.day + 1)))
+      print('Fetching bookings for cartRef: $cartRef');
+
+      // Get the cart document
+      DocumentSnapshot cartDoc = await FirebaseFirestore.instance
+          .collection('carts')
+          .doc(cartRef)
           .get();
 
-      if (snapshot.docs.isEmpty) {
-        print('No documents found');
-      } else {
-        snapshot.docs.forEach((doc) {
-          print('Document data: ${doc.data()}');
-        });
+      if (!cartDoc.exists) {
+        print('Cart document does not exist');
+        return [];
       }
 
-      return snapshot.docs
-          .map((doc) => BookingsRecord.fromSnapshot(doc))
-          .toList();
+      // Extract bookings list
+      List<dynamic> bookingsList = cartDoc.get('bookings') ?? [];
+      if (bookingsList.isEmpty) {
+        print('No bookings found in cart document');
+        return [];
+      } else {
+        bookingsList.forEach((booking) {
+          print('Booking data: $booking');
+        });
+        return bookingsList
+            .map((booking) => BookingsRecord.fromMap(booking))
+            .toList();
+      }
     } catch (e) {
       print('Error fetching bookings: $e');
       return [];
@@ -92,6 +97,7 @@ class _HorizontalCalendarWidgetState extends State<HorizontalCalendarWidget> {
           bookings.forEach((booking) {
             print('Booking from ${booking.startTime} to ${booking.endTime}');
           });
+
           return Container(
             width: width,
             height: height,
@@ -100,20 +106,24 @@ class _HorizontalCalendarWidgetState extends State<HorizontalCalendarWidget> {
               child: Row(
                 children: List.generate(24 * 2, (index) {
                   final time =
-                      DateTime(2024, 5, 17, index ~/ 2, (index % 2) * 30);
+                      DateTime(2024, 5, 19, index ~/ 2, (index % 2) * 30);
                   final isBooked = bookings.any((booking) {
-                    final startTime = booking.startTime ?? DateTime.now();
-                    final endTime = booking.endTime ?? DateTime.now();
+                    final startTime = booking.startTime;
+                    final endTime = booking.endTime;
+                    if (startTime == null || endTime == null) return false;
                     return time.isAfter(startTime) && time.isBefore(endTime);
                   });
 
                   return Container(
                     width: width / 24, // Adjust the width to fit 24 hours
-                    color: isBooked ? Colors.red : Colors.green,
+                    height: height - 20, // Adjust height to avoid overflow
+                    decoration: BoxDecoration(
+                      color: isBooked ? Colors.red : Colors.green,
+                    ),
                     child: Center(
                       child: Text(
                         '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 10),
                       ),
                     ),
                   );
@@ -133,8 +143,7 @@ class BookingsRecord {
 
   BookingsRecord({this.startTime, this.endTime});
 
-  factory BookingsRecord.fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>;
+  factory BookingsRecord.fromMap(Map<String, dynamic> data) {
     return BookingsRecord(
       startTime: (data['startTime'] as Timestamp?)?.toDate(),
       endTime: (data['endTime'] as Timestamp?)?.toDate(),
